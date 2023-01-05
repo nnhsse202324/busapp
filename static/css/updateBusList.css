@@ -1,0 +1,74 @@
+body {
+    background-color:white;
+}
+
+/* Table */
+.buslist-table {
+    margin: 5% auto;
+
+    border-collapse: collapse;
+    font-size: 1em;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.buslist-table thead tr {
+    background-color: #327fa8;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.buslist-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.buslist-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.buslist-table tbody tr:last-of-type {
+    border-bottom: 2px solid #327fa8;
+}
+
+.buslist-table tbody tr:hover {
+    background-color: #c3ccd3;
+}
+
+.buslist-table th,
+.buslist-table td {
+    padding: 12px 15px;
+    width: 75px;
+}
+
+.buslist-table .remove-button {
+    padding: 8px 10px;
+    border-radius: 5px;
+}
+
+.buslist-table .remove-button:hover {
+    background-color: #55a6d1;
+}
+
+.buslist-table .remove-col {
+    width: 30px;
+    text-align: center;
+}
+
+/* #buttons{
+    width:75%;
+    height:5%;
+    position: relative;
+    left: 12.5%;
+    margin: 1% 0;
+}
+
+button{
+    border: none;
+    height: 100%;
+    width: 20%;
+    background-color: steelblue; 
+    color: white;
+    cursor: pointer;
+
+} */
+
