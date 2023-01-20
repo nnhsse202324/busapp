@@ -81,6 +81,7 @@ exports.router.get("/admin/updateBusList", (req, res) => {
         res.redirect("/login");
         return;
     }
+    +
     // Authorizes user, then either displays admin page or unauthorized page
     authorize(req);
     if (req.session.isAdmin) {
