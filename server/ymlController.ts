@@ -6,8 +6,8 @@ const busesDatafile = path.resolve(__dirname, "../data/buses.yml");
 const defaultBusesDatafile = path.resolve(__dirname, "../data/defaultBuses.txt");
 const weatherDatafile = path.resolve(__dirname, "../data/weather.yml");
 const defaultWeatherDatafile = path.resolve(__dirname, "../data/defaultWeather.txt");
-const whitelistDatafile = path.resolve(__dirname, "../data/whitelist.yml");
-const busListDatafile = path.resolve(__dirname, "../data/busList.yml");
+const whitelistDatafile = path.resolve(__dirname, "../data/whitelist.json");
+const busListDatafile = path.resolve(__dirname, "../data/busList.json");
 
 export type BusData = {number: string, change: string | undefined, arrival: string | undefined, status: string | undefined};
 type Weather = {status: string, icon: string, temperature: string, feelsLike: string}

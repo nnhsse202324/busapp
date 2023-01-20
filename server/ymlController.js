@@ -11,8 +11,8 @@ const busesDatafile = path_1.default.resolve(__dirname, "../data/buses.yml");
 const defaultBusesDatafile = path_1.default.resolve(__dirname, "../data/defaultBuses.txt");
 const weatherDatafile = path_1.default.resolve(__dirname, "../data/weather.yml");
 const defaultWeatherDatafile = path_1.default.resolve(__dirname, "../data/defaultWeather.txt");
-const whitelistDatafile = path_1.default.resolve(__dirname, "../data/whitelist.yml");
-const busListDatafile = path_1.default.resolve(__dirname, "../data/busList.yml");
+const whitelistDatafile = path_1.default.resolve(__dirname, "../data/whitelist.json");
+const busListDatafile = path_1.default.resolve(__dirname, "../data/busList.json");
 // Load data file. If no file exists creates one
 function readData() {
     // Makes data files if they don't exist
