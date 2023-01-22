@@ -1,23 +1,22 @@
-<div id="header">
-    
-<div id="buttons">
-    <button><a href="/">Back to hompage</a></button>
-    <button type="button" onclick="newBus()">Add Bus</button>
+<div class="header">
+    <div class="buttons">
+        <button class="button" onclick="newBus()">Add Bus</button>
+        <a class="button" href="/updateBusList">Update Bus List</a>
+        <a class="button" href="/">Back to hompage</a>
+        
+    </div>
 </div>
-</div>
-<table id="table">
-    <colgroup>
-        <col span="3">
-        <col id="statusCol">
-    </colgroup>
-    <tbody id="tbody">
+<table id="bus-table" class="bus-table">
+    <thead>
         <tr>
             <th>Bus Number</th>
             <th>Bus Change</th>
             <th>Status</th>
             <th>Time</th>
-            <th class="deleteBus"></th>
+            <th class="remove-col"></th>
         </tr>
+    </thead>
+    <tbody id="tbody">
     <% for(let i = 0; i < data.buses.length; i++) { %> 
         <tr>
             <td><input class="tableInput numberInput" type="number" value=<%= data.buses[i].number %> readonly></td>
@@ -26,24 +25,14 @@
                 <select class="tableInput statusInput" onchange="statusChange(this); startTimeout(this)">
                     <option value="Not Here" <%= data.buses[i].status == "Not Here"? "selected" : "" %>>Not Here</option>
                     <option value="Next Wave" <%= data.buses[i].status == "Next Wave"? "selected" : "" %>>Next Wave</option>
-                    <option value="Loading" <%= data.buses[i].status == "Loading"? "selected" : ""%>>Loading</option>
+                    <option value="Loading" <%= data.buses[i].status == "Loading"? "selected" : "" %>>Loading</option>
                     <option value="Gone" <%= data.buses[i].status == "Gone"? "selected" : "" %>>Gone</option>
                 </select>
             </td>
-            <td><input class="tableInput arrivalInput" type="text" oninput="startTimeout(this)" value=<%= data.buses[i].arrival %> ></td>
+            <td><input class="tableInput timeInput" type="text" oninput="startTimeout(this)" value=<%= data.buses[i].time %> ></td>
             
-            <td class="deleteBus"><i class="fas fa-times" onclick="confirmRemove(this);"></i></td>
+            <td class="remove-col"><i class="fas fa-times" onclick="confirmRemove(this);"></i></td>
         </tr>
     <% } %> 
     </tbody>
 </table>
-<div id="weather">
-    <p><%= data.weather.status %> </p>
-    <img src=<%= data.weather.icon %>>
-    <p>Temperature: <%= data.weather.temperature %>°F</p>
-    <p>Feels like: <%= data.weather.feelsLike %>°F</p>
-</div>
-<p id="contactInfo">
-    If you have feedback, feature requests or bugs to report please contact busappnnhsse@gmail.com. 
-    Please include the topic of the email in the subject.
-</p>

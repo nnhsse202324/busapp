@@ -5,7 +5,7 @@ import fs from "fs";
 import bodyParser from "body-parser";
 import {createServer} from "http";
 import {Server} from "socket.io";
-import {readData, writeBuses, BusData} from "./server/ymlController";
+import {readData, writeBuses, BusData, readBusList} from "./server/jsonHandler";
 import {startWeather} from "./server/weatherController";
 import session from "express-session";
 
@@ -20,7 +20,7 @@ type BusCommand = {
     data: BusData
 }
 
-const busesDatafile = path.resolve(__dirname, "./data/buses.yml");
+const busesDatafile = path.resolve(__dirname, "./data/buses.json");
 const defaultBusesDatafile = path.resolve(__dirname, "./data/defaultBuses.txt");
 let buses: BusData[];
 resetBuses();
@@ -51,7 +51,6 @@ io.of("/admin").on("connection", (socket) => {
                 buses.splice(index, 0, command.data);
                 break;
             case "update":
-                console.log(1);
                 buses[buses.indexOf(buses.find((bus) => {return bus.number == command.data.number})!)] = command.data;
                 break;
             case "delete":
@@ -76,8 +75,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 })); // Allows use of req.session
-app.use(bodyParser.urlencoded({extended: true})); // Allows html forms to be accessed with req.body
-app.use(bodyParser.json()); // Allows use of json format for req.body
+app.use(express.json());
 
 app.use("/", router); // Imports routes from server/router.ts
 
@@ -92,11 +90,13 @@ function resetBuses() {
     resetDatafile();
     setInterval(resetDatafile, 86400000);
 }
-function resetDatafile() {
-    fs.writeFileSync(busesDatafile, fs.readFileSync(defaultBusesDatafile));
-    buses = readData().buses;
+export function resetDatafile() {
+    let newBuses: BusData[] = [];
+    readBusList().busList.forEach((number) => newBuses.push({number: number, change: "", time: "", status: "Not Here"}));
+    fs.writeFileSync(busesDatafile, JSON.stringify(newBuses));
+    buses = newBuses;
     io.of("/").emit("update", readData());
-    io.of("/admin").emit("updateBuses", readData());
+    io.of("/admin").emit("restart");
 }
 const midnight = new Date();
 midnight.setDate(midnight.getDate() + 1);

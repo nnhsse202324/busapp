@@ -1,16 +1,18 @@
 "use strict";
 /// <reference path="./socket-io-client.d.ts"/>
 const adminSocket = window.io('/admin'); // This line and the line above is how you get ts types to work on clientside... cursed
-window.addEventListener("focus", () => {
-    location.reload();
-});
+window.focus();
+// window.addEventListener("focus", () => {
+//     location.reload();
+//     // window.focus(); // lmao?
+// });
 class Bus {
     constructor(rowVal) {
         this.row = rowVal;
         this.numberInput = this.row.children[0].children[0];
         this.changeInput = this.row.children[1].children[0];
         this.statusInput = this.row.children[2].children[0];
-        this.arrivalInput = this.row.children[3].children[0];
+        this.timeInput = this.row.children[3].children[0];
         this.removeIcon = this.row.children[4].children[0];
         this.data = {};
         this.updateValues();
@@ -19,13 +21,13 @@ class Bus {
         this.number = this.numberInput.value;
         this.data.number = this.numberInput.value;
         this.data.change = this.changeInput.value;
-        this.data.arrival = this.arrivalInput.value;
+        this.data.time = this.timeInput.value;
         this.data.status = this.statusInput.value;
     }
 }
 const buses = [];
 {
-    const table = document.getElementById("table");
+    const table = document.getElementById("bus-table");
     const rows = [...table.rows];
     rows.splice(0, 1);
     rows.forEach((row) => {
@@ -35,7 +37,7 @@ const buses = [];
 const newBuses = [];
 function getBus(key, attribute) {
     if (!attribute) {
-        attribute = ["numberInput", "changeInput", "arrivalInput", "statusInput"].find((htmlClass) => {
+        attribute = ["numberInput", "changeInput", "timeInput", "statusInput"].find((htmlClass) => {
             return key.classList.contains(htmlClass);
         });
     }
@@ -46,7 +48,7 @@ function getBus(key, attribute) {
 }
 function getNewBus(key, attribute) {
     if (!attribute) {
-        attribute = ["numberInput", "changeInput", "arrivalInput", "statusInput"].find((htmlClass) => {
+        attribute = ["numberInput", "changeInput", "timeInput", "statusInput"].find((htmlClass) => {
             return key.classList.contains(htmlClass);
         });
     }
@@ -59,7 +61,7 @@ function printBuses() {
     buses.forEach((bus) => { console.log(bus.data.number); });
 }
 function newBus() {
-    const row = document.getElementById("table").insertRow(1);
+    const row = document.getElementById("bus-table").insertRow(1);
     const html = ejs.render(document.getElementById("getRender").getAttribute("emptyRow"));
     row.innerHTML = html;
     const bus = new Bus(row);
@@ -132,10 +134,10 @@ function sort(bus) {
         busIndex = buses.indexOf(busAfter);
     }
     else {
-        rowIndex = document.getElementById("table").rows.length;
+        rowIndex = document.getElementById("bus-table").rows.length;
         busIndex = buses.length;
     }
-    const row = document.getElementById("table").insertRow(rowIndex);
+    const row = document.getElementById("bus-table").insertRow(rowIndex);
     const html = ejs.render(document.getElementById("getRender").getAttribute("populatedRow"), { data: bus });
     row.innerHTML = html;
     buses.splice(busIndex, 0, new Bus(row));
@@ -143,7 +145,7 @@ function sort(bus) {
 function statusChange(dropDown, type) {
     const bus = (type == "new") ? getNewBus(dropDown, "statusInput") : getBus(dropDown, "statusInput");
     if (bus.statusInput.value == "Not Here") {
-        bus.arrivalInput.value = "";
+        bus.timeInput.value = "";
     }
     else {
         const date = new Date();
@@ -167,7 +169,7 @@ function statusChange(dropDown, type) {
                 effix = "am";
             }
         }
-        bus.arrivalInput.value = `${hour}:${minute}${effix}`;
+        bus.timeInput.value = `${hour}:${minute}${effix}`;
     }
 }
 adminSocket.on("updateBuses", (command) => {
@@ -193,5 +195,8 @@ adminSocket.on("updateBuses", (command) => {
 adminSocket.on("updateWeather", (weather) => {
     const html = ejs.render(document.getElementById("getRender").getAttribute("weather"), { weather: weather });
     document.getElementById("weather").innerHTML = html;
+});
+adminSocket.on("reset", () => {
+    location.reload();
 });
 //# sourceMappingURL=adminConnect.js.map
