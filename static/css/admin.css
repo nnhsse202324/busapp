@@ -1,10 +1,30 @@
 body{
-    background-color:white;
+    background-color:rgb(255, 220, 171);
 }
+
 td {
     text-align: center;
     padding: 0;
     font-size: 2em;
+}
+
+#left-buttons {
+    text-align: left;
+}
+
+#right-buttons {
+    text-align: right;
+    grid-column: 3/4;
+    grid-row: 1/2;
+}
+
+button {
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    font-size: 2em;
+    background-color: #327fa8;
+    color: #ffffff;
+    padding: 4%;
 }
 
 table {
