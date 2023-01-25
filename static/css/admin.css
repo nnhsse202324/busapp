@@ -1,5 +1,5 @@
 body{
-    background-color:rgb(255, 220, 171);
+    background-color:rgb(195, 181, 161);
 }
 
 td {
@@ -10,6 +10,7 @@ td {
 
 #buttons {
     display: grid;
+    grid: 1 4 none;
 }
 #back {
     grid-column: 1;
