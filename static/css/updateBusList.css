@@ -1,13 +1,41 @@
 body {
-    background-color:white;
+    background-color: #a1b5be;
+}
+
+.back-button-div {
+    display: grid;
+}
+
+.back-button {
+    justify-self: right;
+    margin: 1% 1%;
+    text-align: center;
+}
+
+.options-div {
+    display: flex;
+    justify-content: center;
+    gap: 6%;
+    margin: 1% 1%;
+}
+
+.button {
+    font-family: 'Montserrat', sans-serif;
+    border: none;
+    text-decoration: none;
+    font-size: 3vw;
+    background-color: #327fa8;
+    color: #ffffff;
+    padding: 1.3%;
+    width: 18%;
 }
 
 /* Table */
 .buslist-table {
-    margin: 5% auto;
-
+    margin: 0 auto 3%;
+    width: 30%;
     border-collapse: collapse;
-    font-size: 1em;
+    font-size: 4vw;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -20,6 +48,10 @@ body {
 
 .buslist-table tbody tr {
     border-bottom: 1px solid #dddddd;
+}
+
+.buslist-table tbody tr:nth-of-type(odd) {
+    background-color: white;
 }
 
 .buslist-table tbody tr:nth-of-type(even) {
@@ -36,39 +68,58 @@ body {
 
 .buslist-table th,
 .buslist-table td {
-    padding: 12px 15px;
-    width: 75px;
+    height: 1px;
+    padding: 1.8% 8%;
+    width: 50%;
 }
 
-.buslist-table .remove-button {
-    padding: 8px 10px;
+.buslist-table .remove-button, .cancel-button, .confirm-button {
+    padding: 5% 8%;
     border-radius: 5px;
 }
 
-.buslist-table .remove-button:hover {
+.buslist-table .add-bus-button {
+    padding: 4% 40%;
+    border-radius: 5px;
+}
+
+.buslist-table .table-button:hover{
     background-color: #55a6d1;
 }
 
-.buslist-table .remove-col {
-    width: 30px;
+.buslist-table .remove-col, .add-bus-cell {
     text-align: center;
 }
 
-/* #buttons{
-    width:75%;
-    height:5%;
-    position: relative;
-    left: 12.5%;
-    margin: 1% 0;
+.buslist-table input {
+    border: none;
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    text-align: center;
+    text-align-last: center;
+    font-size: 4vw;
+    font-family: 'Montserrat', sans-serif;
 }
 
-button{
-    border: none;
-    height: 100%;
-    width: 20%;
-    background-color: steelblue; 
-    color: white;
-    cursor: pointer;
+.new-bus-buttons {
+    text-align: center;
+}
 
-} */
+.new-bus-input-cell {
+    padding: 0 !important;
+}
 
+@media (orientation: landscape) {
+    .button {
+        font-size: 2vw;
+    }
+
+    .buslist-table {
+        font-size: 2vw;
+    }
+
+    .buslist-table input {
+        font-size: 2vw;
+    }
+}
