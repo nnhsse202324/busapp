@@ -8,9 +8,12 @@ td {
     font-size: 2em;
 }
 
-#buttons {
+#top-buttons {
     display: grid;
+    height: 80px;
     grid: 1 4 none;
+    grid-auto-rows: 22%;
+    grid-gap: 4%;
 }
 #back {
     grid-column: 1;
