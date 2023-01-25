@@ -8,14 +8,18 @@ td {
     font-size: 2em;
 }
 
-#left-buttons {
-    text-align: left;
+#buttons {
+    display: grid;
 }
-
-#right-buttons {
-    text-align: right;
-    grid-column: 3/4;
-    grid-row: 1/2;
+#back {
+    grid-column: 1;
+}
+#add-bus {
+    grid-column: 2;
+}
+#add-admin {
+    grid-column: 4;
+    text-align: left;
 }
 
 button {
