@@ -9,7 +9,6 @@
         <div class="weather-img">
             <img src=<%= data.weather.icon %>>
         </div>
-            <!-- <p>Feels like: <%= data.weather.feelsLike %>°F</p> -->
     </div>
     <div class="login-container">
         <a class="login-button" href="/admin">Login as editor</a>
@@ -30,13 +29,9 @@
             <td><%= data.buses[i].number %></td>
             <td><%= data.buses[i].change %></td>
             <td><%= data.buses[i].status %></td>
-            <td><%= data.buses[i].arrival %></td>                
+            <td><%= data.buses[i].time %></td>                
         </tr>
     <% } %> 
     </tbody>
 
 </table>
-<!-- <p id="contactInfo">
-    If you have feedback, feature requests or bugs to report please contact busappnnhsse@gmail.com. 
-    Please include the topic of the email in the subject.
-</p> -->

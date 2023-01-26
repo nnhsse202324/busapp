@@ -1,4 +1,4 @@
-import {readData, writeWeather} from "./ymlController";
+import {readData, writeWeather} from "./jsonHandler";
 import {Server} from "socket.io";
 import fetch from "node-fetch";
 
