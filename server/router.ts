@@ -108,3 +108,8 @@ router.post("/updateBusList", (req: Request, res: Response) => {
     fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
     if (req.body.reset) resetDatafile();
 });
+
+// Here is the code for the Help page.
+router.get('/help',(req: Request, res: Response)=>{
+res.render('help');
+})
