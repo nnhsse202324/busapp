@@ -127,12 +127,13 @@ exports.router.get('/whitelist', (req, res) => {
     authorize(req);
     if (req.session.isAdmin) {
         res.render("whitelist", {
-            whitelist: (0, ymlController_1.readWhitelist)()
+            whitelist: (0, jsonHandler_1.readWhitelist)()
         });
     }
     else {
         res.render("unauthorized");
     }
+});
 exports.router.get("/updateBusListEmptyRow", (req, res) => {
     res.sendFile(path_1.default.resolve(__dirname, "../views/sockets/updateBusListEmptyRow.ejs"));
 });
