@@ -2,7 +2,7 @@
     <head>
         <title>Bus App</title>
         <link rel="icon" type="image/x-icon" href="/img/busAppIcon.png">
-        <link rel="stylesheet" href="/css/admin.css">
+        <link rel="stylesheet" href="/css/admin.css"> <!--need to replace this with my own whitelist css-->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
@@ -20,10 +20,13 @@
             
             <form action="/action_page.php">
               <label for="newAddress">New Admin's Email Address:<br></label><br>
+              <!--<input type="text" id="newAddress" name="newAddress" size="50"><br>-->
               <input type="text" id="newAddress" name="newAddress" size="50"><br>
               <br>
-              <input type="submit" value="Add This Admin to Whitelist">
+              <input type="submit" value="Add This Admin to Whitelist" onclick="addAdmin()"> <!--how do i make this function work-->
               
             </form>
-    </body>
+            
+            
+            
 </html>

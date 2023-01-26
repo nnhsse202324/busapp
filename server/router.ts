@@ -90,3 +90,22 @@ router.get("/admin/updateBusList", (req: Request, res: Response) => {
         res.render("unauthorized");
     }
 });
+
+router.get('/whitelist', (req: Request,res: Response)=>{
+    // If user is not authenticated (email is not is session) redirects to login page
+    if (!req.session.userEmail) {
+        res.redirect("/login");
+        return;
+    }
+    
+    // Authorizes user, then either displays admin page or unauthorized page
+    authorize(req);
+    if (req.session.isAdmin) {
+        res.render("whitelist", {
+            whitelist: readWhitelist()
+        });
+    }
+    else {
+        res.render("unauthorized");
+    }
+})

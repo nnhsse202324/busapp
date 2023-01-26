@@ -3,7 +3,12 @@
 <div id="buttons">
     <button><a href="/">Back to hompage</a></button>
     <button type="button" onclick="newBus()">Add Bus</button>
-    <button type="button" onclick="addAdmin()">Add Admin to Whitelist</button> <!--new button to redirect to whitelist page-->
+    <button type="button" onclick="addAdmin()">Add New Admin</button> <!--new button to redirect to whitelist page-->
+    <script>
+        function addAdmin() {
+          location.replace("/whitelist")
+        }
+        </script>
 </div>
 </div>
 <table id="table">

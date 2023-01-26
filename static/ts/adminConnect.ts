@@ -98,10 +98,10 @@ function newBus() {
     bus.numberInput.focus();
 }
 
-function addAdmin() {
-    let newAdmin = prompt("Please enter the email address of the new admin", "");
+// function addAdmin() {
+//     let newAdmin = prompt("Please enter the email address of the new admin", "");
     
-}
+// }
 
 function startTimeout(input: HTMLInputElement, type?: string) {
     const bus = (type == "new") ? getNewBus(input) : getBus(input);

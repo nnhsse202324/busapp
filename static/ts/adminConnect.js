@@ -66,9 +66,9 @@ function newBus() {
     newBuses.splice(0, 0, bus);
     bus.numberInput.focus();
 }
-function addAdmin() {
-    let newAdmin = prompt("Please enter the email address of the new admin", "");
-}
+// function addAdmin() {
+//     let newAdmin = prompt("Please enter the email address of the new admin", "");
+// }
 function startTimeout(input, type) {
     const bus = (type == "new") ? getNewBus(input) : getBus(input);
     bus.updateValues();
