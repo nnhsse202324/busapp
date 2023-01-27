@@ -7,6 +7,11 @@ data/weather.yml
 # javascript files compiled from typescript
 *.js
 
+# except a couple javascript files
+!static/ts/ejs.js
+!static/ts/auth.js
+
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/node
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
@@ -63,7 +68,7 @@ web_modules/
 *.tsbuildinfo
 
 # Optional npm cache directory
-#.npm
+.npm
 
 # Optional eslint cache
 .eslintcache
