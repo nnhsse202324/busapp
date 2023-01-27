@@ -1,6 +1,16 @@
 data/buses.yml
 data/weather.yml
 
+# generated map files for converting js line numbers to corresponding ts line numbers
+*.map
+
+# javascript files compiled from typescript
+*.js
+
+# except a couple javascript files
+!ejs.js
+!auth.js
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/node
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
