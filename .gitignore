@@ -1,5 +1,3 @@
-data/weather.json
-
 # generated map files for converting js line numbers to corresponding ts line numbers
 *.map
 
