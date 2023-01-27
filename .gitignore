@@ -10,6 +10,7 @@ data/weather.yml
 # except a couple javascript files
 !static/ts/ejs.js
 !static/ts/auth.js
+!static/ts/formVerification.js
 
 
 
