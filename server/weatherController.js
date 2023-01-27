@@ -13,16 +13,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.startWeather = void 0;
-const ymlController_1 = require("./ymlController");
+const jsonHandler_1 = require("./jsonHandler");
 const node_fetch_1 = __importDefault(require("node-fetch"));
 // Code to update weather automcatically every 5 minutes
 function getWeather(io) {
     return __awaiter(this, void 0, void 0, function* () {
         const res = yield (0, node_fetch_1.default)("http://api.weatherapi.com/v1/current.json?"
             + new URLSearchParams([["key", "8afcf03c285047a1b6e201401222202"], ["q", "60540"]]));
-        (0, ymlController_1.writeWeather)(yield res.json());
-        io.of("/").emit("update", (0, ymlController_1.readData)());
-        io.of("/admin").emit("updateWeather", (0, ymlController_1.readData)().weather);
+        (0, jsonHandler_1.writeWeather)(yield res.json());
+        io.of("/").emit("update", (0, jsonHandler_1.readData)());
+        io.of("/admin").emit("updateWeather", (0, jsonHandler_1.readData)().weather);
     });
 }
 function startWeather(io) {

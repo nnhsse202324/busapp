@@ -1,8 +1,9 @@
 import express, {Request, Response} from "express";
 import {OAuth2Client, TokenPayload} from "google-auth-library";
-import {readData, readWhitelist, readBusList} from "./ymlController";
+import {readData, readWhitelist, readBusList, writeBusList} from "./jsonHandler";
 import path from "path";
-import fs from "fs";
+import fs, {readFileSync} from "fs";
+import {resetDatafile} from "../server";
 
 export const router = express.Router();
 
@@ -71,7 +72,7 @@ router.get("/beans", async (req: Request, res: Response) => {
 
 /* Admin page. This is where bus information can be updated from
 Reads from data file and displays data */
-router.get("/admin/updateBusList", (req: Request, res: Response) => {
+router.get("/updateBusList", (req: Request, res: Response) => {
     // If user is not authenticated (email is not is session) redirects to login page
     if (!req.session.userEmail) {
         res.redirect("/login");
@@ -89,4 +90,21 @@ router.get("/admin/updateBusList", (req: Request, res: Response) => {
     else {
         res.render("unauthorized");
     }
+});
+
+router.get("/updateBusListEmptyRow", (req: Request, res: Response) => {
+    res.sendFile(path.resolve(__dirname, "../views/sockets/updateBusListEmptyRow.ejs"));
+});
+
+router.get("/updateBusListPopulatedRow", (req: Request, res: Response) => {
+    res.sendFile(path.resolve(__dirname, "../views/sockets/updateBusListPopulatedRow.ejs"));
+});
+
+router.get("/busList", (req: Request, res: Response) => {
+    res.type("json").send(readFileSync(path.resolve(__dirname, "../data/busList.json")));
+});
+
+router.post("/updateBusList", (req: Request, res: Response) => {
+    fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
+    if (req.body.reset) resetDatafile();
 });

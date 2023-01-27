@@ -3,21 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.resetDatafile = void 0;
 const express_1 = __importDefault(require("express"));
 const router_1 = require("./server/router");
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const body_parser_1 = __importDefault(require("body-parser"));
 const http_1 = require("http");
 const socket_io_1 = require("socket.io");
-const ymlController_1 = require("./server/ymlController");
+const jsonHandler_1 = require("./server/jsonHandler");
 const weatherController_1 = require("./server/weatherController");
 const express_session_1 = __importDefault(require("express-session"));
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(httpServer);
 const PORT = process.env.PORT || 5182;
-const busesDatafile = path_1.default.resolve(__dirname, "./data/buses.yml");
+const busesDatafile = path_1.default.resolve(__dirname, "./data/buses.json");
 const defaultBusesDatafile = path_1.default.resolve(__dirname, "./data/defaultBuses.txt");
 let buses;
 resetBuses();
@@ -46,7 +46,6 @@ io.of("/admin").on("connection", (socket) => {
                 buses.splice(index, 0, command.data);
                 break;
             case "update":
-                console.log(1);
                 buses[buses.indexOf(buses.find((bus) => { return bus.number == command.data.number; }))] = command.data;
                 break;
             case "delete":
@@ -55,9 +54,9 @@ io.of("/admin").on("connection", (socket) => {
             default:
                 throw `Invalid bus command: ${command.type}`;
         }
-        (0, ymlController_1.writeBuses)(buses);
+        (0, jsonHandler_1.writeBuses)(buses);
         // buses.forEach((bus) => {console.log(bus.number)});
-        io.of("/").emit("update", (0, ymlController_1.readData)());
+        io.of("/").emit("update", (0, jsonHandler_1.readData)());
         socket.broadcast.emit("updateBuses", command);
     });
     socket.on("debug", (data) => {
@@ -70,8 +69,7 @@ app.use((0, express_session_1.default)({
     resave: true,
     saveUninitialized: true
 })); // Allows use of req.session
-app.use(body_parser_1.default.urlencoded({ extended: true })); // Allows html forms to be accessed with req.body
-app.use(body_parser_1.default.json()); // Allows use of json format for req.body
+app.use(express_1.default.json());
 app.use("/", router_1.router); // Imports routes from server/router.ts
 app.use("/css", express_1.default.static(path_1.default.resolve(__dirname, "static/css")));
 app.use("/js", express_1.default.static(path_1.default.resolve(__dirname, "static/ts")));
@@ -83,11 +81,14 @@ function resetBuses() {
     setInterval(resetDatafile, 86400000);
 }
 function resetDatafile() {
-    fs_1.default.writeFileSync(busesDatafile, fs_1.default.readFileSync(defaultBusesDatafile));
-    buses = (0, ymlController_1.readData)().buses;
-    io.of("/").emit("update", (0, ymlController_1.readData)());
-    io.of("/admin").emit("updateBuses", (0, ymlController_1.readData)());
+    let newBuses = [];
+    (0, jsonHandler_1.readBusList)().busList.forEach((number) => newBuses.push({ number: number, change: "", time: "", status: "Not Here" }));
+    fs_1.default.writeFileSync(busesDatafile, JSON.stringify(newBuses));
+    buses = newBuses;
+    io.of("/").emit("update", (0, jsonHandler_1.readData)());
+    io.of("/admin").emit("restart");
 }
+exports.resetDatafile = resetDatafile;
 const midnight = new Date();
 midnight.setDate(midnight.getDate() + 1);
 midnight.setHours(5, 0, 0, 0);

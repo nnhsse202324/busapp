@@ -9,6 +9,6 @@
             <option value="Gone" <%= data.status == "Gone"? "selected" : "" %>>Gone</option>
         </select>
     </td>
-    <td><input class="tableInput arrivalInput" type="text"  oninput="startTimeout(this)"value=<%= data.arrival %> ></td>
+    <td><input class="tableInput timeInput" type="text"  oninput="startTimeout(this)"value=<%= data.time %> ></td>
     <td class="deleteBus"><i class="fas fa-times" onclick="confirmRemove(this);"></i></td>
 </tr>
