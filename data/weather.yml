@@ -1,0 +1,5 @@
+weather:
+  status: Light snow
+  icon: //cdn.weatherapi.com/weather/64x64/day/326.png
+  temperature: 30
+  feelsLike: 18
