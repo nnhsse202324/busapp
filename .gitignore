@@ -8,8 +8,8 @@ data/weather.yml
 *.js
 
 # except a couple javascript files
-!ejs.js
-!auth.js
+!static/ts/ejs.js
+!static/ts/auth.js
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/node
