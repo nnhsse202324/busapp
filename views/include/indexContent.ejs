@@ -17,19 +17,21 @@
 <table class="bus-table">
     <thead>
         <tr>
-            <th>Bus Number</th>
+            <th class="num-col">Bus Number</th>
             <th>Bus Change</th>
             <th>Status</th>
             <th>Time</th>
+            <th class="favorite-col">Favorite?</th>
         </tr>
     </thead>
     <tbody>
     <% for(let i = 0; i < data.buses.length; i++) { %> 
         <tr>
-            <td><%= data.buses[i].number %></td>
+            <td class="num-col"><%= data.buses[i].number %></td>
             <td><%= data.buses[i].change %></td>
             <td><%= data.buses[i].status %></td>
-            <td><%= data.buses[i].time %></td>                
+            <td><%= data.buses[i].time %></td>   
+            <td class="favorite-col"><i class="fa-solid fa-star"></i></td>             
         </tr>
     <% } %> 
     </tbody>
