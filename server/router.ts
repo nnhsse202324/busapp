@@ -19,7 +19,6 @@ router.get("/", (req: Request, res: Response) => {
     });
 });
 
-
 // Login page. User authenticates here and then is redirected to admin (where they will be authorized)
 router.get("/login", (req: Request, res: Response) => {
     res.render("login");
