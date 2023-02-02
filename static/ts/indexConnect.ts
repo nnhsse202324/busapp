@@ -10,3 +10,8 @@ indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
     document.getElementById("content")!.innerHTML = html;
 });
+
+function favoriteBus(bus: Bus) {
+    localStorage.setItem("selected", `${bus.data.number}`);
+    alert(`Do you want to set ${localStorage.getItem("selected")} as your favorite bus?`);
+}

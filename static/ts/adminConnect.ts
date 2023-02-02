@@ -25,7 +25,7 @@ class Bus {
         this.changeInput = <HTMLInputElement> this.row.children[1].children[0];
         this.statusInput = <HTMLInputElement> this.row.children[2].children[0];
         this.timeInput = <HTMLInputElement> this.row.children[3].children[0];        
-        this.removeIcon = <HTMLElement> this.row.children[4].children[0];
+        this.removeIcon = <HTMLElement> this.row.children[4].children[0]; // refers to both the remove icon on admin and the favorite icon on index
         this.data = {} as BusData;
         this.updateValues();
     }
