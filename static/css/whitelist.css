@@ -1,6 +1,6 @@
 body {
     background-color: #a1b5be;
-    padding-top: 
+    /* padding-top:  */
 }
 
 .inputDiv {
@@ -10,6 +10,14 @@ body {
     margin-left: 650px;
     margin-right: 650px;
     background-color: #327fa8;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.button1 {
+    font-family: 'Montserrat', sans-serif;
 }
 
 h2 {
@@ -33,7 +41,7 @@ input {
 
 .button {
     font-family: 'Montserrat', sans-serif;
-    border: none;
+    border: none;   
     text-decoration: none;
     font-size: 3vw;
     background-color: #327fa8;
