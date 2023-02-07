@@ -97,7 +97,7 @@ router.get("/updateBusListEmptyRow", (req: Request, res: Response) => {
 });
 
 router.get("/manifest.webmanifest", (req: Request, res: Response) => {
-    res.sendFile(path.resolve(__dirname, "../data/manifest.webmanifest.json"))
+    res.sendFile(path.resolve(__dirname, "../data/manifest.webmanifest"))
 });
 
 router.get("/updateBusListPopulatedRow", (req: Request, res: Response) => {
