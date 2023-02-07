@@ -8,11 +8,10 @@ fetch("/adminPopulatedRow").then((res) => res.text()).then((data) => newAdminRow
 function addAdmin_admins(newAddress) {
     if (newAddress.includes('@') && newAddress.includes('.naperville203.org') && (newAddress.indexOf('@') < newAddress.indexOf('.naperville203.org'))) {
         alert(newAddress);
-        //document.getElementById("newAddress").value = '';
+        const row = document.getElementsByClassName("buslist-table")[0].insertRow(2);
+        const html = ejs.render(newAdminEmptyRow);
+        row.innerHTML = html;
     }
-    // const row = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(2);
-    // const html = ejs.render(newAdminEmptyRow);
-    // row.innerHTMLs = html;
 }
 function removeAdmin_admins(secondChild) {
     let row = secondChild.parentElement.parentElement;

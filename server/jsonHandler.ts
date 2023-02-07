@@ -9,7 +9,9 @@ const whitelistDatafile = path.resolve(__dirname, "../data/whitelist.json");
 const busListDatafile = path.resolve(__dirname, "../data/busList.json");
 
 export type BusData = {number: string, change: string | undefined, time: string | undefined, status: string | undefined};
+export type adminData = {address: string};
 type Weather = {status: string, icon: string, temperature: string, feelsLike: string}
+
 
 // Load data file. If no file exists creates one
 export function readData() {

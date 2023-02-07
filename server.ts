@@ -20,6 +20,13 @@ type BusCommand = {
     data: BusData
 }
 
+/*
+type AdminCommand = {
+    type: string
+    data: adminData
+}
+*/
+
 const busesDatafile = path.resolve(__dirname, "./data/buses.json");
 const defaultBusesDatafile = path.resolve(__dirname, "./data/defaultBuses.txt");
 let buses: BusData[];
@@ -107,33 +114,10 @@ setTimeout(resetBuses, midnight.valueOf() - new Date().valueOf());
 httpServer.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)});
 
 //whitelist socket
+/*
 io.of("/whitelist").on("connection", (socket) => {
     socket.on("updateMain", (command: BusCommand) => {
-        switch (command.type) {
-            case "add":
-                const busAfter = buses.find((otherBus) => {
-                    return parseInt(command.data.number) < parseInt(otherBus.number);
-                });
-                let index: number;
-                if (busAfter) {
-                    index = buses.indexOf(busAfter);
-                }
-                else {
-                    index = buses.length;
-                }
-                buses.splice(index, 0, command.data);
-                break;
-            case "update":
-                buses[buses.indexOf(buses.find((bus) => {return bus.number == command.data.number})!)] = command.data;
-                break;
-            case "delete":
-                buses.splice(buses.indexOf(buses.find((bus) => {return bus.number == command.data.number})!), 1);
-                break;
-            default:
-                throw `Invalid bus command: ${command.type}`;
-        }
-        writeBuses(buses);
-        // buses.forEach((bus) => {console.log(bus.number)});
+        
         io.of("/").emit("update", readData());
         socket.broadcast.emit("updateBuses", command);
     });
@@ -141,3 +125,4 @@ io.of("/whitelist").on("connection", (socket) => {
         console.log(`debug(admin): ${data}`);
     });
 });
+*/
