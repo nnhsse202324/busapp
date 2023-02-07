@@ -96,6 +96,10 @@ router.get("/updateBusListEmptyRow", (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, "../views/sockets/updateBusListEmptyRow.ejs"));
 });
 
+router.get("/manifest.webmanifest", (req: Request, res: Response) => {
+    res.sendFile(path.resolve(__dirname, "../data/manifestWebmanifest.json"))
+});
+
 router.get("/updateBusListPopulatedRow", (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, "../views/sockets/updateBusListPopulatedRow.ejs"));
 });
