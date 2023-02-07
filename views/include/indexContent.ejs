@@ -18,9 +18,9 @@
     <thead>
         <tr>
             <th class="num-col">Bus Number</th>
-            <th>Bus Change</th>
-            <th>Status</th>
-            <th>Time</th>
+            <th class="change-col">Bus Change</th>
+            <th class="status-col">Status</th>
+            <th class="time-col">Time</th>
             <th class="favorite-col">Favorite?</th>
         </tr>
     </thead>
@@ -28,10 +28,10 @@
     <% for(let i = 0; i < data.buses.length; i++) { %> 
         <tr>
             <td class="num-col"><%= data.buses[i].number %></td>
-            <td><%= data.buses[i].change %></td>
-            <td><%= data.buses[i].status %></td>
-            <td><%= data.buses[i].time %></td>   
-            <td class="favorite-col"><button class="favorite-button"><i class="fa-solid fa-star" onclick="favoriteBus(this)"></i></button></td>             
+            <td class="change-col"><%= data.buses[i].change %></td>
+            <td class="status-col"><%= data.buses[i].status %></td>
+            <td class="time-col"><%= data.buses[i].time %></td>   
+            <td class="favorite-col"><button class="favorite-button" onclick="favoriteBus(this.parentElement.parentElement)"><i class="fa-solid fa-star"></i></button></td>             
         </tr>
     <% } %> 
     </tbody>

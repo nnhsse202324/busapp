@@ -11,7 +11,8 @@ indexSocket.on("update", (data) => {
     document.getElementById("content")!.innerHTML = html;
 });
 
-function favoriteBus(bus: Bus) {
-    localStorage.setItem("selected", `${bus.data.number}`);
-    alert(`Do you want to set ${localStorage.getItem("selected")} as your favorite bus?`);
+function favoriteBus(row: HTMLInputElement) {
+    let num = row.firstElementChild!.innerHTML;
+    localStorage.setItem("selected", num);
+    alert(localStorage.getItem("selected"));
 }
