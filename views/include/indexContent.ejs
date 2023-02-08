@@ -30,8 +30,8 @@
             <td class="num-col"><%= data.buses[i].number %></td>
             <td class="change-col"><%= data.buses[i].change %></td>
             <td class="status-col"><%= data.buses[i].status %></td>
-            <td class="time-col"><%= data.buses[i].time %></td>   
-            <td class="favorite-col"><button class="favorite-button" onclick="favoriteBus(this.parentElement.parentElement)"><i class="fa-solid fa-star"></i></button></td>             
+            <td class="time-col"><%= data.buses[i].time %></td>
+            <td class="favorite-col"><button class="favorite-button" onclick="favoriteBus(this)"><i class="fa-solid fa-star"></i></button></td>             
         </tr>
     <% } %> 
     </tbody>
