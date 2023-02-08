@@ -1,0 +1,13 @@
+.android-button {
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    font-size: 3.5vw;
+    background-color: #327fa8;
+    color: #ffffff;
+    padding: 4%;
+}
+.android-container {
+    text-align: right;
+    grid-column: 4/5;
+    grid-row: 1/2;
+}
