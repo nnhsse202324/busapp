@@ -118,6 +118,10 @@ router.get("/updateBusListPopulatedRow", (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, "../views/sockets/updateBusListPopulatedRow.ejs"));
 });
 
+router.get("/adminEmptyRow", (req: Request, res: Response) => {
+    res.sendFile(path.resolve(__dirname, "../views/sockets/adminEmptyRow.ejs"));
+});
+
 router.get("/busList", (req: Request, res: Response) => {
     res.type("json").send(readFileSync(path.resolve(__dirname, "../data/busList.json")));
 });

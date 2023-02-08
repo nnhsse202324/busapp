@@ -10,7 +10,7 @@ fetch("/adminPopulatedRow").then((res) => res.text()).then((data) => newAdminRow
 function addAdmin_admins(newAddress: string) {
     if(newAddress.includes('@') && newAddress.includes('.naperville203.org') && (newAddress.indexOf('@') < newAddress.indexOf('.naperville203.org'))){
         alert(newAddress);
-        const row = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(2);
+        const row = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(1);
         const html = ejs.render(newAdminEmptyRow);
         row.innerHTML = html;
     }
