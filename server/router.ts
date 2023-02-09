@@ -28,7 +28,7 @@ router.get("/login", (req: Request, res: Response) => {
 // Authenticates the user
 router.post("/auth/v1/google", async (req: Request, res: Response) => {
     let token = req.body.token; // Gets token from request body
-    let ticket = await oAuth2.verifyIdToken({ // Verifies and decodes token
+    let ticket = await oAuth2.verifyIdToken({ // Verifies and decodes token    
         idToken: token,
         audience: CLIENT_ID
     });

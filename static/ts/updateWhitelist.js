@@ -1,15 +1,18 @@
 "use strict";
-let admins;
-fetch("/whitelist").then((res) => res.json()).then((data) => admins = data);
+var admins;
+fetch("/whitelist").then((data) => data.json()).then((data) => admins = data.body());
 let newAdminEmptyRow;
 fetch("/adminEmptyRow").then((res) => res.text()).then((data) => newAdminEmptyRow = data);
 let newAdminRow;
-fetch("/adminPopulatedRow").then((res) => res.text()).then((data) => newAdminRow = data);
+// fetch("/adminPopulatedRow").then((res) => res.text()).then((data) => newAdminRow = data);
 function addAdmin_admins(newAddress) {
     if (newAddress.includes('@') && newAddress.includes('.naperville203.org') && (newAddress.indexOf('@') < newAddress.indexOf('.naperville203.org'))) {
         alert(newAddress);
+        console.log(newAddress);
+        console.log(newAdminEmptyRow);
         const row = document.getElementsByClassName("buslist-table")[0].insertRow(1);
-        const html = ejs.render(newAdminEmptyRow);
+        const html = ejs.render(newAdminEmptyRow, { newAddress: newAddress });
+        console.log(html);
         row.innerHTML = html;
     }
 }
