@@ -132,7 +132,7 @@ body {
     width: 20%;
 }
 
-.favorite-col {
+.pin-col {
     text-align: center;
     width: 20%;
 }
@@ -160,7 +160,7 @@ body {
         width: 23%;
     }
 
-    .favorite-col {
+    .pin-col {
         width: 5%;
     }
 }
