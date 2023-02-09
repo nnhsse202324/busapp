@@ -1,7 +1,7 @@
 /// <reference path="./socket-io-client.d.ts"/>
 
 const indexSocket = window.io('/'); // This line and the line above is how you get ts types to work on clientside... cursed
-let favorites:number[] = [];
+var pins: number[] = [];
 
 window.addEventListener("focus", () => {
     location.reload();
@@ -13,48 +13,45 @@ indexSocket.on("update", (data) => {
     updateFavoriteArray();
 });
 
-function updateFavoriteArray() { // not to be used while updating favorites localStorage
-    const favString = localStorage.getItem("favorites");
-    if (favString != null && favorites.length == 0) {
-        let favArrayString:string[] = favString.split(", ");
-        for (const numAsString in favArrayString) {
-            let n = parseInt(numAsString);
-            if (!favorites.includes(n)) { favorites.push(n); }
+function updateFavoriteArray() { // not to be used while updating pins localStorage
+    const pinString = localStorage.getItem("pins"); 
+    if (pinString != null){
+        let pinArrayString:string[] = pinString.split(", ");
+        for (let i = 0; i < pins.length; i++) {
+            pins.pop();
+        }
+        for (let i = 0; i < pinArrayString.length; i++) {
+            let n = parseInt(pinArrayString[i]);
+            if (!pins.includes(n)) { pins.push(n); }
         }
     }
 }
 
 function favoriteBus(button: HTMLInputElement) {
-    const favString = localStorage.getItem("favorites");
+    updateFavoriteArray();
+
     const busNumber = button.parentElement!.parentElement!.firstElementChild!.innerHTML; // despite the name, this is a string
     let num = parseInt(busNumber); // this is the number of the bus
-    function notNum(n: number) {return n != num;}
-
     
-
-    if (!favorites.includes(num)) {
-        if (confirm("Do you want to add bus " + num + " to your favorites?")) {
-            favorites.push(num);
-            favorites.sort();
-            if (favorites.length = 0) {localStorage.removeItem("favorites");}
-            else if (favorites.length = 1) {localStorage.setItem("favorites", num.toString());}
-            else {
-                let newFavString = favorites.join(", "); // representation of the favorites list as a string
-                localStorage.setItem("favorites", newFavString);
-            }
+    if (!pins.includes(num)) {
+        if (confirm("Do you want to add bus " + num + " to your pins?")) {
+            pins.push(num);
+            pins.sort();
+            let newPinString = pins.join(", "); // representation of the pins list as a string
+            localStorage.setItem("pins", newPinString);
         }
     } else {
-        if (confirm("Do you want to remove bus " + num + " from your favorites?")) {
-            favorites = favorites.filter(notNum);
-            favorites.sort();
-            if (favorites.length = 0) {localStorage.removeItem("favorites");}
-            else if (favorites.length = 1) {localStorage.setItem("favorites", num.toString());}
-            else {
-                let newFavString = favorites.join(", "); // representation of the favorites list as a string
-                localStorage.setItem("favorites", newFavString);
+        if (confirm("Do you want to remove bus " + num + " from your pins?")) {
+            pins = pins.filter(function notNum(n: number) {return n != num;});
+            pins.sort();
+            if (pins.length == 0) {
+                localStorage.removeItem("pins");
+            } else {
+                let newPinString = pins.join(", "); // representation of the pins list as a string
+                localStorage.setItem("pins", newPinString);
             }
         }
     }
-    
+    updateFavoriteArray();
 }
 

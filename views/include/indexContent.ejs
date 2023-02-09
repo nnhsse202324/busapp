@@ -21,7 +21,7 @@
             <th class="change-col">Bus Change</th>
             <th class="status-col">Status</th>
             <th class="time-col">Time</th>
-            <th class="favorite-col">Favorite?</th>
+            <th class="pin-col">Pin?</th>
         </tr>
     </thead>
     <tbody>
@@ -31,7 +31,7 @@
             <td class="change-col"><%= data.buses[i].change %></td>
             <td class="status-col"><%= data.buses[i].status %></td>
             <td class="time-col"><%= data.buses[i].time %></td>
-            <td class="favorite-col"><button class="favorite-button" onclick="favoriteBus(this)"><i class="fa-solid fa-star"></i></button></td>             
+            <td class="favorite-col"><button class="favorite-button" onclick="favoriteBus(this)"><i class="fa-solid fa-thumbtack"></i></button></td>             
         </tr>
     <% } %> 
     </tbody>
