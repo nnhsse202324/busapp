@@ -14,26 +14,27 @@
         <a class="login-button" href="/admin">Login as editor</a>
     </div>
 </div>
-<table class="bus-table">
-    <thead>
-        <tr>
-            <th class="num-col">Bus Number</th>
-            <th class="change-col">Bus Change</th>
-            <th class="status-col">Status</th>
-            <th class="time-col">Time</th>
-            <th class="pin-col">Pin?</th>
-        </tr>
-    </thead>
-    <tbody>
-    <% for(let i = 0; i < data.buses.length; i++) { %> 
-        <tr>
-            <td class="num-col"><%= data.buses[i].number %></td>
-            <td class="change-col"><%= data.buses[i].change %></td>
-            <td class="status-col"><%= data.buses[i].status %></td>
-            <td class="time-col"><%= data.buses[i].time %></td>
-            <td class="favorite-col"><button class="favorite-button" onclick="favoriteBus(this)"><i class="fa-solid fa-thumbtack"></i></button></td>             
-        </tr>
-    <% } %> 
-    </tbody>
-
-</table>
+<div id="all-bus-table">
+    <table class="bus-table">
+        <thead>
+            <tr>
+                <th class="num-col">Bus Number</th>
+                <th class="change-col">Bus Change</th>
+                <th class="status-col">Status</th>
+                <th class="time-col">Time</th>
+                <th class="pin-col">Pin?</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% for(let i = 0; i < data.buses.length; i++) { %> 
+            <tr>
+                <td class="num-col"><%= data.buses[i].number %></td>
+                <td class="change-col"><%= data.buses[i].change %></td>
+                <td class="status-col"><%= data.buses[i].status %></td>
+                <td class="time-col"><%= data.buses[i].time %></td>
+                <td class="pin-col"><button class="pin-button" onclick="pinBus(this)"><i class="fa-solid fa-thumbtack"></i> Pin <%= data.buses[i].number %></button></td>             
+            </tr>
+        <% } %> 
+        </tbody>
+    </table>
+</div>

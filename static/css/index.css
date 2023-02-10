@@ -81,7 +81,7 @@ body {
     padding: 4%;
 }
 
-.favorite-button {
+.pin-button {
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
     font-size: 1vw;
@@ -143,7 +143,7 @@ body {
     }
     .bus-table {
         width: 70%;
-        font-size: 1vw;
+        font-size: 1.5vw;
     }
 
     .weather-temperature > *{
@@ -157,10 +157,10 @@ body {
     .bus-table th,
     .bus-table td {
         padding: 0.6% 1%;
-        width: 23%;
+        width: 22%;
     }
 
     .pin-col {
-        width: 5%;
+        width: 9%;
     }
 }

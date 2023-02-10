@@ -10,16 +10,17 @@ window.addEventListener("focus", () => {
 indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
     document.getElementById("content")!.innerHTML = html;
-    updateFavoriteArray();
+    updatePins();
+    
 });
 
-function updateFavoriteArray() { // not to be used while updating pins localStorage
+function updatePins() { // call often cause this [censored] resets every time the user does anything
     const pinString = localStorage.getItem("pins"); 
-    if (pinString != null){
+    for (let i = 0; i < pins.length; i++) {
+        pins.pop();
+    }
+    if (pinString != null) {
         let pinArrayString:string[] = pinString.split(", ");
-        for (let i = 0; i < pins.length; i++) {
-            pins.pop();
-        }
         for (let i = 0; i < pinArrayString.length; i++) {
             let n = parseInt(pinArrayString[i]);
             if (!pins.includes(n)) { pins.push(n); }
@@ -27,14 +28,14 @@ function updateFavoriteArray() { // not to be used while updating pins localStor
     }
 }
 
-function favoriteBus(button: HTMLInputElement) {
-    updateFavoriteArray();
-
+function pinBus(button: HTMLInputElement) {
+    updatePins();
     const busNumber = button.parentElement!.parentElement!.firstElementChild!.innerHTML; // despite the name, this is a string
     let num = parseInt(busNumber); // this is the number of the bus
     
-    if (!pins.includes(num)) {
+    if (pins.includes(num) == false) {
         if (confirm("Do you want to add bus " + num + " to your pins?")) {
+            updatePins(); // yes i called it twice. this is not a mistake
             pins.push(num);
             pins.sort();
             let newPinString = pins.join(", "); // representation of the pins list as a string
@@ -42,7 +43,8 @@ function favoriteBus(button: HTMLInputElement) {
         }
     } else {
         if (confirm("Do you want to remove bus " + num + " from your pins?")) {
-            pins = pins.filter(function notNum(n: number) {return n != num;});
+            updatePins(); // yes i called it twice. this is not a mistake
+            pins = pins.filter(function notNum(n: number) {return n != num;}); // this is how you remove elements in js/ts arrays. pain
             pins.sort();
             if (pins.length == 0) {
                 localStorage.removeItem("pins");
@@ -52,6 +54,14 @@ function favoriteBus(button: HTMLInputElement) {
             }
         }
     }
-    updateFavoriteArray();
+    updatePins();
+    for (let i = 0; i < pins.length; i++) {
+        console.log(pins[i].toString());
+    }
 }
 
+function resetPins() {
+    if (confirm("Are you sure you want to clear your pins?")) {
+        localStorage.removeItem("pins");
+    }
+}
