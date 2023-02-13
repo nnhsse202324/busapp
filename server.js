@@ -17,12 +17,6 @@ const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(httpServer);
 const PORT = process.env.PORT || 5182;
-/*
-type AdminCommand = {
-    type: string
-    data: adminData
-}
-*/
 const busesDatafile = path_1.default.resolve(__dirname, "./data/buses.json");
 const defaultBusesDatafile = path_1.default.resolve(__dirname, "./data/defaultBuses.txt");
 let buses;
@@ -102,16 +96,13 @@ setTimeout(resetBuses, midnight.valueOf() - new Date().valueOf());
 // Starts server
 httpServer.listen(PORT, () => { console.log(`Server is running on port ${PORT}`); });
 //whitelist socket
-/*
 io.of("/whitelist").on("connection", (socket) => {
-    socket.on("updateMain", (command: BusCommand) => {
-        
-        io.of("/").emit("update", readData());
-        socket.broadcast.emit("updateBuses", command);
+    socket.on("addAdmin", (newAdmin) => {
+        //add admin to whitelist with jsonHandler.ts functions
+        (0, jsonHandler_1.writeWhitelist)(newAdmin);
     });
     socket.on("debug", (data) => {
         console.log(`debug(admin): ${data}`);
     });
 });
-*/
 //# sourceMappingURL=server.js.map

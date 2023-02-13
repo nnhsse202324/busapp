@@ -53,6 +53,11 @@ function writeBusList(data) {
     fs_1.default.writeFileSync(busListDatafile, JSON.stringify(data));
 }
 exports.writeBusList = writeBusList;
+/*
+export function writeWhitelist(data: string[]) {
+    fs.writeFileSync(whitelistDatafile, JSON.stringify(data));
+}
+*/
 function writeWhitelist(data) {
     fs_1.default.writeFileSync(whitelistDatafile, JSON.stringify(data));
 }

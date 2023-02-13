@@ -5,7 +5,7 @@ import fs from "fs";
 import bodyParser from "body-parser";
 import {createServer} from "http";
 import {Server} from "socket.io";
-import {readData, writeBuses, BusData, readBusList} from "./server/jsonHandler";
+import {readData, writeBuses, BusData, readBusList, writeWhitelist} from "./server/jsonHandler";
 import {startWeather} from "./server/weatherController";
 import session from "express-session";
 
@@ -20,12 +20,8 @@ type BusCommand = {
     data: BusData
 }
 
-/*
-type AdminCommand = {
-    type: string
-    data: adminData
-}
-*/
+
+
 
 const busesDatafile = path.resolve(__dirname, "./data/buses.json");
 const defaultBusesDatafile = path.resolve(__dirname, "./data/defaultBuses.txt");
@@ -114,15 +110,14 @@ setTimeout(resetBuses, midnight.valueOf() - new Date().valueOf());
 httpServer.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)});
 
 //whitelist socket
-/*
+
 io.of("/whitelist").on("connection", (socket) => {
-    socket.on("updateMain", (command: BusCommand) => {
-        
-        io.of("/").emit("update", readData());
-        socket.broadcast.emit("updateBuses", command);
+    socket.on("addAdmin", (newAdmin: string) => {
+        //add admin to whitelist with jsonHandler.ts functions
+        writeWhitelist(newAdmin);
     });
-    socket.on("debug", (data) => {
+    socket.on(  "debug", (data) => {
         console.log(`debug(admin): ${data}`);
     });
 });
-*/
+

@@ -10,7 +10,7 @@ let newAdminRow: string;
 
 function addAdmin_admins(newAddress: string) {
     if(newAddress.includes('@') && newAddress.includes('naperville203.org') && (newAddress.indexOf('@') < newAddress.indexOf('naperville203.org'))){
-        alert(newAddress);
+        //alert(newAddress);
         console.log(newAddress)
         console.log(newAdminEmptyRow)
         const row = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(1);

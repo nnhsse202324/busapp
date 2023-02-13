@@ -54,7 +54,11 @@ export function readBusList(): {busList: string[]} {
 export function writeBusList(data: string[]) {
     fs.writeFileSync(busListDatafile, JSON.stringify(data));
 }
-
+/*
 export function writeWhitelist(data: string[]) {
+    fs.writeFileSync(whitelistDatafile, JSON.stringify(data));
+}
+*/
+export function writeWhitelist(data: string) {
     fs.writeFileSync(whitelistDatafile, JSON.stringify(data));
 }

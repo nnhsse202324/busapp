@@ -7,7 +7,7 @@ let newAdminRow;
 // fetch("/adminPopulatedRow").then((res) => res.text()).then((data) => newAdminRow = data);
 function addAdmin_admins(newAddress) {
     if (newAddress.includes('@') && newAddress.includes('naperville203.org') && (newAddress.indexOf('@') < newAddress.indexOf('naperville203.org'))) {
-        alert(newAddress);
+        //alert(newAddress);
         console.log(newAddress);
         console.log(newAdminEmptyRow);
         const row = document.getElementsByClassName("buslist-table")[0].insertRow(1);
