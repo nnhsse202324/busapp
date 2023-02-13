@@ -8,10 +8,19 @@ window.addEventListener("focus", () => {
 });
 
 indexSocket.on("update", (data) => {
-    const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
+    let inPins: Bus[] = [];
+    let notPins: Bus[] = [];
+    updatePins();
+    for (let i = 0; i < data.buses.length(); i++) {
+        if (pins.includes(data.buses[i].number)) {
+            inPins.push(data.buses[i]);
+        } else {
+            notPins.push(data.buses[i]);
+        }
+    }
+    const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data, pinned: inPins});
     document.getElementById("content")!.innerHTML = html;
     updatePins();
-    
 });
 
 function updatePins() { // call often cause this [censored] resets every time the user does anything
@@ -43,8 +52,8 @@ function pinBus(button: HTMLInputElement) {
         }
     } else {
         if (confirm("Do you want to remove bus " + num + " from your pins?")) {
-            updatePins(); // yes i called it twice. this is not a mistake
-            pins = pins.filter(function notNum(n: number) {return n != num;}); // this is how you remove elements in js/ts arrays. pain
+            updatePins(); 
+            pins = pins.filter(function notNum(n: number) {return n != num;}); // this is how you remove elements in js arrays. pain
             pins.sort();
             if (pins.length == 0) {
                 localStorage.removeItem("pins");
@@ -59,6 +68,8 @@ function pinBus(button: HTMLInputElement) {
         console.log(pins[i].toString());
     }
 }
+
+
 
 function resetPins() {
     if (confirm("Are you sure you want to clear your pins?")) {
