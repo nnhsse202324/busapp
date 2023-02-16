@@ -14,30 +14,6 @@
         <a class="login-button" href="/admin">Login as editor</a>
     </div>
 </div>
-<div id="pin-bus-table">
-    <table class="bus-table">
-        <thead>
-            <tr>
-                <th class="num-col">Bus Number</th>
-                <th class="change-col">Bus Change</th>
-                <th class="status-col">Status</th>
-                <th class="time-col">Time</th>
-                <th class="pin-col-s">Pin?</th>
-            </tr>
-        </thead>
-        <tbody>
-        <% for(let i = 0; i < pinned.buses.length; i++) { %> 
-            <tr>
-                <td class="num-col"><%= pinned.buses[i].number %></td>
-                <td class="change-col"><%= pinned.buses[i].change %></td>
-                <td class="status-col"><%= pinned.buses[i].status %></td>
-                <td class="time-col"><%= pinned.buses[i].time %></td>
-                <td class="pin-col-s"><button class="pin-button" onclick="pinBus(this)"><i class="fa-solid fa-thumbtack"></i> Pin <%= pinned.buses[i].number %></button></td>             
-            </tr>
-        <% } %> 
-        </tbody>
-    </table>
-</div>
 <div id="all-bus-table">
     <table class="bus-table">
         <thead>
