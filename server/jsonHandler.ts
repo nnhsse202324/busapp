@@ -60,5 +60,7 @@ export function writeWhitelist(data: string[]) {
 }
 */
 export function writeWhitelist(data: string) {
-    fs.writeFileSync(whitelistDatafile, JSON.stringify(data));
+    let oldWhitelist: string[] = readWhitelist().admins;
+    oldWhitelist.push(data)
+    fs.writeFileSync(whitelistDatafile, JSON.stringify(oldWhitelist));
 }
