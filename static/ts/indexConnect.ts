@@ -8,18 +8,28 @@ window.addEventListener("focus", () => {
 });
 
 indexSocket.on("update", (data) => {
-    let inPins: Bus[] = [];
-    let notPins: Bus[] = [];
+    let inPins: number[] = [];
+    let notPins: number[] = [];
+    
+    let inPinsBus: Bus[] = [];
+    let notPinsBus: Bus[] = [];
     updatePins();
-    for (let i = 0; i < data.buses.length(); i++) {
+    for (let i = 0; i < data.buses.length(); i++) { // filter numbers into in the pin list or not
         if (pins.includes(data.buses[i].number)) {
-            inPins.push(data.buses[i]);
+            inPins.push(data.buses[i].number);
         } else {
-            notPins.push(data.buses[i]);
+            notPins.push(data.buses[i].number);
         }
     }
-    const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data, pinned: inPins});
-    document.getElementById("content")!.innerHTML = html;
+
+    
+
+    const htmlPins = ejs.render(document.getElementById("renderPins")!.getAttribute("render")!, {data: inPins});
+    const htmlAll = ejs.render(document.getElementById("renderAll")!.getAttribute("render")!, {data: data});
+
+    document.getElementById("pinBus")!.innerHTML = htmlPins;
+    document.getElementById("allBus")!.innerHTML = htmlAll;
+
     updatePins();
 });
 
@@ -40,7 +50,7 @@ function updatePins() { // call often cause this [censored] resets every time th
 function pinBus(button: HTMLInputElement) {
     updatePins();
     const busNumber = button.parentElement!.parentElement!.firstElementChild!.innerHTML; // despite the name, this is a string
-    let num = parseInt(busNumber); // this is the number of the bus
+    const num = parseInt(busNumber); // this is the number of the bus
     
     if (pins.includes(num) == false) {
         if (confirm("Do you want to add bus " + num + " to your pins?")) {
