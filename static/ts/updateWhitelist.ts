@@ -1,4 +1,4 @@
-import {ejs} from "../../node_modules/ejs/ejs.min.js";
+
 import { io } from "socket.io-client";
 const socket = io();
 var admins: string[];   
