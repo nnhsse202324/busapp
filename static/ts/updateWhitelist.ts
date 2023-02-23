@@ -1,13 +1,13 @@
 
-import { io } from "socket.io-client";
-const socket = io();
+//import { io } from "socket.io-client";
+//const socket = io();
 var admins: string[];   
-fetch("/whitelist").then((data)=>data.json()).then((data) => admins = data.body());
+fetch("/whitelistFile").then((data)=>data.json()).then((data) => admins = data);
 
 var newAdminEmptyRow: string;
 fetch("/adminEmptyRow").then((res) => res.text()).then((data) => newAdminEmptyRow = data);
 
-var newAdminRow: string;
+//var newAdminRow: string;
 // fetch("/adminPopulatedRow").then((res) => res.text()).then((data) => newAdminRow = data);
 
 function addAdmin_admins(newAddress: string) {
@@ -19,7 +19,7 @@ function addAdmin_admins(newAddress: string) {
         const html = ejs.render(newAdminEmptyRow,{newAddress: newAddress});
         console.log(html);
         row.innerHTML = html;
-        socket.emit("addAdmin",newAddress)
+  //      socket.emit("addAdmin",newAddress)
     }
     
 }

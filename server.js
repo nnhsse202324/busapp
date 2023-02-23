@@ -96,13 +96,13 @@ setTimeout(resetBuses, midnight.valueOf() - new Date().valueOf());
 // Starts server
 httpServer.listen(PORT, () => { console.log(`Server is running on port ${PORT}`); });
 //whitelist socket
-io.of("/whitelist").on("connection", (socket) => {
-    socket.on("addAdmin", (newAdmin) => {
-        //add admin to whitelist with jsonHandler.ts functions
-        (0, jsonHandler_1.writeWhitelist)(newAdmin);
-    });
-    socket.on("debug", (data) => {
-        console.log(`debug(admin): ${data}`);
-    });
-});
+// io.of("/whitelist").on("connection", (socket) => {
+//     socket.on("addAdmin", (newAdmin: string) => {
+//         //add admin to whitelist with jsonHandler.ts functions
+//         writeWhitelist(newAdmin);
+//     });
+//     socket.on(  "debug", (data) => {
+//         console.log(`debug(admin): ${data}`);
+//     });
+// });
 //# sourceMappingURL=server.js.map

@@ -146,7 +146,7 @@ exports.router.get("/adminEmptyRow", (req, res) => {
 exports.router.get("/busList", (req, res) => {
     res.type("json").send((0, fs_1.readFileSync)(path_1.default.resolve(__dirname, "../data/busList.json")));
 });
-exports.router.get("/whitelist", (req, res) => {
+exports.router.get("/whitelistFile", (req, res) => {
     res.type("json").send((0, fs_1.readFileSync)(path_1.default.resolve(__dirname, "../data/whitelist.json")));
 });
 exports.router.post("/updateBusList", (req, res) => {

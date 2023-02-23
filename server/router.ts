@@ -126,7 +126,7 @@ router.get("/busList", (req: Request, res: Response) => {
     res.type("json").send(readFileSync(path.resolve(__dirname, "../data/busList.json")));
 });
 
-router.get("/whitelist", (req: Request, res: Response) => {
+router.get("/whitelistFile", (req: Request, res: Response) => {
     res.type("json").send(readFileSync(path.resolve(__dirname, "../data/whitelist.json")));
 });
 
