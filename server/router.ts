@@ -134,3 +134,5 @@ router.post("/updateBusList", (req: Request, res: Response) => {
     fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
     if (req.body.reset) resetDatafile();
 });
+
+router.post("/whitelist",(req:,res))

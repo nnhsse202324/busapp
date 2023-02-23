@@ -1,7 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const socket_io_client_1 = require("socket.io-client");
-const socket = (0, socket_io_client_1.io)();
+//import { io } from "socket.io-client";
+//const socket = io();
 var admins;
 fetch("/whitelistFile").then((data) => data.json()).then((data) => admins = data);
 var newAdminEmptyRow;
@@ -17,7 +16,17 @@ function addAdmin_admins(newAddress) {
         const html = ejs.render(newAdminEmptyRow, { newAddress: newAddress });
         console.log(html);
         row.innerHTML = html;
-        socket.emit("addAdmin", newAddress);
+        //      socket.emit("addAdmin",newAddress)
+        fetch("/whitelist", {
+            method: 'POST',
+            headers: {
+                accept: 'application.json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                admins: admins
+            })
+        });
     }
 }
 function removeAdmin_admins(secondChild) {

@@ -20,6 +20,17 @@ function addAdmin_admins(newAddress: string) {
         console.log(html);
         row.innerHTML = html;
   //      socket.emit("addAdmin",newAddress)
+    fetch("/whitelist", {
+        method: 'POST',
+        headers: {
+          accept: 'application.json',
+          'Content-Type': 'application/json'
+        },
+        body: 
+        JSON.stringify({
+            admins: admins
+        })
+    })
     }
     
 }
