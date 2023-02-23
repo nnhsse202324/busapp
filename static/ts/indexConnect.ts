@@ -8,7 +8,6 @@ window.addEventListener("focus", () => {
 });
 
 indexSocket.on("update", (data) => {
-    
     let inPins: number[] = [];
     let inPinsBus: Bus[] = [];
     updatePins();
@@ -30,7 +29,7 @@ indexSocket.on("update", (data) => {
     updatePins();
 });
 
-function updatePins() { // call often cause this [censored] resets every time the user does anything
+function updatePins() { // call (very) (extremely) often cause this resets every time the user, the server, or the admin does anything
     const pinString = localStorage.getItem("pins"); 
     pins = [];
     if (pinString != null) {
@@ -44,9 +43,8 @@ function updatePins() { // call often cause this [censored] resets every time th
 
 function pinBus(button: HTMLInputElement) {
     updatePins();
-    const busRow = button.parentElement!.parentElement; // the <tr> element
-    const busRowElements = busRow!.children;
-    const busNumber = busRowElements[0].innerHTML;
+    const busRow = button.parentElement!.parentElement; // this is the overarching <tr> element of the bus row
+    const busNumber = busRow!.firstElementChild!.innerHTML; // this is the stringification of the number of the bus
     const num = parseInt(busNumber); // this is the number of the bus
     if (pins.includes(num) == false) {
         if (confirm("Do you want to add bus " + num + " to your pins?")) {
@@ -70,7 +68,7 @@ function pinBus(button: HTMLInputElement) {
         }
     }
 
-    // update the webpage
+    // ok this is the part where we try to update the webpage
     updatePins();
     /*
     for (let i = 0; i < pins.length; i++) {
@@ -78,7 +76,7 @@ function pinBus(button: HTMLInputElement) {
     } */
     let inPinsBus: Bus[] = [];
     for (let i = 0; i < pins.length; i++) {
-
+        
     }
 }
 
