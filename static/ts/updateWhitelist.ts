@@ -1,6 +1,3 @@
-
-//import { io } from "socket.io-client";
-//const socket = io();
 var admins: string[];   
 fetch("/whitelistFile").then((data)=>data.json()).then((data) => admins = data);
 
@@ -12,30 +9,45 @@ fetch("/adminEmptyRow").then((res) => res.text()).then((data) => newAdminEmptyRo
 
 function addAdmin_admins(newAddress: string) {
     if(newAddress.includes('@') && newAddress.includes('naperville203.org') && (newAddress.indexOf('@') < newAddress.indexOf('naperville203.org'))){
-        alert(newAddress);
         console.log(newAddress)
         console.log(newAdminEmptyRow)
         const row = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(1);
         const html = ejs.render(newAdminEmptyRow,{newAddress: newAddress});
         console.log(html);
         row.innerHTML = html;
-  //      socket.emit("addAdmin",newAddress)
-    fetch("/whitelist", {
-        method: 'POST',
-        headers: {
-          accept: 'application.json',
-          'Content-Type': 'application/json'
-        },
-        body: 
-        JSON.stringify({
-            admins: admins
+        admins.splice(0, 0, newAddress);
+        fetch("/whitelistFile", {
+            method: 'POST',
+            headers: {
+            accept: 'application.json',
+            'Content-Type': 'application/json'
+            },
+            body: 
+            JSON.stringify({
+               admins: admins
+            })
         })
-    })
     }
     
 }
 
+
+
 function removeAdmin_admins(secondChild: HTMLElement) {
     let row = secondChild.parentElement!.parentElement! as HTMLTableRowElement;
     row.remove();
+    //admins.splice(admins.indexOf(,));
+    fetch("/whitelistFile", {
+        method: 'POST',
+        headers: {
+        accept: 'application.json',
+        'Content-Type': 'application/json'
+        },
+        body: 
+        JSON.stringify({
+           admins: admins
+        })
+    })
+    
+
 }
