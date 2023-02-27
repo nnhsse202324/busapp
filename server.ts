@@ -29,7 +29,7 @@ resetBuses();
 io.of("/").on("connection", (socket) => {
     //console.log(`new connection on root (id:${socket.id})`);
     socket.on("debug", (data) => {
-        //console.log(`debug(root): ${data}`);
+        console.log(`debug(root): ${data}`);
     });
 });
 

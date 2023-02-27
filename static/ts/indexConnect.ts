@@ -1,13 +1,23 @@
 /// <reference path="./socket-io-client.d.ts"/>
+// import { io } from "socket.io-client";
 
-const indexSocket = window.io('/'); // This line and the line above is how you get ts types to work on clientside... cursed
+console.log("===========================")
+console.log(typeof window.io)
+console.log(window.io)
+
+var indexSocket = window.io('/'); // This line and the line above is how you get ts types to work on clientside... cursed
+
 var pins: number[] = [];
+updatePins();
 
-window.addEventListener("focus", () => {
-    location.reload();
-});
+// window.addEventListener("focus", () => {
+//     location.reload();
+//     indexSocket = window.io('/');
+//     console.log(typeof window.io)
+//     console.log(window.io)
+// });
 
-indexSocket.on("update", (data) => {
+indexSocket.on("update", (data: any) => {
     let inPins: number[] = [];
     let inPinsBus: Bus[] = [];
     updatePins();
@@ -25,7 +35,6 @@ indexSocket.on("update", (data) => {
     document.getElementById("pinBus").innerHTML = htmlPins;
     // @ts-ignore
     document.getElementById("allBus").innerHTML = htmlAll;
-    
     updatePins();
 });
 
@@ -45,6 +54,7 @@ function pinBus(button: HTMLInputElement) {
     updatePins();
     const busRow = button.parentElement!.parentElement; // this is the overarching <tr> element of the bus row
     const busNumber = busRow!.firstElementChild!.innerHTML; // this is the stringification of the number of the bus
+    var busList;
     const num = parseInt(busNumber); // this is the number of the bus
     if (pins.includes(num) == false) {
         if (confirm("Do you want to add bus " + num + " to your pins?")) {
