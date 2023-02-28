@@ -43,7 +43,7 @@
             <% for(i = 0; i <whitelist.admins.length; i++) { %>
                 <tr>
                     <td><%= whitelist.admins[i]%></td>
-                    <td class="remove-col"><i class="fas fa-times remove-xssbutton table-button"  onclick="alert(this)"></i></td>   //add ID that refers to value (whitelist.admins[i])
+                    <td id="removeButton" class="remove-col"><i class="fas fa-times remove-xssbutton table-button" onclick="removeAdmin_admins('<%= whitelist.admins[i] %>')"></i></td>   <!-- onclick="alert('<%= whitelist.admins[i] %>')"-->
                 </tr>
             <% } %> 
         </table>

@@ -26,10 +26,18 @@ function addAdmin_admins(newAddress) {
         });
     }
 }
-function removeAdmin_admins(secondChild) {
-    let row = secondChild.parentElement.parentElement;
-    row.remove();
-    //admins.splice(admins.indexOf(,));
+function removeAdmin_admins(address) {
+    admins.splice(admins.indexOf(address), 1);
+    let table = document.querySelector(".buslist-table");
+    let rows = table.children[1].children;
+    for (let row of rows) {
+        console.log(row.children[0].innerHTML);
+        if (row.children[0].innerHTML.trim() == address.trim()) {
+            row.remove();
+            break;
+        }
+    }
+    //row.remove();
     fetch("/whitelistFile", {
         method: 'POST',
         headers: {
