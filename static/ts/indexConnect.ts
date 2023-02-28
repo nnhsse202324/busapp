@@ -1,21 +1,10 @@
 /// <reference path="./socket-io-client.d.ts"/>
-// import { io } from "socket.io-client";
-
-console.log("===========================")
-console.log(typeof window.io)
-console.log(window.io)
 
 var indexSocket = window.io('/'); // This line and the line above is how you get ts types to work on clientside... cursed
+// do NOT import anything or ejs will get angry
 
 var pins: number[] = [];
 updatePins();
-
-// window.addEventListener("focus", () => {
-//     location.reload();
-//     indexSocket = window.io('/');
-//     console.log(typeof window.io)
-//     console.log(window.io)
-// });
 
 indexSocket.on("update", (data: any) => {
     let inPins: number[] = [];
@@ -53,8 +42,15 @@ function updatePins() { // call (very) (extremely) often cause this resets every
 function pinBus(button: HTMLInputElement) {
     updatePins();
     const busRow = button.parentElement!.parentElement; // this is the overarching <tr> element of the bus row
+    const busTableBody = busRow!.parentElement; // <tbody>
+    var workingRow = busTableBody!.firstElementChild;
+    var busList:Bus[] = [];
+    while (workingRow?.nextElementSibling) {
+        
+        workingRow = workingRow?.nextElementSibling;
+    }
     const busNumber = busRow!.firstElementChild!.innerHTML; // this is the stringification of the number of the bus
-    var busList;
+    
     const num = parseInt(busNumber); // this is the number of the bus
     if (pins.includes(num) == false) {
         if (confirm("Do you want to add bus " + num + " to your pins?")) {
