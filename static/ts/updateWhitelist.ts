@@ -8,7 +8,7 @@ fetch("/adminEmptyRow").then((res) => res.text()).then((data) => newAdminEmptyRo
 // fetch("/adminPopulatedRow").then((res) => res.text()).then((data) => newAdminRow = data);
 
 function addAdmin_admins(newAddress: string) {
-    if(newAddress.includes('@') && newAddress.includes('naperville203.org') && (newAddress.indexOf('@') < newAddress.indexOf('naperville203.org'))){
+    if(newAddress.includes('@') && newAddress.includes('naperville203.org') && (newAddress.indexOf('@') < newAddress.indexOf('naperville203.org')) && (!admins.includes(newAddress))){
         console.log(newAddress)
         console.log(newAdminEmptyRow)
         const row = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(1);
@@ -34,6 +34,8 @@ function addAdmin_admins(newAddress: string) {
 
 
 function removeAdmin_admins(address: string) {
+    console.log(`address to remove: ${address}`)
+    console.log(`trimmed address: ${address.trim()}`)
     admins.splice(admins.indexOf(address), 1);
     let table: HTMLTableElement = <HTMLTableElement> document.querySelector(".buslist-table");
     let rows = table.children[1].children;
