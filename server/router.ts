@@ -100,6 +100,10 @@ router.get("/manifest.webmanifest", (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, "../data/manifest.webmanifest"))
 });
 
+router.get("/sw.js", (req: Request, res: Response) => {
+    res.sendFile(path.resolve(__dirname, "../sw.js"))
+});
+
 router.get("/updateBusListPopulatedRow", (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, "../views/sockets/updateBusListPopulatedRow.ejs"));
 });
