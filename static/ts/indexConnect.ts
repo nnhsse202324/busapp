@@ -7,24 +7,7 @@ var pins: number[] = [];
 updatePins();
 
 indexSocket.on("update", (data: any) => {
-    let inPins: number[] = [];
-    let inPinsBus: Bus[] = [];
-    updatePins();
-    for (let i = 0; i < data.buses.length(); i++) { // filter numbers based on whether or not they are in the pinlist
-        if (pins.includes(data.buses[i].number)) {
-            inPins.push(data.buses[i].number);
-            inPinsBus.push(data.buses[i]);
-        }
-    }
-    const pinData = {buses: inPinsBus, weather: data.weather};
-
-    const htmlPins = ejs.render(document.getElementById("renderPins")!.getAttribute("render")!, {data: pinData});
-    const htmlAll = ejs.render(document.getElementById("renderAll")!.getAttribute("render")!, {data: data});
-
-    document.getElementById("pinBus")!.innerHTML = htmlPins;
-    document.getElementById("allBus")!.innerHTML = htmlAll;
-    updatePins();
-    updatePinTable();
+    updatePage(data);
 });
 
 function updatePins() { // call (very) (extremely) often cause this resets every time the user, the server, or the admin does anything
@@ -39,18 +22,31 @@ function updatePins() { // call (very) (extremely) often cause this resets every
     }
 }
 
-function updatePinTable() {
+function updatePage(data: any) {
+    const pinData = getPinBusJSON(data.weather);
+
+    const htmlPins = ejs.render(document.getElementById("renderPins")!.getAttribute("render")!, {data: pinData});
+    const htmlAll = ejs.render(document.getElementById("renderAll")!.getAttribute("render")!, {data: data});
+
+    document.getElementById("pinBus")!.innerHTML = htmlPins;
+    document.getElementById("allBus")!.innerHTML = htmlAll;
+}
+
+function getPinBusJSON(weather: Object) {
     let allTable:HTMLTableElement = <HTMLTableElement> document.getElementById("all-bus-table");
     let rows = allTable.rows;
     let row:HTMLTableRowElement = <HTMLTableRowElement> rows[0];
+    let bus:Bus = new Bus(row);
+    let pinBusList:Bus[] = [];
     updatePins();
     for (let j = 1; j < rows.length; j++) {
-        row = rows[j];
-        let num:number = parseInt(row.firstElementChild!.innerHTML);
-        if (pins.includes(num)) {
-            allTable.deleteRow(j);
+        row = <HTMLTableRowElement> rows[j];
+        if (pins.includes(parseInt(row.firstElementChild!.innerHTML))) {
+            bus = new Bus(row);
+            pinBusList.push(bus);
         }
     }
+    return {pinBusList, weather};
 }
 
 function pinBus(button: HTMLInputElement) {
@@ -80,10 +76,7 @@ function pinBus(button: HTMLInputElement) {
             }
         }
     }
-    updatePinTable();
 }
-
-
 
 function resetPins() {
     if (confirm("Are you sure you want to clear your pins?")) {
