@@ -26,17 +26,22 @@
                 <a class="login-button" href="/admin">Login as editor</a>
             </div>
         </div>
-        <script src="/socket.io/socket.io.js"></script>
-        <script id="renderPins" render="<%= render %>" src='js/indexConnect.js'></script>
-        <div id="pinBus">
-            <%- include("include/pinContent") %>
-        </div>
-        <script id="renderAll" render="<%= render %>" src='js/indexConnect.js'></script>
-        <div id="allBus">
-            <%- include("include/indexContent") %>
-        </div>
+        
+        <div class="buses">
+            <script src="/socket.io/socket.io.js"></script>
+            <p>pins</p>
+            <script id="renderPins" render="<%= render %>" src='js/indexConnect.js'></script>
+            <div id="pinBus">
+                <%- include("include/pinContent") %>
+            </div>
+            <p>all</p>
+            <script id="renderAll" render="<%= render %>" src='js/indexConnect.js'></script>
+            <div id="allBus">
+                <%- include("include/indexContent") %>
+            </div>
 
-        <script src="js/ejs.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
+            <script src="js/ejs.js"></script>
+            <script src="/socket.io/socket.io.js"></script>
+        </div>
     </body>
 </html>
