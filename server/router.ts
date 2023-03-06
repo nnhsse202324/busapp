@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import {OAuth2Client, TokenPayload} from "google-auth-library";
-import {readData, readWhitelist, readBusList, writeBusList} from "./jsonHandler";
+import {readData, readWhitelist, readBusList, writeBusList,readWeather} from "./jsonHandler";
 import path from "path";
 import fs, {readFileSync} from "fs";
 import {resetDatafile} from "../server";
@@ -18,6 +18,14 @@ router.get("/", (req: Request, res: Response) => {
         render: fs.readFileSync(path.resolve(__dirname, "../views/include/indexContent.ejs")), 
     });
 });
+
+// not pages, but requests for the data
+router.get('/buses',(req,res)=>{
+    res.send(readBusList());
+})
+router.get('/weather',(req,res)=>{
+    res.send(readWeather());
+})
 
 // Login page. User authenticates here and then is redirected to admin (where they will be authorized)
 router.get("/login", (req: Request, res: Response) => {

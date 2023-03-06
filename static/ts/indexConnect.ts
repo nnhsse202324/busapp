@@ -4,11 +4,18 @@ var indexSocket = window.io('/'); // This line and the line above is how you get
 // !!! do NOT import/export anything or ejs will get angry
 
 var pins: number[] = [];
+var busData = fetch('/buses');
+var weatherData = fetch('/weather');
 updatePins();
 
 indexSocket.on("update", (data: any) => {
     updatePage(data);
 });
+
+function updateData() { // you will never guess what this does
+    busData = fetch('/buses');
+    weatherData = fetch('/weather');
+}
 
 function updatePins() { // call (very) (extremely) often cause this resets every time the user, the server, or the admin does anything
     const pinString = localStorage.getItem("pins"); 
@@ -23,7 +30,8 @@ function updatePins() { // call (very) (extremely) often cause this resets every
 }
 
 function updatePage(data: any) {
-    const pinData = getPinBusJSON(data.weather);
+    updateData();
+    const pinData = getPinBusJSON(weatherData);
 
     const htmlPins = ejs.render(document.getElementById("renderPins")!.getAttribute("render")!, {data: pinData});
     const htmlAll = ejs.render(document.getElementById("renderAll")!.getAttribute("render")!, {data: data});
@@ -33,9 +41,9 @@ function updatePage(data: any) {
 }
 
 function getPinBusJSON(weather: Object) {
-    let allTable:HTMLTableElement = <HTMLTableElement> document.getElementById("all-bus-table");
+    let allTable = <HTMLTableElement> document.getElementById("all-bus-table");
     let rows = allTable.rows;
-    let row:HTMLTableRowElement = <HTMLTableRowElement> rows[0];
+    let row = <HTMLTableRowElement> rows[0];
     let bus:Bus = new Bus(row);
     let pinBusList:Bus[] = [];
     updatePins();
@@ -76,6 +84,7 @@ function pinBus(button: HTMLInputElement) {
             }
         }
     }
+    updatePage(busData);
 }
 
 function resetPins() {
