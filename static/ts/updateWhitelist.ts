@@ -32,7 +32,7 @@ function addAdmin_admins(newAddress: string) {
 }
 
 
-
+//MORE ACCURATE BUG - Adding an admin then removing that admin removes the first admin instead
 function removeAdmin_admins(address: string) { //weird edge case with this function where removing an admin then adding them back then removing them again removes the admin at the bottom instead of the one it is supposed to (only on the server side though, the row for the correct admin is removed on the page itself). If you reload before the final removal it works as intended. 
     console.log(`address to remove: ${address}`)
     console.log(`trimmed address: ${address.trim()}`)

@@ -26,6 +26,7 @@ function addAdmin_admins(newAddress) {
         });
     }
 }
+//MORE ACCURATE BUG - Adding an admin then removing that admin removes the first admin instead
 function removeAdmin_admins(address) {
     console.log(`address to remove: ${address}`);
     console.log(`trimmed address: ${address.trim()}`);
@@ -39,7 +40,6 @@ function removeAdmin_admins(address) {
             break;
         }
     }
-    //row.remove();
     fetch("/whitelistFile", {
         method: 'POST',
         headers: {

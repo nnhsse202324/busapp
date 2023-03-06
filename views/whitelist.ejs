@@ -40,10 +40,10 @@
                 </tr>                
             </thead>
             
-            <% for(i = 0; i <whitelist.admins.length; i++) { %>
-                <tr>
+            <% for(i = 0; i < whitelist.admins.length; i++) { %>
+                <tr class="new-admin-row">
                     <td><%= whitelist.admins[i]%></td>
-                    <td id="removeButton" class="remove-col"><i class="fas fa-times remove-xssbutton table-button" onclick="removeAdmin_admins('<%= whitelist.admins[i] %>')"></i></td>   <!-- onclick="alert('<%= whitelist.admins[i] %>')"-->
+                    <td class="remove-col"><i class="fas fa-times remove-xssbutton table-button" onclick="removeAdmin_admins('<%= whitelist.admins[i] %>')"></i></td>   <!-- onclick="alert('<%= whitelist.admins[i] %>')"-->
                 </tr>
             <% } %> 
         </table>
