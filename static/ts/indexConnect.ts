@@ -32,8 +32,8 @@ function updatePins() { // call (very) (extremely) often cause this resets every
 function updatePage(data: any) {
     updateData();
     const pinData = getPinBusJSON(weatherData);
-
-    const htmlPins = ejs.render(document.getElementById("renderPins")!.getAttribute("render")!, {data: pinData});
+    
+    const htmlPins = ejs.render(document.getElementById("renderPins")!.getAttribute("render")!, {buses: pinData});
     const htmlAll = ejs.render(document.getElementById("renderAll")!.getAttribute("render")!, {data: data});
 
     document.getElementById("pinBus")!.innerHTML = htmlPins;

@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import {OAuth2Client, TokenPayload} from "google-auth-library";
-import {readData, readWhitelist, readBusList, writeBusList,readWeather} from "./jsonHandler";
+import { readData, readWhitelist, readBusList, writeBusList, readWeather, readBusStatus } from './jsonHandler';
 import path from "path";
 import fs, {readFileSync} from "fs";
 import {resetDatafile} from "../server";
@@ -21,7 +21,7 @@ router.get("/", (req: Request, res: Response) => {
 
 // not pages, but requests for the data
 router.get('/buses',(req,res)=>{
-    res.send(readBusList());
+    res.send(readBusStatus());
 })
 router.get('/weather',(req,res)=>{
     res.send(readWeather());

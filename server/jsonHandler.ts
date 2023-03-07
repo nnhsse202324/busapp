@@ -53,6 +53,10 @@ export function readBusList(): {busList: string[]} {
     return {busList: JSON.parse(fs.readFileSync(busListDatafile, "utf-8"))};
 }
 
+export function readBusStatus(): {busList: string[]} {
+    return {busList: JSON.parse(fs.readFileSync(busesDatafile, "utf-8"))};
+}
+
 export function writeBusList(data: string[]) {
     fs.writeFileSync(busListDatafile, JSON.stringify(data));
 }
