@@ -4,16 +4,20 @@ var indexSocket = window.io('/'); // This line and the line above is how you get
 // !!! do NOT import/export anything or ejs will get angry
 
 var pins: number[] = [];
-var busData = fetch('/buses');
 var weatherData = fetch('/weather');
 updatePins();
 
 indexSocket.on("update", (data: any) => {
-    updatePage(data);
+    updatePins();
+    
+    const htmlPins = ejs.render(document.getElementById("renderPins")!.getAttribute("render")!, {data: data, pin: pins});
+    const htmlAll = ejs.render(document.getElementById("renderAll")!.getAttribute("render")!, {data: data});
+
+    document.getElementById("pinBus")!.innerHTML = htmlPins;
+    document.getElementById("allBus")!.innerHTML = htmlAll;
 });
 
 function updateData() { // you will never guess what this does
-    busData = fetch('/buses');
     weatherData = fetch('/weather');
 }
 
@@ -31,16 +35,15 @@ function updatePins() { // call (very) (extremely) often cause this resets every
 
 function updatePage(data: any) {
     updateData();
-    const pinData = getPinBusJSON(weatherData);
+    updatePins();
+    const pinData = getPinBusJSON();
     
-    const htmlPins = ejs.render(document.getElementById("renderPins")!.getAttribute("render")!, {buses: pinData});
-    const htmlAll = ejs.render(document.getElementById("renderAll")!.getAttribute("render")!, {data: data});
-
-    document.getElementById("pinBus")!.innerHTML = htmlPins;
-    document.getElementById("allBus")!.innerHTML = htmlAll;
+    const html = ejs.render(document.getElementById("renders")!.getAttribute("render")!, {data: data, pin: pins});
+    
+    document.getElementById("buses")!.innerHTML = html;
 }
 
-function getPinBusJSON(weather: Object) {
+function getPinBusJSON() {
     let allTable = <HTMLTableElement> document.getElementById("all-bus-table");
     let rows = allTable.rows;
     let row = <HTMLTableRowElement> rows[0];
@@ -54,7 +57,7 @@ function getPinBusJSON(weather: Object) {
             pinBusList.push(bus);
         }
     }
-    return {pinBusList, weather};
+    return pinBusList;
 }
 
 function pinBus(button: HTMLInputElement) {
@@ -84,7 +87,6 @@ function pinBus(button: HTMLInputElement) {
             }
         }
     }
-    updatePage(busData);
 }
 
 function resetPins() {
