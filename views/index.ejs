@@ -30,7 +30,7 @@
         <div class="tables-container">
             <script src="/socket.io/socket.io.js"></script>
             <script src='js/indexConnect.js'></script>
-            <div id="renders" render="<% render %>">
+            <div id="buses">
                 <!-- pins -->
                 <div id="pinBus">
                     <p>pins</p>
@@ -46,7 +46,7 @@
                         </thead>
                         <tbody id="all-bus-rows">
                         <% for(let i = 0; i < data.buses[i].length; i++) { %> 
-                        <% if (pin.includes(data.buses[i].number)) { %>
+                        <% if (pin.includes (parseInt(data.buses[i].number))) { %>
                             <tr>
                                 <td class="num-col"><%= data.buses[i].number %></td>
                                 <td class="change-col"><%= data.buses[i].change %></td>

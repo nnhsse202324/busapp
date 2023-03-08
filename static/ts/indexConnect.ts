@@ -10,11 +10,10 @@ updatePins();
 indexSocket.on("update", (data: any) => {
     updatePins();
     
-    const htmlPins = ejs.render(document.getElementById("renderPins")!.getAttribute("render")!, {data: data, pin: pins});
-    const htmlAll = ejs.render(document.getElementById("renderAll")!.getAttribute("render")!, {data: data});
+    // const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data, pin: pins});
+    const html = ejs.render(document.getElementById("buses")!.innerHTML, {data: data, pin: pins});
 
-    document.getElementById("pinBus")!.innerHTML = htmlPins;
-    document.getElementById("allBus")!.innerHTML = htmlAll;
+    document.getElementById("buses")!.innerHTML = html;
 });
 
 function updateData() { // you will never guess what this does
@@ -38,7 +37,7 @@ function updatePage(data: any) {
     updatePins();
     const pinData = getPinBusJSON();
     
-    const html = ejs.render(document.getElementById("renders")!.getAttribute("render")!, {data: data, pin: pins});
+    const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data, pin: pins});
     
     document.getElementById("buses")!.innerHTML = html;
 }
