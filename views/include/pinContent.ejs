@@ -9,7 +9,8 @@
         </tr>
     </thead>
     <tbody id="all-bus-rows">
-    <% for(let i = 0; i < data.length; i++) { %> 
+    <% for(let i = 0; i < data.buses[i].length; i++) { %> 
+    <% if (pin.includes(data.buses[i].number)) { %>
         <tr>
             <td class="num-col"><%= data.buses[i].number %></td>
             <td class="change-col"><%= data.buses[i].change %></td>
@@ -17,6 +18,6 @@
             <td class="time-col"><%= data.buses[i].time %></td>
             <td class="pin-col"><button class="pin-button" onclick="pinBus(this)"><i class="fa-solid fa-thumbtack"></i> Pin <%= data.buses[i].number %></button></td>             
         </tr>
-    <% } %> 
+    <% }} %> 
     </tbody>
 </table>
