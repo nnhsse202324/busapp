@@ -4,7 +4,13 @@ var indexSocket = window.io('/'); // This line and the line above is how you get
 // !!! do NOT import/export anything or ejs will get angry
 
 var pins: number[] = [];
-var weatherData = fetch('/weather');
+var weatherFile = fetch('/weather');
+var busFile;
+var busPromise = fetch('/buses');
+busPromise.then((res: Response) => {
+    busFile = res.json();
+}); 
+// code executed when busFile gets its info from the webpage
 updatePins();
 
 indexSocket.on("update", (data: any) => {
@@ -17,7 +23,7 @@ indexSocket.on("update", (data: any) => {
 });
 
 function updateData() { // you will never guess what this does
-    weatherData = fetch('/weather');
+    weatherFile = fetch('/weather');
 }
 
 function updatePins() { // call (very) (extremely) often cause this resets every time the user, the server, or the admin does anything
@@ -32,31 +38,16 @@ function updatePins() { // call (very) (extremely) often cause this resets every
     }
 }
 
-function updatePage(data: any) {
+function updatePage(buses: any, weather: any) {
     updateData();
     updatePins();
-    const pinData = getPinBusJSON();
+    let pinBus = {"busList":[]};
+    for (let n of pins) {
+    }    
     
-    const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data, pin: pins});
+    const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: buses, pin: pins});
     
     document.getElementById("buses")!.innerHTML = html;
-}
-
-function getPinBusJSON() {
-    let allTable = <HTMLTableElement> document.getElementById("all-bus-table");
-    let rows = allTable.rows;
-    let row = <HTMLTableRowElement> rows[0];
-    let bus:Bus = new Bus(row);
-    let pinBusList:Bus[] = [];
-    updatePins();
-    for (let j = 1; j < rows.length; j++) {
-        row = <HTMLTableRowElement> rows[j];
-        if (pins.includes(parseInt(row.firstElementChild!.innerHTML))) {
-            bus = new Bus(row);
-            pinBusList.push(bus);
-        }
-    }
-    return pinBusList;
 }
 
 function pinBus(button: HTMLInputElement) {
