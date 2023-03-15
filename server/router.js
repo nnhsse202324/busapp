@@ -134,6 +134,21 @@ exports.router.get('/whitelist', (req, res) => {
         res.render("unauthorized");
     }
 });
+exports.router.get('/updateWhitelist', (req, res) => {
+    // If user is not authenticated (email is not is session) redirects to login page
+    if (!req.session.userEmail) {
+        res.redirect("/login");
+        return;
+    }
+    // Authorizes user, then either displays admin page or unauthorized page
+    authorize(req);
+    if (req.session.isAdmin) {
+        res.render("updateWhitelist");
+    }
+    else {
+        res.render("unauthorized");
+    }
+});
 exports.router.get("/updateBusListEmptyRow", (req, res) => {
     res.sendFile(path_1.default.resolve(__dirname, "../views/sockets/updateBusListEmptyRow.ejs"));
 });
