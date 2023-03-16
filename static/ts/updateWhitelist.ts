@@ -36,6 +36,7 @@ function addAdmin_admins(newAddress: string) {
 function removeAdmin_admins(address: string) { 
     console.log(`address to remove: ${address}`)
     console.log(`trimmed address: ${address.trim()}`)
+    
     admins.splice(admins.indexOf(address), 1);
     let table: HTMLTableElement = <HTMLTableElement> document.querySelector(".buslist-table");
     let rows = table.children[1].children;

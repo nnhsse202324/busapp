@@ -31,15 +31,15 @@
                 <td class=>Add bus</td>
                 <td class="add-bus-cell"><i class="fa-solid fa-plus add-bus-button table-button" onclick="newAdmin_admins()"></i></td>
             </tr>
-            <% for(i = 0; i <whitelist.admins.length; i++) { %>
+            <% for(i = 0; i <data.admins.length; i++) { %>
                 <tr>
-                    <td><%= whitelist.admins[i]%></td>
+                    <td><%= data.admins[i]%></td>
                     <td class="remove-col"><i class="fas fa-times remove-button table-button" onclick="removeAdmin_admins(this)"></i></td>
                 </tr>
             <% } %> 
         </table>
         <script src="js/ejs.js"></script>
         <script src="/socket.io/socket.io.js"></script>
-        <script src="js/updateBusList.js"></script>
+        <script src="js/updateWhitelist.js"></script>
     </body>
 </html>

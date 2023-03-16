@@ -11,6 +11,10 @@ From the homepage, admins should click the “Login as editor” button in the t
 
 From this page admins are able to edit bus changes, status (Not Here, Next Wave, Loading or Gone) and time. Time will update automatically when status is changed. Additionally, they can add or remove buses.
 
+Additionally, admins are granted the ability to add or remove other admins from the whitelist. All admins are able to view the current whitelist at any time.
+
+Adding an admin requires the email address of the admin to be added. In the event that an admin must be removed, it is as simple as pressing the button next to their name. 
+
 Administrator Handbook: https://docs.google.com/document/d/1MaySGjV3I7LIaNLHDQCaPODoN7ZUI3aYht6oijkWy_4/edit?usp=sharing
 
 #### Student Experience 
