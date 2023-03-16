@@ -4,27 +4,31 @@ var indexSocket = window.io('/'); // This line and the line above is how you get
 // !!! do NOT import/export anything or ejs will get angry
 
 var pins: number[] = [];
-var weatherFile = fetch('/weather');
-var busFile;
-var busPromise = fetch('/buses');
-busPromise.then((res: Response) => {
-    busFile = res.json();
-}); 
-// code executed when busFile gets its info from the webpage
 updatePins();
+
+var weatherPromise = fetch('/weather');
+weatherPromise.then(res => res.json()).then((res) => {
+    const htmlWeather = ejs.render(document.getElementById("header-div")!.innerHTML, {data: res})
+    document.getElementById("header-div")!.innerHTML = htmlWeather;
+    console.log(htmlWeather);
+});
+
+var busPromise = fetch('/buses');
+busPromise.then(res => res.json()).then((res) => {
+    const htmlBuses = ejs.render(document.getElementById("buses")!.innerHTML, {data: res})
+    document.getElementById("buses")!.innerHTML = htmlBuses;
+    console.log(htmlBuses);
+});
+
+
 
 indexSocket.on("update", (data: any) => {
     updatePins();
     
     // const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data, pin: pins});
     const html = ejs.render(document.getElementById("buses")!.innerHTML, {data: data, pin: pins});
-
     document.getElementById("buses")!.innerHTML = html;
 });
-
-function updateData() { // you will never guess what this does
-    weatherFile = fetch('/weather');
-}
 
 function updatePins() { // call (very) (extremely) often cause this resets every time the user, the server, or the admin does anything
     const pinString = localStorage.getItem("pins"); 
@@ -39,7 +43,6 @@ function updatePins() { // call (very) (extremely) often cause this resets every
 }
 
 function updatePage(buses: any, weather: any) {
-    updateData();
     updatePins();
     let pinBus = {"busList":[]};
     for (let n of pins) {
