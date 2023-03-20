@@ -7,27 +7,29 @@ var pins: number[] = [];
 updatePins();
 
 var weatherPromise = fetch('/weather');
-weatherPromise.then(res => res.json()).then((res) => {
+weatherPromise.then(res => res.json()).then(res => res.weather).then((res: JSON) => {
     const htmlWeather = ejs.render(document.getElementById("header-div")!.innerHTML, {data: res})
     document.getElementById("header-div")!.innerHTML = htmlWeather;
-    console.log(htmlWeather);
 });
 
 var busPromise = fetch('/buses');
-busPromise.then(res => res.json()).then((res) => {
-    const htmlBuses = ejs.render(document.getElementById("buses")!.innerHTML, {data: res})
-    document.getElementById("buses")!.innerHTML = htmlBuses;
-    console.log(htmlBuses);
+busPromise.then(res => res.json()).then(res => res.busList).then((data) => { //
+    console.log(data);
+    let html = document.getElementById("allBus") ? document.getElementById("allBus")!.innerHTML : "";
+    const htmlBuses = ejs.render(html, {data: data})
+    document.getElementById("allBus")!.innerHTML = htmlBuses;
+    // ... then converts it into just the pins
+    updatePins();
+    return data.filter(bus => pins.includes(parseInt(bus.number)));
+}).then((data) => {
+    console.log(data);
+    let html = document.getElementById("pinBus") ? document.getElementById("pinBus")!.innerHTML : "";
+    const htmlBuses = ejs.render(html, {data: data})
+    document.getElementById("pinBus")!.innerHTML = htmlBuses;
 });
 
-
-
 indexSocket.on("update", (data: any) => {
-    updatePins();
-    
-    // const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data, pin: pins});
-    const html = ejs.render(document.getElementById("buses")!.innerHTML, {data: data, pin: pins});
-    document.getElementById("buses")!.innerHTML = html;
+    location.reload();
 });
 
 function updatePins() { // call (very) (extremely) often cause this resets every time the user, the server, or the admin does anything
