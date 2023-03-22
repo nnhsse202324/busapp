@@ -20,10 +20,10 @@ router.get("/", (req: Request, res: Response) => {
 });
 
 // not pages, but requests for the data
-router.get('/buses',(req,res)=>{
+router.get('/buses',(req, res)=>{
     res.send(readBusStatus());
 })
-router.get('/weather',(req,res)=>{
+router.get('/weather',(req, res)=>{
     res.send(readWeather());
 })
 

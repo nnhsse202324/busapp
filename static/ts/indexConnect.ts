@@ -6,30 +6,50 @@ var indexSocket = window.io('/'); // This line and the line above is how you get
 var pins: number[] = [];
 updatePins();
 
-var weatherPromise = fetch('/weather');
-weatherPromise.then(res => res.json()).then(res => res.weather).then((res: JSON) => {
-    const htmlWeather = ejs.render(document.getElementById("header-div")!.innerHTML, {data: res})
-    document.getElementById("header-div")!.innerHTML = htmlWeather;
-});
+function updateData() {
+    var weatherPromise = fetch('/weather');
+    weatherPromise.then(res => res.json()).then(res => res.weather).then((res: JSON) => {
+        const htmlWeather = ejs.render(document.getElementById("header-div")!.innerHTML, {data: res})
+        document.getElementById("header-div")!.innerHTML = htmlWeather;
+    });
 
-var busPromise = fetch('/buses');
-busPromise.then(res => res.json()).then(res => res.busList).then((data) => { //
-    console.log(data);
-    let html = document.getElementById("allBus") ? document.getElementById("allBus")!.innerHTML : "";
-    const htmlBuses = ejs.render(html, {data: data})
-    document.getElementById("allBus")!.innerHTML = htmlBuses;
-    // ... then converts it into just the pins
-    updatePins();
-    return data.filter(bus => pins.includes(parseInt(bus.number)));
-}).then((data) => {
-    console.log(data);
-    let html = document.getElementById("pinBus") ? document.getElementById("pinBus")!.innerHTML : "";
-    const htmlBuses = ejs.render(html, {data: data})
-    document.getElementById("pinBus")!.innerHTML = htmlBuses;
-});
+    var busPromise = fetch('/buses');
+    busPromise.then(res => res.json()).then(res => res.busList).then((data) => { // h
+        let html = document.getElementById("buses") ? document.getElementById("buses")!.innerHTML : "";
+        const htmlBuses = ejs.render(html, {data: data})
+        document.getElementById("buses")!.innerHTML = htmlBuses;
+        // ... then converts it into just the pins
+
+        updatePins();
+        data = data.filter(bus => pins.includes(parseInt(bus.number)));
+        let tablePins = <HTMLTableElement> document.getElementById("pin-bus-table");
+        let tableRows = tablePins.rows;
+        updatePins();
+
+        for (let i = 1; i < tableRows.length; i += 0) {
+            let number = parseInt(tableRows[i]!.firstElementChild!.innerHTML)
+            if (!pins.includes(number)) {
+                tablePins.deleteRow(i);
+            } else {
+                i++;
+            }
+        }
+    });
+    
+}
+
+let dataInterval = setInterval(updateData, 5000);
+
+function resetInterval() {
+    clearInterval(dataInterval);
+    updateData();
+    dataInterval = setInterval(updateData, 5000);
+}
+
 
 indexSocket.on("update", (data: any) => {
-    location.reload();
+    updateData();
+    resetInterval();
 });
 
 function updatePins() { // call (very) (extremely) often cause this resets every time the user, the server, or the admin does anything
@@ -82,6 +102,8 @@ function pinBus(button: HTMLInputElement) {
             }
         }
     }
+
+    resetInterval();
 }
 
 function resetPins() {
