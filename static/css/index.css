@@ -81,15 +81,6 @@ body {
     padding: 4%;
 }
 
-.pin-button {
-    font-family: 'Montserrat', sans-serif;
-    text-decoration: none;
-    font-size: 1vw;
-    background-color: #327fa8;
-    color: #ffffff;
-    padding: 4%;
-}
-
 /* Table */
 .bus-table {
     margin: 0 auto 3%;
@@ -135,6 +126,20 @@ body {
 .pin-col {
     text-align: center;
     width: 20%;
+}
+
+.pin-button {
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    font-size: 1vw;
+    background-color: #327fa8;
+    color: #ffffff;
+    padding: 4%;
+    transition: 0.2s;
+}
+
+button:hover {
+    background-color: #ab0808;
 }
 
 @media (orientation: landscape) {

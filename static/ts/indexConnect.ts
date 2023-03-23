@@ -4,9 +4,13 @@ var indexSocket = window.io('/'); // This line and the line above is how you get
 // !!! do NOT import/export anything or ejs will get angry
 
 var pins: number[] = [];
+var tableFull:HTMLTableElement;
+updateData();
 updatePins();
 
-function updateData() {
+// end of initializing stuff
+
+function updateData() { // updates the weather and the list of buses
     var weatherPromise = fetch('/weather');
     weatherPromise.then(res => res.json()).then(res => res.weather).then((res: JSON) => {
         const htmlWeather = ejs.render(document.getElementById("header-div")!.innerHTML, {data: res})
@@ -18,32 +22,42 @@ function updateData() {
         let html = document.getElementById("buses") ? document.getElementById("buses")!.innerHTML : "";
         const htmlBuses = ejs.render(html, {data: data})
         document.getElementById("buses")!.innerHTML = htmlBuses;
+        tableFull = <HTMLTableElement> document.getElementById("all-bus-table");
+        let fullRows = tableFull.rows;
         // ... then converts it into just the pins
 
         updatePins();
         data = data.filter(bus => pins.includes(parseInt(bus.number)));
         let tablePins = <HTMLTableElement> document.getElementById("pin-bus-table");
-        let tableRows = tablePins.rows;
+        let pinRows = tablePins.rows;
         updatePins();
+        
+        var sk = 0; // number of skipped rows
+        for (let j = 0; j < fullRows.length; j = 0) {
+            if (pinRows.item(j - sk) == fullRows.item(j)) {
+                let newRow = tablePins.insertRow(j - sk);
+            } else {
+                sk++;
+            }
+        }
 
-        for (let i = 1; i < tableRows.length; i += 0) {
-            let number = parseInt(tableRows[i]!.firstElementChild!.innerHTML)
+        for (let i = 1; i < pinRows.length; i = i) { // removes rows that aren't in the pins
+            let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML)
             if (!pins.includes(number)) {
                 tablePins.deleteRow(i);
             } else {
-                i++;
+                i++; // the for loop is NOT busted - pinRows updates automatically when adding or removing rows so advancing i should only happen when a row is finished and not removed
             }
         }
     });
     
 }
 
-let dataInterval = setInterval(updateData, 5000);
+let dataInterval = setInterval(updateData, 3000); // updates the weather/buses after 3000 milliseconds
 
-function resetInterval() {
-    clearInterval(dataInterval);
+function resetInterval() { // resets the 3000ms interval
     updateData();
-    dataInterval = setInterval(updateData, 5000);
+    dataInterval = setInterval(updateData, 3000);
 }
 
 
@@ -82,15 +96,15 @@ function pinBus(button: HTMLInputElement) {
     
     const num = parseInt(busNumber); // this is the number of the bus
     if (pins.includes(num) == false) {
-        if (confirm("Do you want to add bus " + num + " to your pins?")) {
+        // if (confirm("Do you want to add bus " + num + " to your pins?")) {
             updatePins(); // yes i called it twice. this is not a mistake
             pins.push(num);
             pins.sort();
             let newPinString = pins.join(", "); // representation of the pins list as a string
             localStorage.setItem("pins", newPinString);
-        }
+        // }
     } else {
-        if (confirm("Do you want to remove bus " + num + " from your pins?")) {
+        // if (confirm("Do you want to remove bus " + num + " from your pins?")) {
             updatePins(); 
             pins = pins.filter(function notNum(n: number) {return n != num;}); // this is how you remove elements in js arrays. pain
             pins.sort();
@@ -100,7 +114,7 @@ function pinBus(button: HTMLInputElement) {
                 let newPinString = pins.join(", "); // representation of the pins list as a string
                 localStorage.setItem("pins", newPinString);
             }
-        }
+        // }
     }
 
     resetInterval();
