@@ -15,9 +15,9 @@
                 <a class="button back-button" href="/admin">Back to Admin Page</a>
             </div>
             <div class="options-div">
-                <button class="button save-reset-button" onclick="save(true)">Save and Update</button>
-                <button class="button save-no-reset-button" onclick="save(false)">Save Without Updating</button>
-                <button class="button discard-changes-button" onclick="discardChanges()">Discard Changes</button>
+                <button class="button save-reset-button" onclick="save2(true)">Save and Update</button>
+                <button class="button save-no-reset-button" onclick="save2(false)">Save Without Updating</button>
+                <button class="button discard-changes-button" onclick="discardChanges2()">Discard Changes</button>
             </div>            
         </div>
         <table class="buslist-table">
@@ -29,12 +29,12 @@
             </thead>
             <tr class="add-bus-row">
                 <td class=>Add admin</td>
-                <td class="add-bus-cell"><i class="fa-solid fa-plus add-bus-button table-button" onclick="newAdmin_admins2()"></i></td>
+                <td class="add-bus-cell"><i class="fa-solid fa-plus add-bus-button table-button" onclick="addAdmin_admins2()"></i></td>
             </tr>
             <% for(i = 0; i <whitelist.admins.length; i++) { %>
                 <tr>
                     <td><%= whitelist.admins[i]%></td>
-                    <td class="remove-col"><i class="fas fa-times remove-button table-button" onclick="removeAdmin_admins(this)"></i></td>
+                    <td class="remove-col"><i class="fas fa-times remove-button table-button" onclick="removeAdmin_admins2(this)"></i></td>
                 </tr>
             <% } %> 
         </table>

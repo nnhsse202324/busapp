@@ -30,7 +30,7 @@ function addAdmin_admins2(newAddress: string) {
 
 
 
-async function  save(reset: boolean) {
+async function  save2(reset: boolean) {
     if (reset) {
         if (!confirm("Are you sure you would like to update the admin list?")) return;
     }
@@ -51,6 +51,6 @@ async function  save(reset: boolean) {
     });
 }
 
-function discardChanges() {
+function discardChanges2() {
     if (confirm("Are you sure you would like to discard changes?")) location.reload();
 }

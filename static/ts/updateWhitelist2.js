@@ -33,7 +33,7 @@ function addAdmin_admins2(newAddress) {
         });
     }
 }
-function save(reset) {
+function save2(reset) {
     return __awaiter(this, void 0, void 0, function* () {
         if (reset) {
             if (!confirm("Are you sure you would like to update the admin list?"))
@@ -55,7 +55,7 @@ function save(reset) {
         });
     });
 }
-function discardChanges() {
+function discardChanges2() {
     if (confirm("Are you sure you would like to discard changes?"))
         location.reload();
 }

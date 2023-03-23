@@ -66,6 +66,7 @@ io.of("/admin").on("connection", (socket) => {
         // buses.forEach((bus) => {console.log(bus.number)});
         io.of("/").emit("update", readData());
         socket.broadcast.emit("updateBuses", command);
+        
     });
     socket.on("debug", (data) => {
         console.log(`debug(admin): ${data}`);
