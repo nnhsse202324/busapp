@@ -23,36 +23,17 @@ function updateData() { // updates the weather and the list of buses
         const htmlBuses = ejs.render(html, {data: data})
         document.getElementById("buses")!.innerHTML = htmlBuses;
         tableFull = <HTMLTableElement> document.getElementById("all-bus-table");
-        let fullRows = tableFull.rows;
         // ... then converts it into just the pins
-
-        updatePins();
-        data = data.filter(bus => pins.includes(parseInt(bus.number)));
         let tablePins = <HTMLTableElement> document.getElementById("pin-bus-table");
         let pinRows = tablePins.rows;
         updatePins();
         
-        var sk = 0; // number of skipped rows
-        for (let j = 0; j < fullRows.length; j = 0) {
-            if (pinRows.item(j - sk) == fullRows.item(j)) {
-                let newRow = tablePins.insertRow(j - sk);
-            } else {
-                sk++;
-            }
-        }
-
-        for (let i = 1; i < pinRows.length; i = i) { // removes rows that aren't in the pins
+        for (let i = 1; i < pinRows.length; i++) { // removes rows that aren't in the pins
             let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML)
-            if (!pins.includes(number)) {
-                tablePins.deleteRow(i);
-            } else {
-                i++; // the for loop is NOT busted - pinRows updates automatically when adding or removing rows so advancing i should only happen when a row is finished and not removed
-            }
+            pinRows[i].hidden = !pins.includes(number)
         }
-    });
-    
+    }); 
 }
-
 let dataInterval = setInterval(updateData, 3000); // updates the weather/buses after 3000 milliseconds
 
 function resetInterval() { // resets the 3000ms interval
