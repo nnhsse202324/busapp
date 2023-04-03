@@ -28,22 +28,27 @@ function updateData() { // updates the weather and the list of buses
         let pinRows = tablePins.rows;
         updatePins();
         
-        for (let i = 1; i < pinRows.length; i++) { // removes rows that aren't in the pins
+        for (let i = 1; i < pinRows.length - 1; i++) { // hides rows that aren't in the pins
             let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML)
             pinRows[i].hidden = !pins.includes(number)
         }
+
+        pinRows[pinRows.length - 1].hidden = !(pins.length == 0);
     }); 
 }
 let dataInterval = setInterval(updateData, 3000); // updates the weather/buses after 3000 milliseconds
 
 function resetInterval() { // resets the 3000ms interval
     updateData();
+    clearInterval(dataInterval);
     dataInterval = setInterval(updateData, 3000);
 }
 
 
 indexSocket.on("update", (data: any) => {
-    updateData();
+    let html = document.getElementById("buses") ? document.getElementById("buses")!.innerHTML : "";
+    const htmlBuses = ejs.render(html, {data: data})
+    document.getElementById("buses")!.innerHTML = htmlBuses;
     resetInterval();
 });
 

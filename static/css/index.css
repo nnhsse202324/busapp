@@ -85,7 +85,6 @@ body {
 .bus-table {
     margin: 0 auto 3%;
     width: 90%;
-    height: 87%;
     border-collapse: collapse;
     font-size: 3.1vw;
     font-family: 'Montserrat', sans-serif;
@@ -95,17 +94,23 @@ body {
     background-color: #327fa8;
     color: #ffffff;
     text-align: left;
-    font-weight: bold;;
+    font-weight: bold;
 }
 
 .bus-table tbody tr {
     border-bottom: 2px solid #dddddd;
+    height: 5vh;
 }
 
-.bus-table tbody tr:nth-of-type(even) {
+#all-bus-table tbody tr:nth-of-type(even) {
     background-color: #e7e6e6;
 }
-.bus-table tbody tr:nth-of-type(odd) {
+
+#all-bus-table tbody tr:nth-of-type(odd) {
+    background-color: #ffffff;
+}
+
+#pin-bus-table tbody tr {
     background-color: #ffffff;
 }
 
@@ -130,6 +135,7 @@ body {
 
 .pin-button {
     font-family: 'Montserrat', sans-serif;
+    height: 80%;
     text-decoration: none;
     font-size: 1vw;
     background-color: #327fa8;
