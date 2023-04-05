@@ -15,7 +15,7 @@ router.get("/", (req: Request, res: Response) => {
     // Reads from data file and displays data
     res.render("index", {
         data: readData(),
-        render: fs.readFileSync(path.resolve(__dirname, "../views/include/indexContent.ejs")), 
+        render: fs.readFileSync(path.resolve(__dirname, "../views/include/index.ejs")), 
     });
 });
 
