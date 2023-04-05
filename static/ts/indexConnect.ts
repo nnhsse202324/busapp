@@ -36,7 +36,7 @@ function updateData() { // updates the weather and the list of buses
         pinRows[pinRows.length - 1].hidden = !(pins.length == 0);
     }); 
 }
-let dataInterval = setInterval(updateData, 3000); // updates the weather/buses after 3000 milliseconds
+let dataInterval = setInterval(updateData, 3000); // updates the weather/buses every 3000 milliseconds
 
 function resetInterval() { // resets the 3000ms interval
     updateData();
@@ -49,6 +49,7 @@ indexSocket.on("update", (data: any) => {
     let html = document.getElementById("buses") ? document.getElementById("buses")!.innerHTML : "";
     const htmlBuses = ejs.render(html, {data: data})
     document.getElementById("buses")!.innerHTML = htmlBuses;
+    console.log("update");
     resetInterval();
 });
 

@@ -21,11 +21,11 @@
                 <!-- pins -->
                 <div id="pinBus">
                     <%- console.log(data.buses); %>
-                    <%- include('include/pinContent', {buses: data.buses}); %>
+                    <%- include('include/pinContent'); %>
                 </div>
                 <!-- all -->
                 <div id="allBus">
-                    <%- include('include/indexContent', {buses: data.buses}); %>
+                    <%- include('include/indexContent'); %>
                 </div>
                 <script src="js/ejs.js"></script>
             </div>
