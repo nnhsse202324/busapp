@@ -85,7 +85,7 @@ router.get("/updateBusList", (req: Request, res: Response) => {
         res.render("updateBusList",
         {
             data: readBusList()
-        });
+        }); 
     }
     else {
         res.render("unauthorized");
