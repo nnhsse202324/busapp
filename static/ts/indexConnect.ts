@@ -64,17 +64,6 @@ function updatePins() { // call (very) (extremely) often cause this resets every
     }
 }
 
-function updatePage(buses: any, weather: any) {
-    updatePins();
-    let pinBus = {"busList":[]};
-    for (let n of pins) {
-    }    
-    
-    const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: buses, pin: pins});
-    
-    document.getElementById("buses")!.innerHTML = html;
-}
-
 function pinBus(button: HTMLInputElement) {
     updatePins();
     const busRow = button.parentElement!.parentElement; // this is the overarching <tr> element of the bus row
