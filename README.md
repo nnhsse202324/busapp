@@ -51,7 +51,7 @@ sudo apt-get install -y nodejs
 ```
 
 6. On the EC2 instance, install nginx: `sudo apt-get -y install nginx`
-7. Create a reverse proxy for the Intelligent Grouping App node server. In the file /etc/nginx/sites-enabled/busApp:
+7. Create a reverse proxy for the Bus App node server. In the file /etc/nginx/sites-enabled/busApp:
 
 ```
 server {
