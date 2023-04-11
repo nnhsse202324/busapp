@@ -5,8 +5,8 @@ var indexSocket = window.io('/'); // This line and the line above is how you get
 
 var pins: number[] = [];
 var tableFull:HTMLTableElement;
-updateData();
 updatePins();
+updateTable();
 
 // end of initializing stuff
 
@@ -36,21 +36,24 @@ function updateData() { // updates the weather and the list of buses
         pinRows[pinRows.length - 1].hidden = !(pins.length == 0);
     }); 
 }
-let dataInterval = setInterval(updateData, 3000); // updates the weather/buses every 3000 milliseconds
-
-function resetInterval() { // resets the 3000ms interval
-    updateData();
-    clearInterval(dataInterval);
-    dataInterval = setInterval(updateData, 3000);
-}
-
 
 indexSocket.on("update", (data: any) => {
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
     document.getElementById("content")!.innerHTML = html;
     console.log("update");
-    resetInterval();
+
+    updateTable();  
 });
+
+function updateTable() {
+    let tablePins = <HTMLTableElement> document.getElementById("pin-bus-table");
+    let pinRows = tablePins.rows;
+    for (let i = 1; i < pinRows.length - 1; i++) { // hides rows that aren't in the pins
+        let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML)
+        pinRows[i].hidden = !pins.includes(number)
+    }
+    pinRows[pinRows.length - 1].hidden = !(pins.length == 0);
+}
 
 function updatePins() { // call (very) (extremely) often cause this resets every time the user, the server, or the admin does anything
     const pinString = localStorage.getItem("pins"); 
@@ -61,7 +64,7 @@ function updatePins() { // call (very) (extremely) often cause this resets every
             let n = parseInt(pinArrayString[i]);
             if (!pins.includes(n)) { pins.push(n); }
         }
-    }
+    }    
 }
 
 function pinBus(button: HTMLInputElement) {
@@ -91,8 +94,7 @@ function pinBus(button: HTMLInputElement) {
             }
         // }
     }
-
-    resetInterval();
+    updateTable();
 }
 
 function resetPins() {
