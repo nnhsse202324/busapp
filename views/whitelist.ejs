@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <title>Bus App</title>
+        <link rel="icon" type="image/x-icon" href="/img/busAppIcon.png">
+        <link rel="stylesheet" href="/css/whitelist.css"> <!--need to replace this with my own whitelist css-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+    <div class="header">
+        <div class="back-button-div">
+            <a class="button back-button" href="/admin">Back to Admin Page</a>
+        </div>
+    <body>
+        <div class="inputDiv">
+        <style>
+            h2 {text-align: center;}
+            form {text-align: center;}
+        </style>
+            
+            <h2>Add New Admin to Whitelist</h2>
+            <br><br>
+            
+            
+            <div>          
+              <label for="newAddress">New Admin's Email Address:<br></label><br>
+              <input type="text" id="newAddress" size="50"><br>
+              <br>
+              <button class ="button1" onclick="addAdmin_admins(document.getElementById('newAddress').value)">Add Admin</button>
+            </div>  
+        </div>
+
+        <table class="buslist-table">
+            <thead> 
+                <tr>
+                    <th>Admins</th>
+                    <th class="remove-col"></th>
+                </tr>                
+            </thead>
+            
+            <% for(i = 0; i < whitelist.admins.length; i++) { %>
+                <tr class="new-admin-row">
+                    <td><%= whitelist.admins[i]%></td>
+                    <td class="remove-col"><i class="fas fa-times remove-xssbutton table-button" onclick="removeAdmin_admins('<%= whitelist.admins[i] %>')"></i></td>   <!-- onclick="alert('<%= whitelist.admins[i] %>')"-->
+                </tr>
+            <% } %> 
+        </table>
+        <script src="js/ejs.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/updateWhitelist.js"></script>
+            
+            
+            
+</html>
