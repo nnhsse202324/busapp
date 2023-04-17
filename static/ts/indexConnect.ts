@@ -29,10 +29,11 @@ Notification.requestPermission(
     function(status){
         console.log('Notif permission status:', status);
 });
-function displayNotif() {
     if (Notification.permission === 'granted') {
         navigator.serviceWorker.getRegistration()
-        .then(function(reg){
-            reg!.showNotification('congratulations, you exist.')
-    });
-}}
+        .then(function(reg2){
+            reg2!.showNotification('a notification AAAAAAAAAAAAAAAAa')
+            console.log('it works, notification should pop up')
+        });
+        
+}
