@@ -37,12 +37,11 @@ function updateData() { // updates the weather and the list of buses
     }); 
 }
 
-indexSocket.on("update", (data: any) => {
+indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
     document.getElementById("content")!.innerHTML = html;
-    console.log("update");
-
-    updateTable();  
+    console.log("hello!");
+    updateTable();
 });
 
 function updateTable() {
