@@ -19,6 +19,23 @@ function addAdmin_admins2() {
     let input = row.children[0].children[0];
     input.focus();
 }
+function addAdmin_admins3(confirmButton) {
+    let row = confirmButton.parentElement.parentElement;
+    let admin = row.children[0].children[0].value;
+    if (admins.includes(admin)) {
+        alert("Duplicate admins are not allowed");
+        return;
+    }
+    const newRow = document.getElementsByClassName("buslist-table")[0].insertRow(1);
+    const html = ejs.render(newBusRow, { admin: admin });
+    newRow.innerHTML = html;
+}
+function removeAdmin_admins2(secondChild) {
+    let row = secondChild.parentElement.parentElement;
+    let admin = row.children[0].innerHTML;
+    busList.splice(admins.indexOf(admin), 1);
+    row.remove();
+}
 function save2(reset) {
     return __awaiter(this, void 0, void 0, function* () {
         if (reset) {

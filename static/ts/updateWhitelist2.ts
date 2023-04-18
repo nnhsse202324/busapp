@@ -13,6 +13,26 @@ function addAdmin_admins2() {
     
 }
 
+function addAdmin_admins3(confirmButton: HTMLElement) {
+    let row = confirmButton.parentElement!.parentElement! as HTMLTableRowElement;
+    let admin = (row.children[0]!.children[0] as HTMLInputElement).value;
+    if (admins.includes(admin)) {
+        alert("Duplicate admins are not allowed");
+        return;
+    }
+    
+    const newRow = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(1);
+    const html = ejs.render(newBusRow, {admin: admin});
+    newRow.innerHTML = html;
+}
+
+function removeAdmin_admins2(secondChild: HTMLElement) {
+    let row = secondChild.parentElement!.parentElement! as HTMLTableRowElement;
+    let admin = row.children[0]!.innerHTML;
+    busList.splice(admins.indexOf(admin), 1);
+    row.remove();
+}
+
 
 
 async function  save2(reset: boolean) {
