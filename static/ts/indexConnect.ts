@@ -4,43 +4,14 @@ var indexSocket = window.io('/'); // This line and the line above is how you get
 // !!! do NOT import/export anything or ejs will get angry
 
 var pins: number[] = [];
-var tableFull:HTMLTableElement;
 updatePins();
 updateTable();
 
 // end of initializing stuff
 
-function updateData() { // updates the weather and the list of buses
-    var weatherPromise = fetch('/weather');
-    weatherPromise.then(res => res.json()).then(res => res.weather).then((res: JSON) => {
-        const htmlWeather = ejs.render(document.getElementById("header-div")!.innerHTML, {data: res})
-        document.getElementById("header-div")!.innerHTML = htmlWeather;
-    });
-
-    var busPromise = fetch('/buses');
-    busPromise.then(res => res.json()).then(res => res.busList).then((data) => { // h
-        let html = document.getElementById("buses") ? document.getElementById("buses")!.innerHTML : "";
-        const htmlBuses = ejs.render(html, {data: data})
-        document.getElementById("buses")!.innerHTML = htmlBuses;
-        tableFull = <HTMLTableElement> document.getElementById("all-bus-table");
-        // ... then converts it into just the pins
-        let tablePins = <HTMLTableElement> document.getElementById("pin-bus-table");
-        let pinRows = tablePins.rows;
-        updatePins();
-        
-        for (let i = 1; i < pinRows.length - 1; i++) { // hides rows that aren't in the pins
-            let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML)
-            pinRows[i].hidden = !pins.includes(number)
-        }
-
-        pinRows[pinRows.length - 1].hidden = !(pins.length == 0);
-    }); 
-}
-
 indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
     document.getElementById("content")!.innerHTML = html;
-    console.log("hello!");
     updateTable();
 });
 
