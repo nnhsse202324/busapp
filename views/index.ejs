@@ -11,22 +11,7 @@
     </head>
     <body>
         <div id="content">
-            <div class="header" id="header-div">
-                <%- include('include/weatherContent') %>
-            </div>
-            <div class="tables-container">
-                <div id="buses">
-                    <!-- pins -->
-                    <div id="pinBus">
-                        <%- include('include/pinContent'); %>
-                    </div>
-                    <!-- all -->
-                    <div id="allBus">
-                        <%- include('include/indexContent'); %>
-                    </div>
-                    
-                </div>
-            </div>
+            <%- include('include/indexContent'); %>
         </div>
         <script src="/socket.io/socket.io.js"></script>
         <script src='js/indexConnect.js'></script>
