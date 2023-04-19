@@ -20,6 +20,9 @@
         <table class="bus-table" id="pin-bus-table">
             <thead>
                 <tr>
+                    <th colspan="5" style="background-color: #bf2214; font-size: 160%;">Pinned Buses</th>
+                </tr>
+                <tr>
                     <th class="num-col">Bus #</th>
                     <th class="change-col">Bus Change</th>
                     <th class="status-col">Status</th>
@@ -27,14 +30,14 @@
                     <th class="pin-col">Pin?</th>
                 </tr>
             </thead>
-            <tbody id="all-bus-rows">
+            <tbody id="pin-bus-rows">
             <% for(let i = 0; i < data.buses.length; i++) { %>
                 <tr>
                     <td class="num-col"><%= data.buses[i].number %></td>
                     <td class="change-col"><%= data.buses[i].change %></td>
                     <td class="status-col"><%= data.buses[i].status %></td>
                     <td class="time-col"><%= data.buses[i].time %></td>
-                    <td class="pin-col"><button class="pin-button" onclick="pinBus(this)"><i class="fa-solid fa-thumbtack"></i> Pin <%= data.buses[i].number %></button></td>             
+                    <td class="pin-col"><button class="pin-button" onclick="pinBus(this)"><i class="fa-solid fa-thumbtack"></i> Unpin</button></td>             
                 </tr>
             <% } %> 
                 <tr>
@@ -44,6 +47,9 @@
         </table>
         <table class="bus-table" id="all-bus-table">
             <thead>
+                <tr>
+                    <th colspan="5" style="background-color: #05a1f5; font-size: 160%;">All Buses</th>
+                </tr>
                 <tr>
                     <th class="num-col">Bus #</th>
                     <th class="change-col">Bus Change</th>
@@ -59,7 +65,7 @@
                     <td class="change-col"><%= data.buses[i].change %></td>
                     <td class="status-col"><%= data.buses[i].status %></td>
                     <td class="time-col"><%= data.buses[i].time %></td>
-                    <td class="pin-col"><button class="pin-button" onclick="pinBus(this)"><i class="fa-solid fa-thumbtack"></i> Pin <%= data.buses[i].number %></button></td>             
+                    <td class="pin-col"><button class="pin-button" onclick="pinBus(this)"><i class="fa-solid fa-thumbtack"></i> Pin</button></td>
                 </tr>
             <% } %> 
             </tbody>

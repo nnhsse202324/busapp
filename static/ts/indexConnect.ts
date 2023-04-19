@@ -5,24 +5,35 @@ var indexSocket = window.io('/'); // This line and the line above is how you get
 
 var pins: number[] = [];
 updatePins();
-updateTable();
+updateTables();
 
 // end of initializing stuff
 
 indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
     document.getElementById("content")!.innerHTML = html;
-    updateTable();
+    updateTables();
 });
 
-function updateTable() {
+function updateTables() {
     let tablePins = <HTMLTableElement> document.getElementById("pin-bus-table");
     let pinRows = tablePins.rows;
-    for (let i = 1; i < pinRows.length - 1; i++) { // hides rows that aren't in the pins
+    for (let i = 2; i < pinRows.length - 1; i++) { // hides rows that aren't in the pins
         let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML)
         pinRows[i].hidden = !pins.includes(number)
     }
     pinRows[pinRows.length - 1].hidden = !(pins.length == 0);
+
+    let tableFull = <HTMLTableElement> document.getElementById("all-bus-table");
+    let fullRows = tableFull.rows;
+    for (let i = 2; i < fullRows.length; i++) {
+        let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML)
+        if (pins.includes(number)){
+            fullRows[i].lastElementChild!.firstElementChild!.innerHTML = "<i class='fa-solid fa-thumbtack'></i> Unpin"
+        } else {
+            fullRows[i].lastElementChild!.firstElementChild!.innerHTML = "<i class='fa-solid fa-thumbtack'></i> Pin"
+        }
+    }
 }
 
 function updatePins() { // call (very) (extremely) often cause this resets every time the user, the server, or the admin does anything
@@ -64,7 +75,7 @@ function pinBus(button: HTMLInputElement) {
             }
         // }
     }
-    updateTable();
+    updateTables();
 }
 
 function resetPins() {

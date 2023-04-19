@@ -102,6 +102,10 @@ body {
     height: 5vh;
 }
 
+.bus-table tbody tr:hover {
+    background-color: #c3ccd3;
+}
+
 #all-bus-table tbody tr:nth-of-type(even) {
     background-color: #e7e6e6;
 }
@@ -118,9 +122,7 @@ body {
     border-bottom: 4px solid #327fa8;
 }
 
-.bus-table tbody tr:hover {
-    background-color: #c3ccd3;
-}
+
 
 .bus-table th,
 .bus-table td {
@@ -146,6 +148,7 @@ body {
 
 button:hover {
     background-color: #ab0808;
+    cursor: pointer;
 }
 
 @media (orientation: landscape) {
