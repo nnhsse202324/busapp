@@ -81,7 +81,7 @@ body {
     padding: 4%;
 }
 
-/* Table */
+/* Tables */
 .bus-table {
     margin: 0 auto 3%;
     width: 90%;
@@ -121,8 +121,6 @@ body {
 .bus-table tbody tr:last-of-type {
     border-bottom: 4px solid #327fa8;
 }
-
-
 
 .bus-table th,
 .bus-table td {
@@ -171,10 +169,10 @@ button:hover {
     .bus-table th,
     .bus-table td {
         padding: 0.6% 1%;
-        width: 22%;
+        width: 30%;
     }
 
     .pin-col {
-        width: 9%;
+        width: 5%;
     }
 }
