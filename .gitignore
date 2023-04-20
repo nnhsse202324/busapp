@@ -8,7 +8,7 @@
 !static/ts/ejs.js
 !static/ts/auth.js
 !static/ts/formVerification.js
-
+!sw.js
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/node
