@@ -4,6 +4,8 @@ The Bus App is a web application that allows admins in charge of bus communicati
 ## Intended Experience
 To access the Bus App, all users should enter the website url (https://busapp.nnhsse.org/) into a browser. For convenience, it is recommended that users save this website to their phone’s homepage. 
 
+This website can be saved to be used like a regular mobile application on Android and IOS devices. If using Google Chrome, users should click the three dots next to the URL bar and select 'add to homepage'. On Safari, users should click the 'send' icon, scroll down and select 'add to homescreen'. 
+
 The below are the intended experiences for both admins and students:
 
 #### Admin Experience
@@ -127,6 +129,9 @@ Ejs is a form of html that allows javascript to be run during the creation of th
 
 ##### Socket.io
 Socket.io allows us to send data to and from the server in live time using `emit()` and `on()`. This is important because it allows us to update a page without it being refreshed which is key to the functionality of the Bus App. Please see the official documentation: https://socket.io/
+
+#### Service Workers
+Serice workers allow us to add extra functionality to the webapp. This allows it to run closer to a native app, doing things such as enabling notifications and allowing the webapp to access the local storage of the users device. Service workers are enabled through the existence of a the "manifest.webmanifest" file. This file edits the mobile appearance of the webapp. Service worker functionalities are edited through the "indexconnect.ts" file
 
 #### Review Checklist
 To reduce errors on the main branch, we developed a review checklist that MUST be completed before pull requests into the main branch. This list should be updated as new features are added that need to be reviewed.
