@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"status":"Partly cloudy","icon":"//cdn.weatherapi.com/weather/64x64/day/116.png","temperature":73,"feelsLike":76.3}
-=======
-{"status":"Partly cloudy","icon":"//cdn.weatherapi.com/weather/64x64/day/116.png","temperature":73,"feelsLike":76.5}
->>>>>>> 233bc15e38531f7442ff385eefa246924076f443
+{"status":"Sunny","icon":"//cdn.weatherapi.com/weather/64x64/day/113.png","temperature":44.6,"feelsLike":39.7}
