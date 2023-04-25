@@ -1,19 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
-            .collapsible {
-            background-color: #777;
-            color: white;
-            cursor: pointer;
-            padding: 18px;
-            width: 100%;
-            border: none;
-            text-align: left;
-            outline: none;
-            font-size: 15px;
-            }
-
             .Step1OnAndroid{
                 text-align: center;
                 border-color: #327fa8;
@@ -44,7 +33,31 @@
                background-color: #a1b5be;
                font-family: 'Montserrat', sans-serif;
             }
+            .collapsible {
+            background-color: #777;
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            }
+
+            .active, .collapsible:hover {
+            background-color: #555;
+            }
+
+            .content {
+            padding: 0 18px;
+            display: none;
+            overflow: hidden;
+            background-color: #f1f1f1;
+            }    
+            
          </style>
+         <!-- The above (.content, .active and .collapsible) are all stuff to do with the collapsible elements of this html doc.-->
          <link rel="icon" type="image/x-icon" href="/img/busAppIcon.png">
          <link rel="stylesheet" href="/css/admin.css">
          <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,6 +68,7 @@
     </head>
     <body style="text-align: center;">
     <title> Adding App To Android Homescreen</title>
+
         <h1 style="background-color: #327fa8;">
             <br>
             <i>Adding App To Your Android Homescreen</i></h1>
@@ -63,29 +77,38 @@
                 Your screen should roughly look like this:
             <br>
             <br>
-                    <div class="Step1OnAndroid">
-                        <img src="/img/Step1OnAndroid.jpg" width="300" height="650">
-                    </div>
+                    
+
+                    <button type="button" class="collapsible">Click here to view example image.</button>
+                        <div class="content">
+                            <div class="Step1OnAndroid">
+                                <img src="/img/Step1OnAndroid.jpg" width="300" height="650">
+                            </div>
+                        </div>
+
             <br>
             <br>
                 Click on the <b>3 vertical dots</b> that you see in the top right.
                 You will then see this small menu on the top right of your screen:
             <br>
             <br>
-                <div class="Step2OnAndroid">
-                    <img src="/img/Step2OnAndroid.jpg" width="300" height="800">
-                    
-                </div>
+                <button type="button" class="collapsible">Click here to view example image.</button>
+                        <div class="content">
+                            <div class="Step2OnAndroid">
+                                <img src="/img/Step2OnAndroid.jpg" width="300" height="800">
+                            </div>
+                        </div>
             <br>
             <br>
                 Click on the option that says <b>Add to home screen</b>. After doing this, you will see this small sub menu:
             <br>
             <br>
-        
+            <button type="button" class="collapsible">Click here to view example image.</button>
+            <div class="content">
                 <div class="Step3OnAndroid">
                     <img src="/img/Step3OnAndroid.jpg" width="300" height="150">
                 </div>
-
+            </div>
             <br>
             <br>
                 Almost there... Just one step left!!! Finally, click <b>Add</b>. See? Nice and simple.
@@ -95,25 +118,25 @@
                 <br>
                 <br>
                 <br>
-
-                <!-- Script for the collapsible images-->
-
-                <script>
-                    var coll = document.getElementsByClassName("collapsible");
-                    var i;
-                    
-                    for (i = 0; i < coll.length; i++) {
-                      coll[i].addEventListener("click", function() {
-                        this.classList.toggle("active");
-                        var content = this.nextElementSibling;
-                        if (content.style.display === "block") {
-                          content.style.display = "none";
-                        } else {
-                          content.style.display = "block";
-                        }
-                      });
+                            <!-- Code for collapsible script below:-->
+            <script>
+                var coll = document.getElementsByClassName("collapsible");
+                var i;
+                
+                for (i = 0; i < coll.length; i++) {
+                  coll[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                      content.style.display = "none";
+                    } else {
+                      content.style.display = "block";
                     }
+                  });
+                }
                 </script>
+                
+            <!-- End of collapsible code script. -->
                     
 
 
