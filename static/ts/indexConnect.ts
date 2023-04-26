@@ -18,17 +18,23 @@ indexSocket.on("update", (data) => {
 function updateTables() {
     let tablePins = <HTMLTableElement> document.getElementById("pin-bus-table");
     let pinRows = tablePins.rows;
+    let lastHide = false; // determines if the last row ("no buses pinned") should be hidden or not
     for (let i = 2; i < pinRows.length - 1; i++) { // hides rows that aren't in the pins
-        let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML)
-        pinRows[i].hidden = !pins.includes(number)
+        let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML);
+        if (pins.includes(number)) {
+            pinRows[i].hidden = false;
+            lastHide = true;
+        } else {
+            pinRows[i].hidden = true;
+        }
     }
-    pinRows[pinRows.length - 1].hidden = !(pins.length == 0);
+    pinRows[pinRows.length - 1].hidden = lastHide;
 
     let tableFull = <HTMLTableElement> document.getElementById("all-bus-table");
     let fullRows = tableFull.rows;
     for (let i = 2; i < fullRows.length; i++) {
         let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML)
-        if (pins.includes(number)){
+        if (pins.includes(number)){ // lol, lmao even
             fullRows[i].lastElementChild!.firstElementChild!.innerHTML = "<i class='fa-solid fa-thumbtack'></i> Unpin"
         } else {
             fullRows[i].lastElementChild!.firstElementChild!.innerHTML = "<i class='fa-solid fa-thumbtack'></i> Pin"
