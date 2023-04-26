@@ -19,15 +19,17 @@ function addAdmin_admins2() {
     let input = row.children[0].children[0];
     input.focus();
 }
-function addAdmin_admins3(confirmButton) {
-    let row = confirmButton.parentElement.parentElement;
+console.log("test");
+function addAdmin_admins3(e) {
+    console.log(e);
+    let row = e.parentElement.parentElement;
     let admin = row.children[0].children[0].value;
     if (admins.includes(admin)) {
         alert("Duplicate admins are not allowed");
         return;
     }
-    const newRow = document.getElementsByClassName("buslist-table")[0].insertRow(1);
-    const html = ejs.render(newBusRow, { admin: admin });
+    const newRow = document.getElementsByClassName("buslist-table")[0].insertRow(2);
+    const html = ejs.render(newAdminEmptyRow, { newAddress: admin });
     newRow.innerHTML = html;
 }
 function removeAdmin_admins2(secondChild) {

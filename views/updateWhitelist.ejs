@@ -15,8 +15,7 @@
                 <a class="button back-button" href="/admin">Back to Admin Page</a>
             </div>
             <div class="options-div">
-                <button class="button save-reset-button" onclick="save2(true)">Save and Update</button>
-                <button class="button save-no-reset-button" onclick="save2(false)">Save Without Updating</button>
+                <button class="button save-reset-button" onclick="save2(true)">Save Changes</button>
                 <button class="button discard-changes-button" onclick="discardChanges2()">Discard Changes</button>
             </div>            
         </div>
@@ -28,8 +27,8 @@
                 </tr>                
             </thead>
             <tr class="add-bus-row">
-                <td class=>Add admin</td>
-                <td class="add-bus-cell"><i class="fa-solid fa-plus add-bus-button table-button" onclick="addAdmin_admins3()"></i></td>
+                <td ><input type="text" placeholder="Enter Email"></td>
+                <td class="add-bus-cell"><i class="fa-solid fa-plus add-bus-button table-button" onclick="addAdmin_admins3(this)"></i></td>
             </tr>
             <% for(i = 0; i <whitelist.admins.length; i++) { %>
                 <tr>

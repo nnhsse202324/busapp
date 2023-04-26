@@ -13,16 +13,16 @@ function addAdmin_admins2() {
     
 }
 
-function addAdmin_admins3(confirmButton: HTMLElement) {
-    let row = confirmButton.parentElement!.parentElement! as HTMLTableRowElement;
+function addAdmin_admins3(e: HTMLElement) {
+    console.log(e)
+    let row = e.parentElement!.parentElement! as HTMLTableRowElement;
     let admin = (row.children[0]!.children[0] as HTMLInputElement).value;
     if (admins.includes(admin)) {
         alert("Duplicate admins are not allowed");
         return;
     }
-    
-    const newRow = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(1);
-    const html = ejs.render(newBusRow, {admin: admin});
+    const newRow = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(2);
+    const html = ejs.render(newAdminEmptyRow, {newAddress: admin});
     newRow.innerHTML = html;
 }
 
