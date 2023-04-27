@@ -180,7 +180,6 @@ body {
     }
 
     .pin-button:hover {
-        background-color: #ab0808;
         cursor: pointer;
     }
 }

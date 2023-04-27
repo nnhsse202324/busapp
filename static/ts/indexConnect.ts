@@ -15,7 +15,7 @@ indexSocket.on("update", (data) => {
     updateTables();
 });
 
-function updateTables() {
+function updateTables() { // updates what rows show on the pinned list and what buttons show Unpin or Pin on the full list
     let tablePins = <HTMLTableElement> document.getElementById("pin-bus-table");
     let pinRows = tablePins.rows;
     let lastHide = false; // determines if the last row ("no buses pinned") should be hidden or not
@@ -32,12 +32,15 @@ function updateTables() {
 
     let tableFull = <HTMLTableElement> document.getElementById("all-bus-table");
     let fullRows = tableFull.rows;
-    for (let i = 2; i < fullRows.length; i++) {
-        let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML)
+    for (let i = 2; i < fullRows.length; i++) { // first two rows are the table header and the column headers
+        let number = parseInt(fullRows[i]!.firstElementChild!.innerHTML)
+        let button = <HTMLElement> fullRows[i].lastElementChild!.firstElementChild
         if (pins.includes(number)){ // lol, lmao even
-            fullRows[i].lastElementChild!.firstElementChild!.innerHTML = "<i class='fa-solid fa-thumbtack'></i> Unpin"
+            button!.innerHTML = "<i class='fa-solid fa-thumbtack'></i> Unpin"
+            button!.style.backgroundColor = "#ab0808";
         } else {
-            fullRows[i].lastElementChild!.firstElementChild!.innerHTML = "<i class='fa-solid fa-thumbtack'></i> Pin"
+            button!.innerHTML = "<i class='fa-solid fa-thumbtack'></i> Pin"
+            button!.style.backgroundColor = "#327fa8";
         }
     }
 }
