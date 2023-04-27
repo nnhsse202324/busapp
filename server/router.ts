@@ -73,7 +73,8 @@ router.get("/beans", async (req: Request, res: Response) => {
 /* Admin page. This is where bus information can be updated from
 Reads from data file and displays data */
 router.get("/updateBusList", (req: Request, res: Response) => {
-    // If user is not authenticated (email is not is session) redirects to login page
+    res.sendFile(path.resolve(__dirname, "../static/img/beans.jpg"));
+    //If user is not authenticated (email is not is session) redirects to login page
     if (!req.session.userEmail) {
         res.redirect("/login");
         return;

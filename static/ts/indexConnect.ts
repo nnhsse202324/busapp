@@ -25,15 +25,24 @@ if('serviceWorker' in navigator){
     //No matter what, this will lead to some value. This is called a promise, as unlike a function, it'll always result in some output.
     
 }
-Notification.requestPermission(
+/*Notification.requestPermission(
     function(status){
         console.log('Notif permission status:', status);
 });
     if (Notification.permission === 'granted') {
         navigator.serviceWorker.getRegistration()
         .then(function(reg2){
-            reg2!.showNotification('a notification AAAAAAAAAAAAAAAAa')
+            reg2!.showNotification('Notification system on line.')
             console.log('it works, notification should pop up')
         });
         
+} */
+var test = new Notification("fhvukahfiwenhifwhnvhaovnw")  
+test.onclick = () => { 
+    test.close();
+    window.parent.focus();
 }
+
+
+
+  
