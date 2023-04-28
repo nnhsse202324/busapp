@@ -19,7 +19,7 @@
                 <button class="button discard-changes-button" onclick="discardChanges2()">Discard Changes</button>
             </div>            
         </div>
-        <table class="buslist-table">
+        <table style="width:40%" class="buslist-table">
             <thead> 
                 <tr>
                     <th>Admins</th>
@@ -27,7 +27,7 @@
                 </tr>                
             </thead>
             <tr class="add-bus-row">
-                <td ><input type="text" placeholder="Enter Email"></td>
+                <td ><input type="text" id="gleepGlorp" placeholder="Enter Email"></td>
                 <td class="add-bus-cell"><i class="fa-solid fa-plus add-bus-button table-button" onclick="addAdmin_admins3(this)"></i></td>
             </tr>
             <% for(i = 0; i <whitelist.admins.length; i++) { %>

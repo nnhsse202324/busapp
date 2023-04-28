@@ -18,11 +18,14 @@ function addAdmin_admins3(e: HTMLElement) {
         const html = ejs.render(newAdminEmptyRow, {newAddress: admin});
         newRow.innerHTML = html;
         admins.splice(0,0, admin);
-        HTMLInputElement.value="";
+        let gleepGlorp = <HTMLInputElement> document.getElementById("gleepGlorp");
+        gleepGlorp.value = ""
 
     }
     else {
         alert("Invalid address entered. Please enter a D203 email address.");
+        let gleepGlorp = <HTMLInputElement> document.getElementById("gleepGlorp");
+        gleepGlorp.value = ""
     }
     
 }
