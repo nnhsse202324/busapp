@@ -69,10 +69,19 @@ body {
 .login-container {
     text-align: right;
     grid-column: 3/4;
-    grid-row: 1/2;
+    grid-row: 1;
 }
 
 .login-button {
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    font-size: 3.5vw;
+    background-color: #327fa8;
+    color: #ffffff;
+    padding: 4%;
+}
+
+.notif-button {
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
     font-size: 3.5vw;
@@ -153,6 +162,10 @@ body {
 
 @media (orientation: landscape) {
     .login-button {
+        font-size: 1.8vw
+    }
+
+    .notif-button {
         font-size: 1.8vw
     }
     

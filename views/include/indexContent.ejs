@@ -10,9 +10,32 @@
             <img src=<%= data.weather.icon %>>
         </div>
     </div>
+    <div class="notif-perm-container">
+        
+
+    <script>
+        function notif(){
+        Notification.requestPermission(
+        function(status){
+            console.log('Notif permission status:', status);
+        });
+        if (Notification.permission === 'granted') {
+            navigator.serviceWorker.getRegistration()
+            .then(function(reg2){
+                reg2.showNotification('Notification system on line.')
+                console.log('it works, notification should pop up')
+            });    
+        }
+         }
+
+    </script>
+
+    </div>
     <div class="login-container">
+        <a class="notif-button" onclick="notif()">Notifications</button>
         <a class="login-button" href="/admin">Login as editor</a>
     </div>
+    
 </div>
 <div class="tables-container">
     <div id="buses">

@@ -13,9 +13,25 @@ indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
     document.getElementById("content")!.innerHTML = html;
     updateTables();
+    
+    if (Notification.permission === 'granted') {
+        let tablePins = <HTMLTableElement> document.getElementById("pin-bus-table");
+        let pinRows = tablePins.rows;
+        navigator.serviceWorker.getRegistration().then(function(reg2) {
+            let notif:boolean = false;
+            for (let i = 2; i < pinRows.length - 1; i++) {
+                let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML);
+                let status = pinRows[i]!.firstElementChild!.nextElementSibling!.innerHTML
+                if (pins.includes(number) && (status === "Loading" || status === "Next Wave")) {
+                    
+                }
+            }
+        }
+    )}
 });
 
 function updateTables() { // updates what rows show on the pinned list and what buttons show Unpin or Pin on the full list
+    updatePins();
     let tablePins = <HTMLTableElement> document.getElementById("pin-bus-table");
     let pinRows = tablePins.rows;
     let lastHide = false; // determines if the last row ("no buses pinned") should be hidden or not
@@ -45,7 +61,7 @@ function updateTables() { // updates what rows show on the pinned list and what 
     }
 }
 
-function updatePins() { // call (very) (extremely) often cause this resets every time the user, the server, or the admin does anything
+function updatePins() { // guess what
     const pinString = localStorage.getItem("pins"); 
     pins = [];
     if (pinString != null) {
@@ -64,25 +80,19 @@ function pinBus(button: HTMLInputElement) {
     
     const num = parseInt(busNumber); // this is the number of the bus
     if (pins.includes(num) == false) {
-        // if (confirm("Do you want to add bus " + num + " to your pins?")) {
-            updatePins(); // yes i called it twice. this is not a mistake
-            pins.push(num);
-            pins.sort();
+        pins.push(num);
+        pins.sort();
+        let newPinString = pins.join(", "); // representation of the pins list as a string
+        localStorage.setItem("pins", newPinString);
+    } else {
+        pins = pins.filter(function notNum(n: number) {return n != num;}); // this is how you remove elements in js arrays. pain
+        pins.sort();
+        if (pins.length == 0) {
+            localStorage.removeItem("pins");
+        } else {
             let newPinString = pins.join(", "); // representation of the pins list as a string
             localStorage.setItem("pins", newPinString);
-        // }
-    } else {
-        // if (confirm("Do you want to remove bus " + num + " from your pins?")) {
-            updatePins(); 
-            pins = pins.filter(function notNum(n: number) {return n != num;}); // this is how you remove elements in js arrays. pain
-            pins.sort();
-            if (pins.length == 0) {
-                localStorage.removeItem("pins");
-            } else {
-                let newPinString = pins.join(", "); // representation of the pins list as a string
-                localStorage.setItem("pins", newPinString);
-            }
-        // }
+        }
     }
     updateTables();
 }
@@ -91,4 +101,17 @@ function resetPins() {
     if (confirm("Are you sure you want to clear your pins?")) {
         localStorage.removeItem("pins");
     }
+}
+
+if('serviceWorker' in navigator){
+    //navigator represents browser and info about it. Checking if service worker works on browser that's running website.
+    //checks if serviceWorkers work within the search engine
+    navigator.serviceWorker.register('/sw.js')
+    //Gets file and registers "sw.js", and returns a promise.
+        .then(() => console.log('service worker registered!'))
+        // calls function when promise is resolved
+        .catch(() => console.log('service worker not registered; error :( '))
+        //calls function when promise is rejected
+    //No matter what, this will lead to some value. This is called a promise, as unlike a function, it'll always result in some output.
+    
 }
