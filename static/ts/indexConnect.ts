@@ -4,13 +4,10 @@
 
 const indexSocket = window.io('/'); // This line and the line above is how you get ts types to work on clientside... cursed
 
-window.addEventListener("focus", () => {
-    location.reload();
-});
-
 indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
     document.getElementById("content")!.innerHTML = html;
+    
 });
 
 if('serviceWorker' in navigator){
@@ -25,7 +22,7 @@ if('serviceWorker' in navigator){
     //No matter what, this will lead to some value. This is called a promise, as unlike a function, it'll always result in some output.
     
 }
-/*Notification.requestPermission(
+Notification.requestPermission(
     function(status){
         console.log('Notif permission status:', status);
 });
@@ -36,13 +33,7 @@ if('serviceWorker' in navigator){
             console.log('it works, notification should pop up')
         });
         
-} */
-var test = new Notification("fhvukahfiwenhifwhnvhaovnw")  
-test.onclick = () => { 
-    test.close();
-    window.parent.focus();
-}
-
+} 
 
 
   
