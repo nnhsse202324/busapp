@@ -15,6 +15,74 @@
         <a class="login-button" href="/admin">Login as editor</a>
     </div>
 </div>
+<!-- TV STUFF START-->
+<div class="tvGridContainer">
+    <div class="row1-8">
+        <table class="bus-table1-8">
+            <thead>
+                <tr>
+                    <th>Bus Number</th>
+                    <th>Bus Change</th>
+                    <th>Status</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% for(let i = 0; i < data.buses.length; i++) { %> 
+                <tr>
+                    <td><%= data.buses[i].number %></td>
+                    <td><%= data.buses[i].change %></td>
+                    <td><%= data.buses[i].status %></td>
+                    <td><%= data.buses[i].arrival %></td>                
+                </tr>
+            <% } %> 
+            </tbody>
+    </div>
+    <div class="row9-16">
+        <table class="bus-table">
+            <thead>
+                <tr>
+                    <th>Bus Number</th>
+                    <th>Bus Change</th>
+                    <th>Status</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% for(let i = 0; i < data.buses.length; i++) { %> 
+                <tr>
+                    <td><%= data.buses[i].number %></td>
+                    <td><%= data.buses[i].change %></td>
+                    <td><%= data.buses[i].status %></td>
+                    <td><%= data.buses[i].arrival %></td>                
+                </tr>
+            <% } %> 
+            </tbody>
+    </div>
+    <div class="row17-24">
+        <table class="bus-table">
+            <thead>
+                <tr>
+                    <th>Bus Number</th>
+                    <th>Bus Change</th>
+                    <th>Status</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% for(let i = 0; i < data.buses.length; i++) { %> 
+                <tr>
+                    <td><%= data.buses[i].number %></td>
+                    <td><%= data.buses[i].change %></td>
+                    <td><%= data.buses[i].status %></td>
+                    <td><%= data.buses[i].arrival %></td>                
+                </tr>
+            <% } %> 
+            </tbody>
+    </div>
+</div>
+<!-- TV STUFF END -->
+
 <table class="bus-table">
     <thead>
         <tr>
