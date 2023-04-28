@@ -4,13 +4,37 @@ fetch("/whitelistFile").then((data)=>data.json()).then((data) => admins = data);
 var newAdminEmptyRow: string;
 fetch("/adminEmptyRow").then((res) => res.text()).then((data) => newAdminEmptyRow = data);
  
-function addAdmin_admins2() {
-    const row = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(2);
-    const html = ejs.render(newAdminEmptyRow);
-    row.innerHTML = html;
-    let input = row.children[0]!.children[0] as HTMLInputElement;
-    input.focus();
+
+function addAdmin_admins3(e: HTMLElement) {
+    console.log(e)
+    let row = e.parentElement!.parentElement! as HTMLTableRowElement;
+    let admin = (row.children[0]!.children[0] as HTMLInputElement).value;
+    if(admin.includes('@') && admin.includes('naperville203.org') && (admin.indexOf('@') < admin.indexOf('naperville203.org')) && (!admins.includes(admin))){
+        if (admins.includes(admin)) {
+            alert("Duplicate admins are not allowed");
+            return;
+        }
+        const newRow = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(2);
+        const html = ejs.render(newAdminEmptyRow, {newAddress: admin});
+        newRow.innerHTML = html;
+        admins.splice(0,0, admin);
+        let gleepGlorp = <HTMLInputElement> document.getElementById("gleepGlorp");
+        gleepGlorp.value = ""
+
+    }
+    else {
+        alert("Invalid address entered. Please enter a D203 email address.");
+        let gleepGlorp = <HTMLInputElement> document.getElementById("gleepGlorp");
+        gleepGlorp.value = ""
+    }
     
+}
+
+function removeAdmin_admins2(secondChild: HTMLElement) {
+    let row = secondChild.parentElement!.parentElement! as HTMLTableRowElement;
+    let admin = row.children[0]!.innerHTML;
+    admins.splice(admins.indexOf(admin), 1);
+    row.remove();
 }
 
 
