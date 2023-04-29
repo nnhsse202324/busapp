@@ -195,4 +195,8 @@ body {
     .pin-button:hover {
         cursor: pointer;
     }
+
+    .notif-button:hover {
+        cursor: pointer;
+    }
 }

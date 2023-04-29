@@ -10,9 +10,6 @@
             <img src=<%= data.weather.icon %>>
         </div>
     </div>
-    <div class="notif-perm-container">
-        
-
     <script>
         function notif(){
         Notification.requestPermission(
@@ -29,10 +26,8 @@
          }
 
     </script>
-
-    </div>
     <div class="login-container">
-        <a class="notif-button" onclick="notif()">Notifications</button>
+        <a class="notif-button" onclick="notif()">Notifications</a>
         <a class="login-button" href="/admin">Login as editor</a>
     </div>
     
