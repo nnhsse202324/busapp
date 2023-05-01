@@ -4,6 +4,7 @@ var indexSocket = window.io('/'); // This line and the line above is how you get
 // !!! do NOT import/export anything or ejs will get angry
 
 var pins: number[] = [];
+var notifStatus = {};
 updatePins();
 updateTables();
 
@@ -13,17 +14,37 @@ indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
     document.getElementById("content")!.innerHTML = html;
     updateTables();
-    
+    /*
+    0: create global variable that tracks which notifcations were sent for each bus
+    {
+        "10":["LOADING"]
+    }
+    1: get the table
+    2: get table body
+    3: get list of rows with .children
+    4: loop through each row
+        a:the first child of each row is the number column
+        b:find the row where the .innerHTML of the number column == a pinned bus
+        c: check the status of those rows by accessing the second child of each row
+        d: if the status is "LOADING" or "NEXT WAVE", and that status is not in the global variable of sent notifications, send out a notification w/ status
+        e: update the sent notifications variable
+        f: once the bus status is set to "GONE", clear the list for the variable 
+    */
     if (Notification.permission === 'granted') {
         let tablePins = <HTMLTableElement> document.getElementById("pin-bus-table");
         let pinRows = tablePins.rows;
         navigator.serviceWorker.getRegistration().then(function(reg2) {
-            let notif:boolean = false;
             for (let i = 2; i < pinRows.length - 1; i++) {
                 let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML);
                 let status = pinRows[i]!.firstElementChild!.nextElementSibling!.innerHTML
-                if (pins.includes(number) && (status === "Loading" || status === "Next Wave")) {
-                    
+                if (pins.includes(number)) {
+                    if (status == "Loading") {
+                        reg2!.showNotification('Bus ' + number + ' is currently loading.');
+                    } else if (status == "Next Wave") {
+                        reg2!.showNotification('Bus ' + number + ' is in the next wave.');
+                    } else if (status == "Gone") {
+                        reg2!.showNotification('Bus ' + number + ' has left.');
+                    }
                 }
             }
         }
@@ -70,7 +91,7 @@ function updatePins() { // guess what
             let n = parseInt(pinArrayString[i]);
             if (!pins.includes(n)) { pins.push(n); }
         }
-    }    
+    }
 }
 
 function pinBus(button: HTMLInputElement) {
@@ -97,6 +118,27 @@ function pinBus(button: HTMLInputElement) {
     updateTables();
 }
 
+function createNotifStatus() {
+    for (let i = 0; i < pins.length; i++) {
+        notifStatus[pins[i]] = 0;
+    }
+}
+
+function updateNotifStatus() {
+    
+}
+
+function getRow(n: number) { // returns the row from the all-bus-table corresponding with the number input, doesn't return anything otherwise
+    let tableFull = <HTMLTableElement> document.getElementById("all-bus-table");
+    let fullRows = tableFull.rows;
+    for (let i = 2; i < fullRows.length; i++) {
+        let number = parseInt(fullRows[i]!.firstElementChild!.innerHTML)
+        if (n === number) {
+            return fullRows[i];
+        }
+    }
+}
+
 function resetPins() {
     if (confirm("Are you sure you want to clear your pins?")) {
         localStorage.removeItem("pins");
@@ -113,5 +155,4 @@ if('serviceWorker' in navigator){
         .catch(() => console.log('service worker not registered; error :( '))
         //calls function when promise is rejected
     //No matter what, this will lead to some value. This is called a promise, as unlike a function, it'll always result in some output.
-    
 }

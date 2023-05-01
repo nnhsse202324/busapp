@@ -71,6 +71,11 @@ body {
     grid-column: 3/4;
     grid-row: 1;
 }
+.notif-container {
+    text-align: right;
+    grid-column: 3/4;
+    grid-row: 0;
+}
 
 .login-button {
     font-family: 'Montserrat', sans-serif;
@@ -89,6 +94,8 @@ body {
     color: #ffffff;
     padding: 4%;
 }
+
+
 
 /* Tables */
 .bus-table {
