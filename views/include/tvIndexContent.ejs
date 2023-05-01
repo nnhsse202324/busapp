@@ -1,0 +1,89 @@
+<!-- This is the indexContent for the TV page-->
+
+<div class="header">
+    <div class="weather-container">    
+        <div class="weather-temperature">
+            <p><%= data.weather.temperature %>°F</p>
+        </div>
+        <div class="weather-status">
+            <p><%= data.weather.status %> </p>
+        </div>
+        <div class="weather-img">
+            <img src=<%= data.weather.icon %>>
+        </div>
+            <!-- <p>Feels like: <%= data.weather.feelsLike %>°F</p> -->
+    </div>
+    <div class="login-container">
+        <a class="login-button" href="/admin">Login as editor</a>
+    </div>
+</div>
+<!-- TV STUFF START-->
+<div class="tvGridContainer">
+    <div class="row1-8">
+        <table class="bus-table">
+            <thead>
+                <tr>
+                    <th>Bus Number 1-8</th>
+                    <th>Bus Change</th>
+                    <th>Status</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% for(let i = 0; i < data.buses.length; i++) { %> 
+                <tr>
+                    <td><%= data.buses[i].number %></td>
+                    <td><%= data.buses[i].change %></td>
+                    <td><%= data.buses[i].status %></td>
+                    <td><%= data.buses[i].arrival %></td>                
+                </tr>
+            <% } %> 
+            </tbody>
+        </table>
+    </div>
+    <div class="row9-16">
+        <table class="bus-table">
+            <thead>
+                <tr>
+                    <th>Bus Number 9-16</th>
+                    <th>Bus Change</th>
+                    <th>Status</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% for(let i = 0; i < data.buses.length; i++) { %> 
+                <tr>
+                    <td><%= data.buses[i].number %></td>
+                    <td><%= data.buses[i].change %></td>
+                    <td><%= data.buses[i].status %></td>
+                    <td><%= data.buses[i].arrival %></td>                
+                </tr>
+            <% } %> 
+            </tbody>
+        </table>
+    </div>
+    <div class="row17-24">
+        <table class="bus-table">
+            <thead>
+                <tr>
+                    <th>Bus Number 17-24</th>
+                    <th>Bus Change</th>
+                    <th>Status</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% for(let i = 0; i < data.buses.length; i++) { %> 
+                <tr>
+                    <td><%= data.buses[i].number %></td>
+                    <td><%= data.buses[i].change %></td>
+                    <td><%= data.buses[i].status %></td>
+                    <td><%= data.buses[i].arrival %></td>                
+                </tr>
+            <% } %> 
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- TV STUFF END -->

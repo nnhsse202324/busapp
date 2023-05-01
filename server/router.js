@@ -29,6 +29,14 @@ exports.router.get("/", (req, res) => {
         render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/indexContent.ejs")),
     });
 });
+//tv route
+exports.router.get("/tv", (req, res) => {
+    // Reads from data file and displays data
+    res.render("tv", {
+        data: (0, ymlController_1.readData)(),
+        render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/tvIndexContent.ejs")),
+    });
+});
 // Login page. User authenticates here and then is redirected to admin (where they will be authorized)
 exports.router.get("/login", (req, res) => {
     res.render("login");
