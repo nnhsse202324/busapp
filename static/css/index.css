@@ -10,7 +10,7 @@ body {
 /* Login Button */
 .header {
     display: grid;
-    grid-template-columns: 7fr 5fr 6fr;
+    grid-template-columns: 7fr 4fr 6fr;
     grid-template-rows: 1fr 1fr;
     padding: 3% 5%;
     height: 7%;
@@ -74,7 +74,7 @@ body {
 .notif-container {
     text-align: right;
     grid-column: 3/4;
-    grid-row: 0;
+    grid-row: 2;
 }
 
 .login-button {
@@ -169,11 +169,11 @@ body {
 
 @media (orientation: landscape) {
     .login-button {
-        font-size: 1.8vw
+        font-size: 1.8vw;
     }
 
     .notif-button {
-        font-size: 1.8vw
+        font-size: 1.8vw;
     }
     
     .bus-table {
