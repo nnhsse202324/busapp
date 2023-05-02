@@ -11,25 +11,13 @@
         </div>
     </div>
     <script>
-        function notif(){
-        Notification.requestPermission(
-        function(status){
-            console.log('Notif permission status:', status);
-        });
-        if (Notification.permission === 'granted') {
-            navigator.serviceWorker.getRegistration()
-            .then(function(reg2){
-                reg2.showNotification('Notification system on line.')
-                console.log('it works, notification should pop up')
-            });    
-        }
-         }
+        
     </script>
     <div class="login-container">
         <a class="login-button" href="/admin">Login as editor</a>
     </div>
     <div class="notif-container">
-        <a class="notif-button" onclick="notif()">Notifications</a>
+        <a class="notif-button" onclick="requestNotificationPermission()">Notifications</a>
     </div>
 </div>
 <div class="tables-container">

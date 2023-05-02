@@ -7,6 +7,8 @@ var pins: number[] = [];
 var notifStatus = {};
 updatePins();
 updateTables();
+updateNotifStatus();
+console.log(notifStatus);
 
 // end of initializing stuff
 
@@ -14,36 +16,22 @@ indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
     document.getElementById("content")!.innerHTML = html;
     updateTables();
-    /*
-    0: create global variable that tracks which notifcations were sent for each bus
-    {
-        "10":["LOADING"]
-    }
-    1: get the table
-    2: get table body
-    3: get list of rows with .children
-    4: loop through each row
-        a:the first child of each row is the number column
-        b:find the row where the .innerHTML of the number column == a pinned bus
-        c: check the status of those rows by accessing the second child of each row
-        d: if the status is "LOADING" or "NEXT WAVE", and that status is not in the global variable of sent notifications, send out a notification w/ status
-        e: update the sent notifications variable
-        f: once the bus status is set to "GONE", clear the list for the variable 
-    */
     if (Notification.permission === 'granted') {
-        let tablePins = <HTMLTableElement> document.getElementById("pin-bus-table");
-        let pinRows = tablePins.rows;
+        let oldNotifStatus = Object.assign({}, notifStatus); // copies over notifStatus without bringing the object reference with it
+        updateNotifStatus();
         navigator.serviceWorker.getRegistration().then(function(reg2) {
-            for (let i = 2; i < pinRows.length - 1; i++) {
-                let number = parseInt(pinRows[i]!.firstElementChild!.innerHTML);
-                let status = pinRows[i]!.firstElementChild!.nextElementSibling!.innerHTML
-                if (pins.includes(number)) {
-                    if (status == "Loading") {
-                        reg2!.showNotification('Bus ' + number + ' is currently loading.');
-                    } else if (status == "Next Wave") {
-                        reg2!.showNotification('Bus ' + number + ' is in the next wave.');
-                    } else if (status == "Gone") {
-                        reg2!.showNotification('Bus ' + number + ' has left.');
+            for (let i = 0; i < pins.length; i++) {
+                if (oldNotifStatus[pins[i]] != notifStatus[pins[i]]) {
+                    switch (notifStatus[pins[i]]) {
+                        case 1: // next wave
+                            reg2!.showNotification("Bus " + pins[i] + " is in the next wave!");
+                            break;
+                        case 2: // loading
+                            reg2!.showNotification("Bus " + pins[i] + " is currently loading!");
+                            break;
+                        case 3: // gone
+                            reg2!.showNotification("Bus " + pins[i] + " has left!");
+                            break;
                     }
                 }
             }
@@ -83,7 +71,7 @@ function updateTables() { // updates what rows show on the pinned list and what 
 }
 
 function updatePins() { // guess what
-    const pinString = localStorage.getItem("pins"); 
+    const pinString = localStorage.getItem("pins");  // retrieves "pins" item
     pins = [];
     if (pinString != null) {
         let pinArrayString:string[] = pinString.split(", ");
@@ -118,14 +106,26 @@ function pinBus(button: HTMLInputElement) {
     updateTables();
 }
 
-function createNotifStatus() {
-    for (let i = 0; i < pins.length; i++) {
-        notifStatus[pins[i]] = 0;
+function updateNotifStatus() { // initializes/updates the notification table
+    let tableFull = <HTMLTableElement> document.getElementById("all-bus-table");
+    let fullRows = tableFull.rows;
+    for (let i = 2; i < fullRows.length; i++) { // first two rows are the table header and the column headers
+        let number = parseInt(fullRows[i]!.firstElementChild!.innerHTML)
+        let status = fullRows[i]!.firstElementChild!.nextElementSibling!.innerHTML
+        switch (status) {
+            case "Next Wave":
+                notifStatus[number] = 1;
+                break;
+            case "Loading":
+                notifStatus[number] = 2;
+                break;
+            case "Gone":
+                notifStatus[number] = 3;
+                break;
+            default:
+                notifStatus[number] = 0;
+        }
     }
-}
-
-function updateNotifStatus() {
-    
 }
 
 function getRow(n: number) { // returns the row from the all-bus-table corresponding with the number input, doesn't return anything otherwise
@@ -139,10 +139,11 @@ function getRow(n: number) { // returns the row from the all-bus-table correspon
     }
 }
 
-function resetPins() {
-    if (confirm("Are you sure you want to clear your pins?")) {
-        localStorage.removeItem("pins");
-    }
+function requestNotificationPermission(){
+    Notification.requestPermission(
+    function(status){
+        console.log('Notif permission status:', status);
+    });
 }
 
 if('serviceWorker' in navigator){
