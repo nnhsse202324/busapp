@@ -39,7 +39,7 @@ indexSocket.on("update", (data) => {
     )}
 });
 
-function updateTables() { // updates what rows show on the pinned list and what buttons show Unpin or Pin on the full list
+function updateTables() { // updates what rows show on the pinned list and what buttons show Unpin or Pin on the full list.
     updatePins();
     let tablePins = <HTMLTableElement> document.getElementById("pin-bus-table");
     let pinRows = tablePins.rows;
