@@ -15,31 +15,31 @@
                 <a class="button back-button" href="/admin">Back to Admin Page</a>
             </div>
             <div class="options-div">
-                <button class="button save-reset-button" onclick="save(true)">Save and Update</button>
-                <button class="button save-no-reset-button" onclick="save(false)">Save Without Updating</button>
-                <button class="button discard-changes-button" onclick="discardChanges()">Discard Changes</button>
+                <button class="button save-reset-button" onclick="save2(true)">Save and Update</button>
+                <button class="button save-no-reset-button" onclick="save2(false)">Save Without Updating</button>
+                <button class="button discard-changes-button" onclick="discardChanges2()">Discard Changes</button>
             </div>            
         </div>
         <table class="buslist-table">
             <thead> 
                 <tr>
-                    <th>Buses</th>
+                    <th>Admins</th>
                     <th class="remove-col"></th>
                 </tr>                
             </thead>
             <tr class="add-bus-row">
-                <td class=>Add bus</td>
-                <td class="add-bus-cell"><i class="fa-solid fa-plus add-bus-button table-button" onclick="newBus_busList()"></i></td>
+                <td class=>Add admin</td>
+                <td class="add-bus-cell"><i class="fa-solid fa-plus add-bus-button table-button" onclick="addAdmin_admins2()"></i></td>
             </tr>
-            <% for(i = 0; i <data.busList.length; i++) { %>
+            <% for(i = 0; i <whitelist.admins.length; i++) { %>
                 <tr>
-                    <td><%= data.busList[i]%></td>
-                    <td class="remove-col"><i class="fas fa-times remove-button table-button" onclick="removeBus_busList(this)"></i></td>
+                    <td><%= whitelist.admins[i]%></td>
+                    <td class="remove-col"><i class="fas fa-times remove-button table-button" onclick="removeAdmin_admins2(this)"></i></td>
                 </tr>
             <% } %> 
         </table>
         <script src="js/ejs.js"></script>
         <script src="/socket.io/socket.io.js"></script>
-        <script src="js/updateBusList.js"></script>
+        <script src="js/updateWhitelist2.js"></script>
     </body>
 </html>

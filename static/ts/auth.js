@@ -22,4 +22,9 @@ gapi.load("auth2", () => {
         });
         window.location = "/admin";
     }
+
+    async function addAdmin() //add click listenter to 
+    {
+
+    }
 });

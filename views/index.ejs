@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Bus App</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link rel="icon" type="image/x-icon" href="/img/busAppIcon.png">
         <link rel="stylesheet" href="/css/index.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,6 +13,7 @@
         <div id="content">
             <%- include("include/indexContent") %>
         </div>
+        <script src="js/serviceWorker.js">    </script>
         <script src="js/ejs.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script id="getRender" render="<%= render %>" src='js/indexConnect.js'></script>

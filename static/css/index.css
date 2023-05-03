@@ -1,3 +1,8 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
 body {
     background-color: #a1b5be;
 }
@@ -70,7 +75,7 @@ body {
 .login-button {
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
-    font-size: 2em;
+    font-size: 3.5vw;
     background-color: #327fa8;
     color: #ffffff;
     padding: 4%;
@@ -82,7 +87,7 @@ body {
     width: 90%;
     height: 87%;
     border-collapse: collapse;
-    font-size: 2.2em;
+    font-size: 3.1vw;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -118,17 +123,13 @@ body {
     width: 25%;
 }
 
-@media (orientation: portrait) {
-
-}
-
 @media (orientation: landscape) {
     .login-button {
-        font-size: 3vh
+        font-size: 1.8vw
     }
     .bus-table {
         width: 70%;
-        font-size: 1em;
+        font-size: 1vw;
     }
 
     .weather-temperature > *{
