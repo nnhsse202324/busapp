@@ -30,7 +30,7 @@
                 </tr>
             </thead>
             <tbody>
-            <% for(let i = 0; i < data.buses.length; i++) { %> 
+            <% for(let i = 0; i < Math.floor(data.buses.length / 3); i++) { %> 
                 <tr>
                     <td><%= data.buses[i].number %></td>
                     <td><%= data.buses[i].change %></td>
@@ -52,7 +52,7 @@
                 </tr>
             </thead>
             <tbody>
-            <% for(let i = 0; i < data.buses.length; i++) { %> 
+            <% for(let i = Math.floor(data.buses.length / 3); i < Math.floor(2 * data.buses.length / 3); i++) { %> 
                 <tr>
                     <td><%= data.buses[i].number %></td>
                     <td><%= data.buses[i].change %></td>
@@ -74,7 +74,7 @@
                 </tr>
             </thead>
             <tbody>
-            <% for(let i = 0; i < data.buses.length; i++) { %> 
+            <% for(let i = Math.floor(2 * data.buses.length / 3); i < data.buses.length; i++) { %> 
                 <tr>
                     <td><%= data.buses[i].number %></td>
                     <td><%= data.buses[i].change %></td>
