@@ -130,7 +130,6 @@ exports.router.post("/updateBusList", (req, res) => {
     if (req.body.reset)
         (0, server_1.resetDatafile)();
 });
-// Here is the code for the Help page.
 exports.router.get('/help', (req, res) => {
     res.render('help');
 });

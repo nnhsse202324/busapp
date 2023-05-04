@@ -6,6 +6,9 @@
     color: #ffffff;
     padding: 4%;
 }
+.title-thingy{
+    text-align: center;
+}
 .android-container {
     text-align: right;
     grid-column: 4/5;

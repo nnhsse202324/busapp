@@ -109,7 +109,6 @@ router.post("/updateBusList", (req: Request, res: Response) => {
     if (req.body.reset) resetDatafile();
 });
 
-// Here is the code for the Help page.
 router.get('/help',(req: Request, res: Response)=>{
 res.render('help');
 })
