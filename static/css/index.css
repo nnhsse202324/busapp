@@ -140,20 +140,25 @@ body {
 }
 
 .num-col {
-    width: 15%;
+    width: 28%;
+}
+
+.num-col:not(th) {
+    font-size: 5vw;
+    padding: 0.6% 2% 0.6% 4%;
 }
 
 .status-col {
-    width: 30%;
+    width: 21%;
 }
 
 .time-col {
-    width: 15%;
+    width: 14%;
 }
 
 .pin-col {
     text-align: center;
-    width: 25%;
+    width: 22%;
 }
 
 .pin-button {
@@ -193,6 +198,10 @@ body {
     .bus-table td {
         padding: 0.6% 1%;
         width: 28%;
+    }
+
+    .num-col:not(th) {
+        font-size: 2vw;
     }
 
     .pin-col {
