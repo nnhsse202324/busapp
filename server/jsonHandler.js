@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.writeBusList = exports.readBusList = exports.readWhitelist = exports.writeWeather = exports.writeBuses = exports.readData = void 0;
+exports.writeWhitelist = exports.writeBusList = exports.readBusList = exports.readWhitelist = exports.writeWeather = exports.writeBuses = exports.readData = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const server_1 = require("../server");
@@ -53,4 +53,15 @@ function writeBusList(data) {
     fs_1.default.writeFileSync(busListDatafile, JSON.stringify(data));
 }
 exports.writeBusList = writeBusList;
+/*
+export function writeWhitelist(data: string[]) {
+    fs.writeFileSync(whitelistDatafile, JSON.stringify(data));
+}
+*/
+function writeWhitelist(data) {
+    let oldWhitelist = readWhitelist().admins;
+    oldWhitelist.push(data);
+    fs_1.default.writeFileSync(whitelistDatafile, JSON.stringify(oldWhitelist));
+}
+exports.writeWhitelist = writeWhitelist;
 //# sourceMappingURL=jsonHandler.js.map
