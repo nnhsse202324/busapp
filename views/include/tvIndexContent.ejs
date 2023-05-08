@@ -20,7 +20,7 @@
         <table class="bus-table">
             <thead>
                 <tr class="heading">
-                    <th class="num-col">Bus # (Change)</th>
+                    <th class="num-col">Bus #&rarr;Change</th>
                     <th class="status-col">Status</th>
                     <th class="time-col">Time</th>
                 </tr>
@@ -28,7 +28,7 @@
             <tbody>
             <% for(let i = 0; i < Math.floor(data.buses.length / 3); i++) { %> 
                 <tr>
-                    <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %><span style="color:#555555">(<%= data.buses[i].change %>)</span><% } %></td>
+                    <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %> &rarr; <%= data.buses[i].change %><% } %></td>
                     <td class="status-col"><%= data.buses[i].status %></td>
                     <td class="time-col"><%= data.buses[i].time %></td>                
                 </tr>
@@ -40,7 +40,7 @@
         <table class="bus-table">
             <thead>
                 <tr class="heading">
-                    <th class="num-col">Bus # (Change)</th>
+                    <th class="num-col">Bus #&rarr;Change</th>
                     <th class="status-col">Status</th>
                     <th class="time-col">Time</th>
                 </tr>
@@ -48,7 +48,7 @@
             <tbody>
             <% for(let i = Math.floor(data.buses.length / 3); i < Math.floor(2 * data.buses.length / 3); i++) { %> 
                 <tr>
-                    <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %><span style="color:#555555">(<%= data.buses[i].change %>)</span><% } %></td>
+                    <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %> &rarr; <%= data.buses[i].change %><% } %></td>
                     <td class="status-col"><%= data.buses[i].status %></td>
                     <td class="time-col"><%= data.buses[i].time %></td>                
                 </tr>
@@ -60,7 +60,7 @@
         <table class="bus-table">
             <thead>
                 <tr class="heading">
-                    <th class="num-col">Bus # (Change)</th>
+                    <th class="num-col">Bus #&rarr;Change</th>
                     <th class="status-col">Status</th>
                     <th class="time-col">Time</th>
                 </tr>
@@ -68,7 +68,7 @@
             <tbody>
             <% for(let i = Math.floor(2 * data.buses.length / 3); i < data.buses.length; i++) { %> 
                 <tr>
-                    <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %><span style="color:#555555">(<%= data.buses[i].change %>)</span><% } %></td>
+                    <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %> &rarr; <%= data.buses[i].change %><% } %></td>
                     <td class="status-col"><%= data.buses[i].status %></td>
                     <td class="time-col"><%= data.buses[i].time %></td>        
                 </tr>

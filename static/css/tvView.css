@@ -10,9 +10,9 @@ body {
 /* Login Button */
 .header {
     display: grid;
-    grid-template-columns: 4fr 8fr;
+    grid-template-columns: 9fr 20fr;
     grid-template-rows: 1fr 1fr;
-    padding: 3% 5%;
+    padding: 3% 3.2%;
     height: 7%;
 }
 
@@ -68,20 +68,21 @@ body {
 }
 
 .tvGridContainer {
+    width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 0.05fr 1fr 0 1fr 0 1fr 0.05fr;
 }
 
 .row1-8 {
-    grid-column: 1/2;
-}
-
-.row9-16 {
     grid-column: 2/3;
 }
 
+.row9-16 {
+    grid-column: 4/5;
+}
+
 .row17-24 {
-    grid-column: 3/4;
+    grid-column: 6/7;
 }
 
 /* Table */
