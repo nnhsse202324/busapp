@@ -27,10 +27,9 @@
     <tbody>
     <% for(let i = 0; i < data.buses.length; i++) { %> 
         <tr>
-            <td><%= data.buses[i].number %></td>
-            <td><%= data.buses[i].change %></td>
-            <td><%= data.buses[i].status %></td>
-            <td><%= data.buses[i].time %></td>                
+            <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %><span style="color:#555555">(<%= data.buses[i].change %>)</span><% } %></td>
+            <td class="status-col"><%= data.buses[i].status %></td>
+            <td class="time-col"><%= data.buses[i].time %></td>
         </tr>
     <% } %> 
     </tbody>

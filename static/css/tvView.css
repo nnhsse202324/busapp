@@ -10,7 +10,7 @@ body {
 /* Login Button */
 .header {
     display: grid;
-    grid-template-columns: 7fr 5fr 6fr;
+    grid-template-columns: 4fr 8fr;
     grid-template-rows: 1fr 1fr;
     padding: 3% 5%;
     height: 7%;
@@ -67,21 +67,6 @@ body {
     height: 100%;
 }
 
-.login-container {
-    text-align: right;
-    grid-column: 3/4;
-    grid-row: 1/2;
-}
-
-.login-button {
-    font-family: 'Montserrat', sans-serif;
-    text-decoration: none;
-    font-size: 3.5vw;
-    background-color: #327fa8;
-    color: #ffffff;
-    padding: 4%;
-}
-
 .tvGridContainer {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -103,9 +88,9 @@ body {
 .bus-table {
     margin: 0 auto 3%;
     width: 90%;
-    height: 87%;
+    height: 100%;
     border-collapse: collapse;
-    font-size: 1vw;
+    font-size: 1.5vw;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -131,8 +116,26 @@ body {
     border-bottom: 4px solid #327fa8;
 }
 
-.bus-table th,
+.bus-table th {
+    padding: 0.6% 2%;
+}
 .bus-table td {
     padding: 0.6% 2%;
-    width: 25%;
+}
+
+.num-col {
+    width: 45%;
+    font-size: 2.7vw;
+}
+
+.heading th {
+    font-size: 1.5vw;
+}
+
+.status-col {
+    width: 32%;
+}
+
+.time-col {
+    width: 23%;
 }
