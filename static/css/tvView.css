@@ -48,6 +48,12 @@ th{
     height: 10vh;
 }
 
+.row1-8{
+    display: flex;
+    width:75%;
+    flex-direction: column;
+    align-items:center;
+}
 
 input, select {
     border: none;
