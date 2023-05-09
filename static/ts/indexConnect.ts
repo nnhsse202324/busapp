@@ -8,6 +8,7 @@ var notifStatus = {};
 updatePins();
 updateTables();
 updateNotifStatus();
+updateNotice();
 console.log(notifStatus);
 
 // end of initializing stuff
@@ -16,24 +17,28 @@ indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
     document.getElementById("content")!.innerHTML = html;
     updateTables();
+    updateNotice();
     if (Notification.permission === 'granted') {
+        let notifButton = document.getElementById("notif-notice");
+        notifButton!.hidden = true;
         let oldNotifStatus = Object.assign({}, notifStatus); // copies over notifStatus without bringing the object reference with it
         updateNotifStatus();
         navigator.serviceWorker.getRegistration().then(function(reg2) {
             for (let i = 0; i < pins.length; i++) {
                 if (oldNotifStatus[pins[i]] != notifStatus[pins[i]]) {
                     let row = getRow(pins[i]);
-                    if (row!.children[1].innerHTML) {
-                        let change = parseInt(row!.children[1].innerHTML);
+                    let cell = row!.children[0].innerHTML;
+                    if (cell.length > 3) {
+                        let change = parseInt(cell.substring(cell.length - 3));
                         switch (notifStatus[pins[i]]) {
                             case 1: // next wave
-                                reg2!.showNotification("Bus " + pins[i] + " which has changed to bus " + change + " is in the next wave!");
+                                reg2!.showNotification("Bus " + pins[i] + " (changed to " + change + ") is in the next wave!");
                                 break;
                             case 2: // loading
-                                reg2!.showNotification("Bus " + pins[i] + " which has changed to bus " + change + " is currently loading!");
+                                reg2!.showNotification("Bus " + pins[i] + " (changed to " + change + ") is loading!");
                                 break;
                             case 3: // gone
-                                reg2!.showNotification("Bus " + pins[i] + " which was bus " + change + " has left!");
+                                reg2!.showNotification("Bus " + pins[i] + " (changed to " + change + ") has left!");
                                 break;
                         }
                     } else {
@@ -42,7 +47,7 @@ indexSocket.on("update", (data) => {
                                 reg2!.showNotification("Bus " + pins[i] + " is in the next wave!");
                                 break;
                             case 2: // loading
-                                reg2!.showNotification("Bus " + pins[i] + " is currently loading!");
+                                reg2!.showNotification("Bus " + pins[i] + " is loading!");
                                 break;
                             case 3: // gone
                                 reg2!.showNotification("Bus " + pins[i] + " has left!");
@@ -122,7 +127,7 @@ function pinBus(button: HTMLInputElement) { // pins the bus when the user clicks
     updateTables();
 }
 
-function updateNotifStatus() { // initializes/updates the notification table
+function updateNotifStatus() { // initializes/updates the notification table, and updates the notification notice
     let tableFull = <HTMLTableElement> document.getElementById("all-bus-table");
     let fullRows = tableFull.rows;
     for (let i = 2; i < fullRows.length; i++) { // first two rows are the table header and the column headers
@@ -144,6 +149,17 @@ function updateNotifStatus() { // initializes/updates the notification table
     }
 }
 
+function updateNotice() {
+    let notifButton = document.getElementById("notif-notice");
+    if (Notification.permission === 'granted') {
+        notifButton!.hidden = true;
+    } else if (Notification.permission === 'default') {
+        notifButton!.hidden = false;
+    } else {
+        notifButton!.innerHTML = "Notifications have been blocked on this device."
+    }
+}
+
 function getRow(n: number) { // returns the row from the all-bus-table corresponding with the number input, doesn't return anything otherwise
     let tableFull = <HTMLTableElement> document.getElementById("all-bus-table");
     let fullRows = tableFull.rows;
@@ -156,10 +172,16 @@ function getRow(n: number) { // returns the row from the all-bus-table correspon
 }
 
 function requestNotificationPermission() {
-    Notification.requestPermission(
-    function(status){
-        console.log('Notif permission status:', status);
-    });
+    if (Notification.permission === 'default') {
+        Notification.requestPermission(
+        function(status){
+            console.log(status);
+            updateNotice();
+        });
+    } else if (Notification.permission === 'denied') {
+        let notifButton = document.getElementById("notif-notice");
+        notifButton!.hidden = true;
+    }
 }
 
 if('serviceWorker' in navigator){

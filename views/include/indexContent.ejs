@@ -10,9 +10,11 @@
             <img src=<%= data.weather.icon %>>
         </div>
     </div>
+    <div class="notif-container">
+        <a id="notif-notice" onclick="requestNotificationPermission()">Notifications are currently disabled. Click here to enable them.</a>
+    </div>
     <div class="login-container">
-        <a class="notif-button" onclick="requestNotificationPermission()">Notifications</a>
-        <a class="login-button" href="/admin">Login as editor</a>
+        <a id="login-button" href="/admin">Login as editor</a>
     </div>
 </div>
 <div class="tables-container">
