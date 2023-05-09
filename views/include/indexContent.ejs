@@ -24,7 +24,7 @@
                     <th colspan="4" style="background-color: #bf2214; font-size: 160%;"><i class="fa-solid fa-thumbtack fa-fw"></i> Pinned Buses</th>
                 </tr>
                 <tr>
-                    <th class="num-col">Bus # (Change)</th>
+                    <th class="num-col">Bus # &rarr; Change</th>
                     <th class="status-col">Status</th>
                     <th class="time-col">Time</th>
                     <th class="pin-col">Pin?</th>
@@ -33,7 +33,7 @@
             <tbody id="pin-bus-rows">
             <% for(let i = 0; i < data.buses.length; i++) { %>
                 <tr>
-                    <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %><span style="color:#555555">(<%= data.buses[i].change %>)</span><% } %></td>
+                    <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %> &rarr; <%= data.buses[i].change %></span><% } %></td>
                     <td class="status-col"><%= data.buses[i].status %></td>
                     <td class="time-col"><%= data.buses[i].time %></td>
                     <td class="pin-col"><button class="pin-button" style="background-color: #bf2214" onclick="pinBus(this)"><i class="fa-solid fa-thumbtack"></i> Unpin</button></td>             
@@ -51,7 +51,7 @@
                     <th colspan="4" style="background-color: #05a1f5; font-size: 160%;"><i class="fa fa-star fa-fw"></i> All Buses</th>
                 </tr>
                 <tr>
-                    <th class="num-col">Bus # (Change)</th>
+                    <th class="num-col">Bus # &rarr; Change</th>
                     <th class="status-col">Status</th>
                     <th class="time-col">Time</th>
                     <th class="pin-col">Pin?</th>
@@ -60,7 +60,7 @@
             <tbody id="all-bus-rows">
             <% for(let i = 0; i < data.buses.length; i++) { %> 
                 <tr>
-                    <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %><span style="color:#555555">(<%= data.buses[i].change %>)</span><% } %></td>
+                    <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %> &rarr; <%= data.buses[i].change %></span><% } %></td>
                     <td class="status-col"><%= data.buses[i].status %></td>
                     <td class="time-col"><%= data.buses[i].time %></td>
                     <td class="pin-col"><button class="pin-button" onclick="pinBus(this)"><i class="fa-solid fa-thumbtack"></i> Pin</button></td>

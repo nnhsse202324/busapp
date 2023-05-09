@@ -22,16 +22,32 @@ indexSocket.on("update", (data) => {
         navigator.serviceWorker.getRegistration().then(function(reg2) {
             for (let i = 0; i < pins.length; i++) {
                 if (oldNotifStatus[pins[i]] != notifStatus[pins[i]]) {
-                    switch (notifStatus[pins[i]]) {
-                        case 1: // next wave
-                            reg2!.showNotification("Bus " + pins[i] + " is in the next wave!");
-                            break;
-                        case 2: // loading
-                            reg2!.showNotification("Bus " + pins[i] + " is currently loading!");
-                            break;
-                        case 3: // gone
-                            reg2!.showNotification("Bus " + pins[i] + " has left!");
-                            break;
+                    let row = getRow(pins[i]);
+                    if (row!.children[1].innerHTML) {
+                        let change = parseInt(row!.children[1].innerHTML);
+                        switch (notifStatus[pins[i]]) {
+                            case 1: // next wave
+                                reg2!.showNotification("Bus " + pins[i] + " which has changed to bus " + change + " is in the next wave!");
+                                break;
+                            case 2: // loading
+                                reg2!.showNotification("Bus " + pins[i] + " which has changed to bus " + change + " is currently loading!");
+                                break;
+                            case 3: // gone
+                                reg2!.showNotification("Bus " + pins[i] + " which was bus " + change + " has left!");
+                                break;
+                        }
+                    } else {
+                        switch (notifStatus[pins[i]]) {
+                            case 1: // next wave
+                                reg2!.showNotification("Bus " + pins[i] + " is in the next wave!");
+                                break;
+                            case 2: // loading
+                                reg2!.showNotification("Bus " + pins[i] + " is currently loading!");
+                                break;
+                            case 3: // gone
+                                reg2!.showNotification("Bus " + pins[i] + " has left!");
+                                break;
+                        }
                     }
                 }
             }
@@ -82,7 +98,7 @@ function updatePins() { // guess what
     }
 }
 
-function pinBus(button: HTMLInputElement) {
+function pinBus(button: HTMLInputElement) { // pins the bus when the user clicks the button
     updatePins();
     const busRow = button.parentElement!.parentElement; // this is the overarching <tr> element of the bus row
     const busNumber = busRow!.firstElementChild!.innerHTML; // this is the stringification of the number of the bus
@@ -139,7 +155,7 @@ function getRow(n: number) { // returns the row from the all-bus-table correspon
     }
 }
 
-function requestNotificationPermission(){
+function requestNotificationPermission() {
     Notification.requestPermission(
     function(status){
         console.log('Notif permission status:', status);
