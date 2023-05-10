@@ -19,7 +19,14 @@ router.get("/", (req: Request, res: Response) => {
     });
 });
 
-
+//tv route
+router.get("/tv",(req: Request, res: Response) => {
+    // Reads from data file and displays data
+    res.render("tv", {
+        data: readData(),
+        render: fs.readFileSync(path.resolve(__dirname, "../views/include/tvIndexContent.ejs")), 
+    })
+})
 // Login page. User authenticates here and then is redirected to admin (where they will be authorized)
 router.get("/login", (req: Request, res: Response) => {
     res.render("login");
