@@ -42,10 +42,18 @@ body {
 }
 
 .buslist-table thead tr {
-    background-color: #327fa8;
     color: #ffffff;
-    text-align: left;
+    text-align: center;
     font-weight: bold;
+}
+
+.buslist-table thead tr:nth-of-type(odd) {
+    background-color: #327fa8;
+    
+}
+
+.buslist-table thead tr:nth-of-type(even) {
+    background-color: #107d25;
 }
 
 .buslist-table tbody tr {
@@ -72,7 +80,7 @@ body {
 .buslist-table td {
     height: 1px;
     padding: 1.8% 8%;
-    width: 50%;
+    width: 16%;
 }
 
 .buslist-table .remove-button, .cancel-button, .confirm-button {

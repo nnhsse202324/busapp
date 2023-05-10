@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import {OAuth2Client, TokenPayload} from "google-auth-library";
-import {readData, readWhitelist, readBusList, writeBusList} from "./jsonHandler";
+import { readData, readWhitelist, readBusList, writeBusList, readWeather, readBusStatus } from './jsonHandler';
 import path from "path";
 import fs, {readFileSync} from "fs";
 import {resetDatafile} from "../server";
@@ -19,7 +19,16 @@ router.get("/", (req: Request, res: Response) => {
     });
 });
 
-//tv route
+// not pages, but requests for the data
+router.get('/buses',(req, res)=>{
+    res.send(readBusStatus());
+})
+
+router.get('/weather',(req, res)=>{
+    res.send(readWeather());
+})
+
+// tv route
 router.get("/tv",(req: Request, res: Response) => {
     // Reads from data file and displays data
     res.render("tv", {
@@ -27,6 +36,7 @@ router.get("/tv",(req: Request, res: Response) => {
         render: fs.readFileSync(path.resolve(__dirname, "../views/include/tvIndexContent.ejs")), 
     })
 })
+
 // Login page. User authenticates here and then is redirected to admin (where they will be authorized)
 router.get("/login", (req: Request, res: Response) => {
     res.render("login");
