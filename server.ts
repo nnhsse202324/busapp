@@ -13,7 +13,7 @@ const app: Application = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer);
 
-const PORT = process.env.PORT || 8082;
+const PORT = process.env.PORT || 5182;
 
 type BusCommand = {
     type: string
