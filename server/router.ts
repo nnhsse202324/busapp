@@ -87,6 +87,13 @@ router.get("/beans", async (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, "../static/img/beans.jpg"));
 });
 
+router.get("/manifest.webmanifest", (req: Request, res: Response) => {
+    res.sendFile(path.resolve(__dirname, "../data/manifest.webmanifest"))
+});
+router.get("/sw.js", (req: Request, res: Response) => {
+    res.sendFile(path.resolve(__dirname, "../sw.js"))
+});
+
 /* Admin page. This is where bus information can be updated from
 Reads from data file and displays data */
 router.get("/updateBusList", (req: Request, res: Response) => {

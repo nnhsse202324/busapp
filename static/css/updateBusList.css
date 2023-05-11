@@ -1,6 +1,5 @@
 body {
     background-color: #a1b5be;
-    margin: 
 }
 
 .back-button-div {
@@ -14,7 +13,7 @@ body {
 }
 
 .options-div {
-    display: flex;
+    display: flex;  
     justify-content: center;
     gap: 6%;
     margin: 1% 1%;
@@ -29,31 +28,23 @@ body {
     color: #ffffff;
     padding: 1.3%;
     width: 18%;
-    cursor:pointer; 
+    cursor: pointer; 
 }
 
 /* Table */
 .buslist-table {
     margin: 0 auto 3%;
-    width: 40%;
+    width: 30%;
     border-collapse: collapse;
     font-size: 4vw;
     font-family: 'Montserrat', sans-serif;
 }
 
 .buslist-table thead tr {
-    color: #ffffff;
-    text-align: center;
-    font-weight: bold;
-}
-
-.buslist-table thead tr:nth-of-type(odd) {
     background-color: #327fa8;
-    
-}
-
-.buslist-table thead tr:nth-of-type(even) {
-    background-color: #107d25;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
 }
 
 .buslist-table tbody tr {
@@ -80,7 +71,7 @@ body {
 .buslist-table td {
     height: 1px;
     padding: 1.8% 8%;
-    width: 16%;
+    width: 50%;
 }
 
 .buslist-table .remove-button, .cancel-button, .confirm-button {

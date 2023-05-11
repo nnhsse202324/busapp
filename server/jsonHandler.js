@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.writeWhitelist = exports.writeBusList = exports.readBusList = exports.readWhitelist = exports.writeWeather = exports.writeBuses = exports.readData = void 0;
+exports.writeWhitelist = exports.writeBusList = exports.readBusStatus = exports.readBusList = exports.readWeather = exports.readWhitelist = exports.writeWeather = exports.writeBuses = exports.readData = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const server_1 = require("../server");
@@ -45,10 +45,18 @@ function readWhitelist() {
     return { admins: JSON.parse(fs_1.default.readFileSync(whitelistDatafile, "utf-8")) };
 }
 exports.readWhitelist = readWhitelist;
+function readWeather() {
+    return { weather: JSON.parse(fs_1.default.readFileSync(weatherDatafile, "utf-8")) };
+}
+exports.readWeather = readWeather;
 function readBusList() {
     return { busList: JSON.parse(fs_1.default.readFileSync(busListDatafile, "utf-8")) };
 }
 exports.readBusList = readBusList;
+function readBusStatus() {
+    return { busList: JSON.parse(fs_1.default.readFileSync(busesDatafile, "utf-8")) };
+}
+exports.readBusStatus = readBusStatus;
 function writeBusList(data) {
     fs_1.default.writeFileSync(busListDatafile, JSON.stringify(data));
 }
