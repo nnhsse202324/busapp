@@ -16,7 +16,7 @@ const express_session_1 = __importDefault(require("express-session"));
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(httpServer);
-const PORT = process.env.PORT || 5182;
+const PORT = process.env.PORT || 8082;
 const busesDatafile = path_1.default.resolve(__dirname, "./data/buses.json");
 const defaultBusesDatafile = path_1.default.resolve(__dirname, "./data/defaultBuses.txt");
 let buses;
