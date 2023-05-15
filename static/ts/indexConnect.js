@@ -7,17 +7,13 @@ var notifStatus = {};
 updatePins();
 updateTables();
 updateNotifStatus();
-updateNotice();
 console.log(notifStatus);
 // end of initializing stuff
 indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender").getAttribute("render"), { data: data });
     document.getElementById("content").innerHTML = html;
     updateTables();
-    updateNotice();
     if (Notification.permission === 'granted') {
-        let notifButton = document.getElementById("notif-notice");
-        notifButton.hidden = true;
         let oldNotifStatus = Object.assign({}, notifStatus); // copies over notifStatus without bringing the object reference with it
         updateNotifStatus();
         navigator.serviceWorker.getRegistration().then(function (reg2) {
@@ -146,18 +142,6 @@ function updateNotifStatus() {
         }
     }
 }
-function updateNotice() {
-    let notifButton = document.getElementById("notif-notice");
-    if (Notification.permission === 'granted') {
-        notifButton.hidden = true;
-    }
-    else if (Notification.permission === 'default') {
-        notifButton.hidden = false;
-    }
-    else {
-        notifButton.innerHTML = "Notifications have been blocked on this device.";
-    }
-}
 function getRow(n) {
     let tableFull = document.getElementById("all-bus-table");
     let fullRows = tableFull.rows;
@@ -172,12 +156,7 @@ function requestNotificationPermission() {
     if (Notification.permission === 'default') {
         Notification.requestPermission(function (status) {
             console.log(status);
-            updateNotice();
         });
-    }
-    else if (Notification.permission === 'denied') {
-        let notifButton = document.getElementById("notif-notice");
-        notifButton.hidden = true;
     }
 }
 if ('serviceWorker' in navigator) {

@@ -8,7 +8,6 @@ var notifStatus = {};
 updatePins();
 updateTables();
 updateNotifStatus();
-updateNotice();
 console.log(notifStatus);
 
 // end of initializing stuff
@@ -17,10 +16,7 @@ indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
     document.getElementById("content")!.innerHTML = html;
     updateTables();
-    updateNotice();
     if (Notification.permission === 'granted') {
-        let notifButton = document.getElementById("notif-notice");
-        notifButton!.hidden = true;
         let oldNotifStatus = Object.assign({}, notifStatus); // copies over notifStatus without bringing the object reference with it
         updateNotifStatus();
         navigator.serviceWorker.getRegistration().then(function(reg2) {
@@ -149,17 +145,6 @@ function updateNotifStatus() { // initializes/updates the notification table, an
     }
 }
 
-function updateNotice() {
-    let notifButton = document.getElementById("notif-notice");
-    if (Notification.permission === 'granted') {
-        notifButton!.hidden = true;
-    } else if (Notification.permission === 'default') {
-        notifButton!.hidden = false;
-    } else {
-        notifButton!.innerHTML = "Notifications have been blocked on this device."
-    }
-}
-
 function getRow(n: number) { // returns the row from the all-bus-table corresponding with the number input, doesn't return anything otherwise
     let tableFull = <HTMLTableElement> document.getElementById("all-bus-table");
     let fullRows = tableFull.rows;
@@ -176,11 +161,7 @@ function requestNotificationPermission() {
         Notification.requestPermission(
         function(status){
             console.log(status);
-            updateNotice();
         });
-    } else if (Notification.permission === 'denied') {
-        let notifButton = document.getElementById("notif-notice");
-        notifButton!.hidden = true;
     }
 }
 
