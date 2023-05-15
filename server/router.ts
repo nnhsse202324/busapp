@@ -102,7 +102,7 @@ router.get('/whitelist', (req: Request,res: Response)=>{
     // Authorizes user, then either displays admin page or unauthorized page
     authorize(req);
     if (req.session.isAdmin) {
-        res.render("updateWhitelist", {
+        res.render("whitelist", { //this is where it is done
             whitelist: readWhitelist()
         });
     }
