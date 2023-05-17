@@ -20,32 +20,34 @@ indexSocket.on("update", (data) => {
             for (let i = 0; i < pins.length; i++) {
                 if (oldNotifStatus[pins[i]] != notifStatus[pins[i]]) {
                     let row = getRow(pins[i]);
-                    let cell = row.children[0].innerHTML;
-                    if (cell.length > 3) {
-                        let change = parseInt(cell.substring(cell.length - 3));
-                        switch (notifStatus[pins[i]]) {
-                            case 1: // next wave
-                                reg2.showNotification("Bus " + pins[i] + " (changed to " + change + ") is in the next wave!");
-                                break;
-                            case 2: // loading
-                                reg2.showNotification("Bus " + pins[i] + " (changed to " + change + ") is loading!");
-                                break;
-                            case 3: // gone
-                                reg2.showNotification("Bus " + pins[i] + " (changed to " + change + ") has left!");
-                                break;
+                    if (row) {
+                        let cell = row.children[0].innerHTML;
+                        if (cell.length > 3) {
+                            let change = parseInt(cell.substring(cell.length - 3)); // VERY jank way to get the bus change but it should work in 100% of cases
+                            switch (notifStatus[pins[i]]) {
+                                case 1: // next wave
+                                    reg2.showNotification("Bus " + pins[i] + " (changed to " + change + ") is in the next wave!");
+                                    break;
+                                case 2: // loading
+                                    reg2.showNotification("Bus " + pins[i] + " (changed to " + change + ") is loading!");
+                                    break;
+                                case 3: // gone
+                                    reg2.showNotification("Bus " + pins[i] + " (changed to " + change + ") has left!");
+                                    break;
+                            }
                         }
-                    }
-                    else {
-                        switch (notifStatus[pins[i]]) {
-                            case 1: // next wave
-                                reg2.showNotification("Bus " + pins[i] + " is in the next wave!");
-                                break;
-                            case 2: // loading
-                                reg2.showNotification("Bus " + pins[i] + " is loading!");
-                                break;
-                            case 3: // gone
-                                reg2.showNotification("Bus " + pins[i] + " has left!");
-                                break;
+                        else {
+                            switch (notifStatus[pins[i]]) {
+                                case 1: // next wave
+                                    reg2.showNotification("Bus " + pins[i] + " is in the next wave!");
+                                    break;
+                                case 2: // loading
+                                    reg2.showNotification("Bus " + pins[i] + " is loading!");
+                                    break;
+                                case 3: // gone
+                                    reg2.showNotification("Bus " + pins[i] + " has left!");
+                                    break;
+                            }
                         }
                     }
                 }
