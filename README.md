@@ -138,3 +138,6 @@ Serice workers allow us to add extra functionality to the webapp. This allows it
 To reduce errors on the main branch, we developed a review checklist that MUST be completed before pull requests into the main branch. This list should be updated as new features are added that need to be reviewed.
 
 Bus App Review Checklist: https://docs.google.com/document/d/1LyFzvAMvRl7MwXduhM87Do7hioelJ-QnWEe4GnpKBU4/edit?usp=sharing
+
+## Remaining User Stories (in product backlog)
+Captured in Trello
