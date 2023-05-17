@@ -25,6 +25,8 @@ On the home page, students have access to all the information they need. The pag
 Students should first check for a bus change when opening the app and then periodically check the status of their bus to make sure they catch it. Information updated by admins is live so students will not have to refresh to view new information.
 
 Informational video for students: https://drive.google.com/file/d/1GNePsvjmeqIkuCKzadV3rCa1L38vnhKd/view?usp=sharing
+--Pin System--
+A new addition to the Bus App is the Pin system. This system allows students to "Pin" their buses. The student will only recieve notifications from pinned buses' status changes. Thus, this closely links with the Notification system, as otherwise it would be quite hectic if students got notifications for every single bus change that happened.
 
 ## Project Setup
 Follow these steps to setup the Bus App project
