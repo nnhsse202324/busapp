@@ -15,7 +15,7 @@ From this page admins are able to edit bus changes, status (Not Here, Next Wave,
 
 Additionally, admins are granted the ability to add or remove other admins from the whitelist. All admins are able to view the current whitelist at any time.
 
-Adding an admin requires the email address of the admin to be added. In the event that an admin must be removed, it is as simple as pressing the button next to their name. 
+Adding an admin requires the email address of the admin to be added. Enter the new address and press the plus next to their name to add them. In the event that an admin must be removed, it is as simple as pressing the button next to their name. Remember to press the save button at the top of the page after making any changes (unless the change in unintentional, in which case the discard button can be utilized).
 
 Administrator Handbook: https://docs.google.com/document/d/1MaySGjV3I7LIaNLHDQCaPODoN7ZUI3aYht6oijkWy_4/edit?usp=sharing
 
