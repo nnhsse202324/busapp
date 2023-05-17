@@ -23,19 +23,18 @@
         <table class="buslist-table">
             <thead> 
                 <tr>
-                    <th colspan="6">Buses</th>
-                </tr>
-                <tr class="add-bus-row">
-                    <td colspan="3">Add bus</td>
-                    <td class="add-bus-cell" colspan="3"><i class="fa-solid fa-plus add-bus-button table-button" onclick="newBus_busList()"></i></td>
+                    <th>Buses</th>
+                    <th class="remove-col"></th>
                 </tr>                
             </thead>
-            <% for(i = 0; i < data.busList.length; i += 3) { %>
+            <tr class="add-bus-row">
+                <td class=>Add bus</td>
+                <td class="add-bus-cell"><i class="fa-solid fa-plus add-bus-button table-button" onclick="newBus_busList()"></i></td>
+            </tr>
+            <% for(i = 0; i <data.busList.length; i++) { %>
                 <tr>
-                    <% for(j = 0; j <= Math.min(data.busList.length - i, 2); j++) { %>
-                        <td class="bus-num-col"><%= data.busList[i + j]%></td>
-                        <td class="remove-col"><i class="fas fa-times remove-button table-button" onclick="removeBus_busList(this)"></i></td>
-                    <% } %>
+                    <td><%= data.busList[i]%></td>
+                    <td class="remove-col"><i class="fas fa-times remove-button table-button" onclick="removeBus_busList(this)"></i></td>
                 </tr>
             <% } %> 
         </table>

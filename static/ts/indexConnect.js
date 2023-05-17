@@ -7,49 +7,47 @@ var notifStatus = {};
 updatePins();
 updateTables();
 updateNotifStatus();
-updateNotice();
 console.log(notifStatus);
 // end of initializing stuff
 indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender").getAttribute("render"), { data: data });
     document.getElementById("content").innerHTML = html;
     updateTables();
-    updateNotice();
     if (Notification.permission === 'granted') {
-        let notifButton = document.getElementById("notif-notice");
-        notifButton.hidden = true;
         let oldNotifStatus = Object.assign({}, notifStatus); // copies over notifStatus without bringing the object reference with it
         updateNotifStatus();
         navigator.serviceWorker.getRegistration().then(function (reg2) {
             for (let i = 0; i < pins.length; i++) {
                 if (oldNotifStatus[pins[i]] != notifStatus[pins[i]]) {
                     let row = getRow(pins[i]);
-                    let cell = row.children[0].innerHTML;
-                    if (cell.length > 3) {
-                        let change = parseInt(cell.substring(cell.length - 3));
-                        switch (notifStatus[pins[i]]) {
-                            case 1: // next wave
-                                reg2.showNotification("Bus " + pins[i] + " (changed to " + change + ") is in the next wave!");
-                                break;
-                            case 2: // loading
-                                reg2.showNotification("Bus " + pins[i] + " (changed to " + change + ") is loading!");
-                                break;
-                            case 3: // gone
-                                reg2.showNotification("Bus " + pins[i] + " (changed to " + change + ") has left!");
-                                break;
+                    if (row) {
+                        let cell = row.children[0].innerHTML;
+                        if (cell.length > 3) {
+                            let change = parseInt(cell.substring(cell.length - 3)); // VERY jank way to get the bus change but it should work in 100% of cases
+                            switch (notifStatus[pins[i]]) {
+                                case 1: // next wave
+                                    reg2.showNotification("Bus " + pins[i] + " (changed to " + change + ") is in the next wave!");
+                                    break;
+                                case 2: // loading
+                                    reg2.showNotification("Bus " + pins[i] + " (changed to " + change + ") is loading!");
+                                    break;
+                                case 3: // gone
+                                    reg2.showNotification("Bus " + pins[i] + " (changed to " + change + ") has left!");
+                                    break;
+                            }
                         }
-                    }
-                    else {
-                        switch (notifStatus[pins[i]]) {
-                            case 1: // next wave
-                                reg2.showNotification("Bus " + pins[i] + " is in the next wave!");
-                                break;
-                            case 2: // loading
-                                reg2.showNotification("Bus " + pins[i] + " is loading!");
-                                break;
-                            case 3: // gone
-                                reg2.showNotification("Bus " + pins[i] + " has left!");
-                                break;
+                        else {
+                            switch (notifStatus[pins[i]]) {
+                                case 1: // next wave
+                                    reg2.showNotification("Bus " + pins[i] + " is in the next wave!");
+                                    break;
+                                case 2: // loading
+                                    reg2.showNotification("Bus " + pins[i] + " is loading!");
+                                    break;
+                                case 3: // gone
+                                    reg2.showNotification("Bus " + pins[i] + " has left!");
+                                    break;
+                            }
                         }
                     }
                 }
@@ -146,18 +144,6 @@ function updateNotifStatus() {
         }
     }
 }
-function updateNotice() {
-    let notifButton = document.getElementById("notif-notice");
-    if (Notification.permission === 'granted') {
-        notifButton.hidden = true;
-    }
-    else if (Notification.permission === 'default') {
-        notifButton.hidden = false;
-    }
-    else {
-        notifButton.innerHTML = "Notifications have been blocked on this device.";
-    }
-}
 function getRow(n) {
     let tableFull = document.getElementById("all-bus-table");
     let fullRows = tableFull.rows;
@@ -172,12 +158,7 @@ function requestNotificationPermission() {
     if (Notification.permission === 'default') {
         Notification.requestPermission(function (status) {
             console.log(status);
-            updateNotice();
         });
-    }
-    else if (Notification.permission === 'denied') {
-        let notifButton = document.getElementById("notif-notice");
-        notifButton.hidden = true;
     }
 }
 if ('serviceWorker' in navigator) {

@@ -10,7 +10,7 @@ body {
 /* Weather/Notification/Login */
 .header {
     display: grid;
-    grid-template-columns: 6fr 3fr 9fr;
+    grid-template-columns: 7fr 5fr 6fr;
     grid-template-rows: 1fr 1fr;
     padding: 3% 5%;
     height: 7%;
@@ -77,9 +77,9 @@ body {
     float: right;
     text-align: right;
     height: 80%;
-    margin: 0.8% 0 0 0;
-    grid-column: 2/4;
-    grid-row: 2/3;
+    margin: -2.5% 0 0 0;
+    grid-column: 2/3;
+    grid-row: 1/2;
 }
 
 #login-button {
@@ -94,13 +94,11 @@ body {
 #notif-notice {
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
-    font-size: 1.5vw;
+    font-size: 4.5vw;
     background-color: #327fa8;
     color: #ffffff;
     padding: 2%;
 }
-
-
 
 /* Tables */
 .bus-table {
@@ -187,12 +185,12 @@ body {
     }
 
     .notif-container {
-        grid-column: 2/3;
-        grid-row: 1/2;
+        margin: -0.25% -2% 0 0;
     }
 
     #notif-notice {
-        font-size: 1.2vw;
+        font-size: 2vw;
+        padding: 1%;
     }
     
     .bus-table {
@@ -226,7 +224,7 @@ body {
         cursor: pointer;
     }
 
-    .notif-button:hover {
+    #notif-notice:hover {
         cursor: pointer;
     }
 }
