@@ -43,7 +43,7 @@ async function  save(reset: boolean) {
         if (!confirm("Are you sure you would like to update the bus list and reset all live pages?")) return;
     }
     else {
-        if(!confirm("Are you sure you would like to update the bus list? (This will not changes any active pages until midnight)")) return;
+        if(!confirm("Are you sure you would like to update the bus list? (This will not change any active pages until midnight)")) return;
     }
 
     fetch("/updateBusList", {

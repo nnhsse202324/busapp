@@ -1,15 +1,5 @@
-# generated map files for converting js line numbers to corresponding ts line numbers
-*.map
-
-# javascript files compiled from typescript
-*.js
-
-# except a couple javascript files
-!static/ts/ejs.js
-!static/ts/auth.js
-!static/ts/formVerification.js
-
-
+# weather file
+data/weather.json
 
 # Created by https://www.toptal.com/developers/gitignore/api/node
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
@@ -154,4 +144,7 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
+.DS_Store
+
 # End of https://www.toptal.com/developers/gitignore/api/node
+

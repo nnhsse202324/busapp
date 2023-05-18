@@ -32,73 +32,73 @@ body {
 }
 
 /* Table */
-.buslist-table {
+.whitelist-table {
     margin: 0 auto 3%;
-    width: 30%;
+    width: 90%;
     border-collapse: collapse;
     font-size: 4vw;
     font-family: 'Montserrat', sans-serif;
 }
 
-.buslist-table thead tr {
+.whitelist-table thead tr {
     background-color: #327fa8;
     color: #ffffff;
     text-align: left;
     font-weight: bold;
 }
 
-.buslist-table tbody tr {
+.whitelist-table tbody tr {
     border-bottom: 1px solid #dddddd;
 }
 
-.buslist-table tbody tr:nth-of-type(odd) {
+.whitelist-table tbody tr:nth-of-type(odd) {
     background-color: white;
 }
 
-.buslist-table tbody tr:nth-of-type(even) {
+.whitelist-table tbody tr:nth-of-type(even) {
     background-color: #f3f3f3;
 }
 
-.buslist-table tbody tr:last-of-type {
+.whitelist-table tbody tr:last-of-type {
     border-bottom: 2px solid #327fa8;
 }
 
-.buslist-table tbody tr:hover {
+.whitelist-table tbody tr:hover {
     background-color: #c3ccd3;
 }
 
-.buslist-table th,
-.buslist-table td {
+.whitelist-table th,
+.whitelist-table td {
     height: 1px;
-    padding: 1.8% 8%;
+    padding: 1.8% 2%;
     width: 50%;
 }
 
-.buslist-table .remove-button, .cancel-button, .confirm-button {
+.whitelist-table .remove-button, .cancel-button, .confirm-button {
     padding: 5% 8%;
     border-radius: 5px;
 }
 
-.buslist-table .add-bus-button {
-    padding: 4% 40%;
+.whitelist-table .add-button {
     border-radius: 5px;
 }
 
-.buslist-table .table-button:hover{
+.whitelist-table .table-button:hover{
     background-color: #55a6d1;
 }
 
-.buslist-table .remove-col, .add-bus-cell {
+.whitelist-table .change-col {
     text-align: center;
 }
 
-.buslist-table input {
+
+
+.whitelist-table input {
     border: none;
     width: 100%;
     height: 100%;
     background-color: inherit;
-    text-align: center;
-    text-align-last: center;
+    text-align: left;
     font-size: 4vw;
     font-family: 'Montserrat', sans-serif;
 }
@@ -116,11 +116,15 @@ body {
         font-size: 2vw;
     }
 
-    .buslist-table {
+    .whitelist-table {
         font-size: 2vw;
     }
 
-    .buslist-table input {
+    .whitelist-table input {
         font-size: 2vw;
+    }
+
+    .whitelist-table .email-col {
+        width: 92%;
     }
 }   
