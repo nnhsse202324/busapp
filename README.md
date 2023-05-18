@@ -40,6 +40,10 @@ Follow these steps to setup the Bus App project
 #### On Local Host
 To run the Bus App on local host, run `npm run buildStart` using a terminal currently in the home directory of the project. This compiles the typescript and starts the server. After you see the message `Server is running on port 5182` you’ve started the server successfully. Now go to `http://localhost:5182/` to start development.
 
+### On Dev Server
+To run the Bus App on the development server, you need to ask Mr. Schmit to host the server, and after he gives you confirmation that it is up and running, it's exactly the same as the production server, but with a different domain name. Go to 'https://busappdev.nnhsse.org/' to start development. One thing to note is that the development server does not update until the server is rebuilt, so make sure everything you want to test is in a finished state.
+
+
 #### Debugging
 To debug the Bus App on your development system, run `npm run devstart` using a terminal currently in the home directory of the project. Then choose the "Start Debugging" menu item in the "Run" menu. You can now set breakpoints in the typescript files.
 
