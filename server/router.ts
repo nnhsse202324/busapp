@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import {OAuth2Client, TokenPayload} from "google-auth-library";
-import {readData, readWhitelist, readBusList, writeBusList} from "./jsonHandler";
+import { readData, readWhitelist, readBusList, writeBusList, readWeather, readBusStatus } from './jsonHandler';
 import path from "path";
 import fs, {readFileSync} from "fs";
 import {resetDatafile} from "../server";
@@ -19,6 +19,23 @@ router.get("/", (req: Request, res: Response) => {
     });
 });
 
+// not pages, but requests for the data
+router.get('/buses',(req, res)=>{
+    res.send(readBusStatus());
+})
+
+router.get('/weather',(req, res)=>{
+    res.send(readWeather());
+})
+
+// tv route
+router.get("/tv",(req: Request, res: Response) => {
+    // Reads from data file and displays data
+    res.render("tv", {
+        data: readData(),
+        render: fs.readFileSync(path.resolve(__dirname, "../views/include/tvIndexContent.ejs")), 
+    })
+})
 
 // Login page. User authenticates here and then is redirected to admin (where they will be authorized)
 router.get("/login", (req: Request, res: Response) => {
@@ -70,6 +87,13 @@ router.get("/beans", async (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, "../static/img/beans.jpg"));
 });
 
+router.get("/manifest.webmanifest", (req: Request, res: Response) => {
+    res.sendFile(path.resolve(__dirname, "../data/manifest.webmanifest"))
+});
+router.get("/sw.js", (req: Request, res: Response) => {
+    res.sendFile(path.resolve(__dirname, "../sw.js"))
+});
+
 /* Admin page. This is where bus information can be updated from
 Reads from data file and displays data */
 router.get("/updateBusList", (req: Request, res: Response) => {
@@ -102,7 +126,7 @@ router.get('/whitelist', (req: Request,res: Response)=>{
     // Authorizes user, then either displays admin page or unauthorized page
     authorize(req);
     if (req.session.isAdmin) {
-        res.render("whitelist", {
+        res.render("updateWhitelist", {
             whitelist: readWhitelist()
         });
     }

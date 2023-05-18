@@ -47,8 +47,16 @@ export function readWhitelist(): {admins: string[]} {
     return {admins: JSON.parse(fs.readFileSync(whitelistDatafile, "utf-8"))};
 }
 
+export function readWeather(): {weather: string[]} {
+    return {weather: JSON.parse(fs.readFileSync(weatherDatafile, "utf-8"))};
+}
+
 export function readBusList(): {busList: string[]} {
     return {busList: JSON.parse(fs.readFileSync(busListDatafile, "utf-8"))};
+}
+
+export function readBusStatus(): {busList: string[]} {
+    return {busList: JSON.parse(fs.readFileSync(busesDatafile, "utf-8"))};
 }
 
 export function writeBusList(data: string[]) {
