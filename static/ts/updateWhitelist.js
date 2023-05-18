@@ -12,7 +12,7 @@ var admins;
 fetch("/whitelistFile").then((data) => data.json()).then((data) => admins = data);
 var newAdminEmptyRow;
 fetch("/adminEmptyRow").then((res) => res.text()).then((data) => newAdminEmptyRow = data);
-function addAdmin_admins3(e) {
+function addAdmin_admins(e) {
     console.log(e);
     let row = e.parentElement.parentElement;
     let admin = row.children[0].children[0].value;
@@ -34,7 +34,7 @@ function addAdmin_admins3(e) {
         gleepGlorp.value = "";
     }
 }
-function removeAdmin_admins2(secondChild) {
+function removeAdmin_admins(secondChild) {
     let row = secondChild.parentElement.parentElement;
     let admin = row.children[0].innerHTML;
     admins.splice(admins.indexOf(admin), 1);

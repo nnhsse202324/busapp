@@ -28,12 +28,12 @@
             </thead>
             <tr class="add-row">
                 <td class="email-col"><input type="text" id="gleepGlorp" placeholder="Enter Email"></td>
-                <td class="add-cell change-col"><i class="fa-solid fa-plus add-button table-button" onclick="addAdmin_admins3(this)"></i></td>
+                <td class="add-cell change-col"><i class="fa-solid fa-plus add-button table-button" onclick="addAdmin_admins(this)"></i></td>
             </tr>
             <% for(i = 0; i < whitelist.admins.length; i++) { %>
                 <tr>
                     <td class="email-col"><%= whitelist.admins[i]%></td>
-                    <td class="change-col"><i class="fas fa-times remove-button table-button" onclick="removeAdmin_admins2(this)"></i></td>
+                    <td class="change-col"><i class="fas fa-times remove-button table-button" onclick="removeAdmin_admins(this)"></i></td>
                 </tr>
             <% } %> 
         </table>

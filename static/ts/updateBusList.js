@@ -15,7 +15,7 @@ fetch("/updateBusListEmptyRow").then((res) => res.text()).then((data) => newBusE
 let newBusRow;
 fetch("/updateBusListPopulatedRow").then((res) => res.text()).then((data) => newBusRow = data);
 function newBus_busList() {
-    const row = document.getElementsByClassName("buslist-table")[0].insertRow(2);
+    const row = document.getElementsByClassName("buslist-table")[0].insertRow(1);
     const html = ejs.render(newBusEmptyRow);
     row.innerHTML = html;
     let input = row.children[0].children[0];
@@ -33,9 +33,10 @@ function addBus_busList(confirmButton) {
         index = busList.length;
     busList.splice(index, 0, number);
     row.remove();
-    const newRow = document.getElementsByClassName("buslist-table")[0].insertRow(index + 2);
+    const newRow = document.getElementsByClassName("buslist-table")[0].insertRow(index + 1);
     const html = ejs.render(newBusRow, { number: number });
     newRow.innerHTML = html;
+    newBus_busList();
 }
 function removeBus_busList(secondChild) {
     let row = secondChild.parentElement.parentElement;

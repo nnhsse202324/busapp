@@ -11,9 +11,11 @@ The below are the intended experiences for both admins and students:
 #### Admin Experience
 From the homepage, admins should click the “Login as editor” button in the top right and complete authentication via google on the login page. If they are on the whitelist, they will be redirected to the admin page.
 
-From this page admins are able to edit bus changes, status (Not Here, Next Wave, Loading or Gone) and time. Time will update automatically when status is changed. Additionally, they can add or remove buses.
+From this page admins are able to edit bus changes, status (Not Here, Next Wave, Loading or Gone) and time. Time will update automatically when status is changed.
 
-Additionally, admins are granted the ability to add or remove other admins from the whitelist. All admins are able to view the current whitelist at any time.
+From the button labeled "Update Bus List," admins can change the default bus list. Entering a number into the button labeled "Add" and clicking the checkmark will add the bus, though the rest of the bus app will not change immediately. To save their changes, admins should click "Save Changes" to save the changes they've made and to update all active pages, or "Save Without Updating" to save them without updating the pages until the following day. They can also press "Discard Changes" to remove any changes they've made without saving. 
+
+Additionally, admins are granted the ability to add or remove other admins from the whitelist, from the page directed to by the "Add New Admin" button. All admins are able to view the current whitelist at any time.
 
 Adding an admin requires the email address of the admin to be added. Enter the new address and press the plus next to their name to add them. In the event that an admin must be removed, it is as simple as pressing the button next to their name. Remember to press the save button at the top of the page after making any changes (unless the change in unintentional, in which case the discard button can be utilized).
 

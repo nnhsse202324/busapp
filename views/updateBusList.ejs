@@ -28,8 +28,8 @@
                 </tr>                
             </thead>
             <tr class="add-bus-row">
-                <td class=>Add bus</td>
-                <td class="add-bus-cell"><i class="fa-solid fa-plus add-bus-button table-button" onclick="newBus_busList()"></i></td>
+                <td class="bus-input-cell"><input type="text" id="gleepGlorp" placeholder="Add"></td>
+                <td class="add-bus-cell"><i class="fa-solid fa-check confirm-button table-button" onclick="addBus_busList(this)"></i></td>
             </tr>
             <% for(i = 0; i <data.busList.length; i++) { %>
                 <tr>

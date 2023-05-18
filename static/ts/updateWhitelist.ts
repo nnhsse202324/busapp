@@ -5,7 +5,7 @@ var newAdminEmptyRow: string;
 fetch("/adminEmptyRow").then((res) => res.text()).then((data) => newAdminEmptyRow = data);
  
 
-function addAdmin_admins3(e: HTMLElement) {
+function addAdmin_admins(e: HTMLElement) {
     console.log(e)
     let row = e.parentElement!.parentElement! as HTMLTableRowElement;
     let admin = (row.children[0]!.children[0] as HTMLInputElement).value;
@@ -30,7 +30,7 @@ function addAdmin_admins3(e: HTMLElement) {
     
 }
 
-function removeAdmin_admins2(secondChild: HTMLElement) {
+function removeAdmin_admins(secondChild: HTMLElement) {
     let row = secondChild.parentElement!.parentElement! as HTMLTableRowElement;
     let admin = row.children[0]!.innerHTML;
     admins.splice(admins.indexOf(admin), 1);
