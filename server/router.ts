@@ -176,6 +176,9 @@ router.post("/updateBusList", (req: Request, res: Response) => {
     if (req.body.reset) resetDatafile();
 });
 
+router.get('/help',(req: Request, res: Response)=>{
+res.render('help');
+})
 router.post("/whitelistFile",(req:Request,res: Response) => {
     fs.writeFileSync(path.resolve(__dirname, "../data/whitelist.json"), JSON.stringify(req.body.admins));
 });

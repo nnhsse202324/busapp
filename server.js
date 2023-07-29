@@ -74,6 +74,7 @@ app.use("/", router_1.router); // Imports routes from server/router.ts
 app.use("/css", express_1.default.static(path_1.default.resolve(__dirname, "static/css")));
 app.use("/js", express_1.default.static(path_1.default.resolve(__dirname, "static/ts")));
 app.use("/img", express_1.default.static(path_1.default.resolve(__dirname, "static/img")));
+app.use('/html', express_1.default.static(path_1.default.resolve(__dirname, "static/html")));
 (0, weatherController_1.startWeather)(io);
 // Code to reset bus list automatically at midnight
 function resetBuses() {

@@ -190,6 +190,9 @@ exports.router.post("/updateBusList", (req, res) => {
     if (req.body.reset)
         (0, server_1.resetDatafile)();
 });
+exports.router.get('/help', (req, res) => {
+    res.render('help');
+});
 exports.router.post("/whitelistFile", (req, res) => {
     fs_1.default.writeFileSync(path_1.default.resolve(__dirname, "../data/whitelist.json"), JSON.stringify(req.body.admins));
 });

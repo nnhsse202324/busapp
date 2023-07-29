@@ -10,7 +10,7 @@ body {
 /* Weather/Notification/Login */
 .header {
     display: grid;
-    grid-template-columns: 7fr 5fr 6fr;
+    grid-template-columns: 7fr 5fr 3fr 3fr;
     grid-template-rows: 1fr 1fr;
     padding: 3% 5%;
     height: 7%;
@@ -66,6 +66,22 @@ body {
     height: 100%;
 }
 
+.help-container {
+    text-align: right;
+    height: 80%;
+    grid-column: 4/4;
+    grid-row: 1/3;
+}
+
+.help-button {
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    font-size: 3.5vw;
+    background-color: #327fa8;
+    color: #ffffff;
+    padding: 4%;
+}
+
 .login-container {
     text-align: right;
     height: 80%;
@@ -83,6 +99,36 @@ body {
 }
 
 #login-button {
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    font-size: 3.5vw;
+    background-color: #327fa8;
+    color: #ffffff;
+    padding: 4%;
+}
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+  
+.button2 {
+    background-color: #008CBA; 
+    color: #ffffff;
+}
+  
+.button2:hover {
+    background-color: #003749;
+    color: rgb(255, 255, 255);
+}
+
+.android-button {
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
     font-size: 3.5vw;
