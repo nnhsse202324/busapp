@@ -53,6 +53,21 @@ exports.router.get("/", (req, res) => {
         render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/indexContent.ejs")),
     });
 });
+// not pages, but requests for the data
+exports.router.get('/buses', (req, res) => {
+    res.send((0, jsonHandler_1.readBusStatus)());
+});
+exports.router.get('/weather', (req, res) => {
+    res.send((0, jsonHandler_1.readWeather)());
+});
+// tv route
+exports.router.get("/tv", (req, res) => {
+    // Reads from data file and displays data
+    res.render("tv", {
+        data: (0, jsonHandler_1.readData)(),
+        render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/tvIndexContent.ejs")),
+    });
+});
 // Login page. User authenticates here and then is redirected to admin (where they will be authorized)
 exports.router.get("/login", (req, res) => {
     res.render("login");
@@ -97,6 +112,12 @@ exports.router.get("/admin", (req, res) => {
 exports.router.get("/beans", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.sendFile(path_1.default.resolve(__dirname, "../static/img/beans.jpg"));
 }));
+exports.router.get("/manifest.webmanifest", (req, res) => {
+    res.sendFile(path_1.default.resolve(__dirname, "../data/manifest.webmanifest"));
+});
+exports.router.get("/sw.js", (req, res) => {
+    res.sendFile(path_1.default.resolve(__dirname, "../sw.js"));
+});
 /* Admin page. This is where bus information can be updated from
 Reads from data file and displays data */
 exports.router.get("/updateBusList", (req, res) => {
@@ -105,6 +126,7 @@ exports.router.get("/updateBusList", (req, res) => {
         res.redirect("/login");
         return;
     }
+    +
     // Authorizes user, then either displays admin page or unauthorized page
     authorize(req);
     if (req.session.isAdmin) {
@@ -116,14 +138,52 @@ exports.router.get("/updateBusList", (req, res) => {
         res.render("unauthorized");
     }
 });
+exports.router.get('/whitelist', (req, res) => {
+    // If user is not authenticated (email is not is session) redirects to login page
+    if (!req.session.userEmail) {
+        res.redirect("/login");
+        return;
+    }
+    // Authorizes user, then either displays admin page or unauthorized page
+    authorize(req);
+    if (req.session.isAdmin) {
+        res.render("updateWhitelist", {
+            whitelist: (0, jsonHandler_1.readWhitelist)()
+        });
+    }
+    else {
+        res.render("unauthorized");
+    }
+});
+exports.router.get('/updateWhitelist', (req, res) => {
+    // If user is not authenticated (email is not is session) redirects to login page
+    if (!req.session.userEmail) {
+        res.redirect("/login");
+        return;
+    }
+    // Authorizes user, then either displays admin page or unauthorized page
+    authorize(req);
+    if (req.session.isAdmin) {
+        res.render("updateWhitelist");
+    }
+    else {
+        res.render("unauthorized");
+    }
+});
 exports.router.get("/updateBusListEmptyRow", (req, res) => {
     res.sendFile(path_1.default.resolve(__dirname, "../views/sockets/updateBusListEmptyRow.ejs"));
 });
 exports.router.get("/updateBusListPopulatedRow", (req, res) => {
     res.sendFile(path_1.default.resolve(__dirname, "../views/sockets/updateBusListPopulatedRow.ejs"));
 });
+exports.router.get("/adminEmptyRow", (req, res) => {
+    res.sendFile(path_1.default.resolve(__dirname, "../views/sockets/adminEmptyRow.ejs"));
+});
 exports.router.get("/busList", (req, res) => {
     res.type("json").send((0, fs_1.readFileSync)(path_1.default.resolve(__dirname, "../data/busList.json")));
+});
+exports.router.get("/whitelistFile", (req, res) => {
+    res.type("json").send((0, fs_1.readFileSync)(path_1.default.resolve(__dirname, "../data/whitelist.json")));
 });
 exports.router.post("/updateBusList", (req, res) => {
     fs_1.default.writeFileSync(path_1.default.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
@@ -132,5 +192,7 @@ exports.router.post("/updateBusList", (req, res) => {
 });
 exports.router.get('/help', (req, res) => {
     res.render('help');
+exports.router.post("/whitelistFile", (req, res) => {
+    fs_1.default.writeFileSync(path_1.default.resolve(__dirname, "../data/whitelist.json"), JSON.stringify(req.body.admins));
 });
 //# sourceMappingURL=router.js.map

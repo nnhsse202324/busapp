@@ -25,6 +25,7 @@ body {
     background-color: #327fa8;
     color: #ffffff;
     padding: 4%;
+    cursor:pointer; /*changes pointer on "add bus" and "add new admin" as they were just arrows before this line was added. Not sure why it was different, could be fixed in a better way somewhere else.*/
 }
 
 * {

@@ -8,7 +8,7 @@ let newBusRow: string;
 fetch("/updateBusListPopulatedRow").then((res) => res.text()).then((data) => newBusRow = data);
 
 function newBus_busList() {
-    const row = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(2);
+    const row = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(1);
     const html = ejs.render(newBusEmptyRow);
     row.innerHTML = html;
     let input = row.children[0]!.children[0] as HTMLInputElement;
@@ -26,9 +26,10 @@ function addBus_busList(confirmButton: HTMLElement) {
     if (index == -1) index = busList.length;
     busList.splice(index, 0, number);
     row.remove();
-    const newRow = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(index + 2);
+    const newRow = (<HTMLTableElement> document.getElementsByClassName("buslist-table")[0]).insertRow(index + 1);
     const html = ejs.render(newBusRow, {number: number});
     newRow.innerHTML = html;
+    newBus_busList();
 }
 
 function removeBus_busList(secondChild: HTMLElement) {
@@ -43,7 +44,7 @@ async function  save(reset: boolean) {
         if (!confirm("Are you sure you would like to update the bus list and reset all live pages?")) return;
     }
     else {
-        if(!confirm("Are you sure you would like to update the bus list? (This will not changes any active pages until midnight)")) return;
+        if(!confirm("Are you sure you would like to update the bus list? (This will not change any active pages until midnight)")) return;
     }
 
     fetch("/updateBusList", {

@@ -5,13 +5,13 @@ import fs from "fs";
 import bodyParser from "body-parser";
 import {createServer} from "http";
 import {Server} from "socket.io";
-import {readData, writeBuses, BusData, readBusList} from "./server/jsonHandler";
+import {readData, writeBuses, BusData, readBusList, writeWhitelist} from "./server/jsonHandler";
 import {startWeather} from "./server/weatherController";
 import session from "express-session";
 
 const app: Application = express();
 const httpServer = createServer(app);
-const io  = new Server(httpServer);
+const io = new Server(httpServer);
 
 const PORT = process.env.PORT || 5182;
 
@@ -19,6 +19,9 @@ type BusCommand = {
     type: string
     data: BusData
 }
+
+
+
 
 const busesDatafile = path.resolve(__dirname, "./data/buses.json");
 const defaultBusesDatafile = path.resolve(__dirname, "./data/defaultBuses.txt");
@@ -29,7 +32,7 @@ resetBuses();
 io.of("/").on("connection", (socket) => {
     //console.log(`new connection on root (id:${socket.id})`);
     socket.on("debug", (data) => {
-        //console.log(`debug(root): ${data}`);
+        console.log(`debug(root): ${data}`);
     });
 });
 
@@ -63,6 +66,7 @@ io.of("/admin").on("connection", (socket) => {
         // buses.forEach((bus) => {console.log(bus.number)});
         io.of("/").emit("update", readData());
         socket.broadcast.emit("updateBuses", command);
+        
     });
     socket.on("debug", (data) => {
         console.log(`debug(admin): ${data}`);
@@ -106,3 +110,16 @@ setTimeout(resetBuses, midnight.valueOf() - new Date().valueOf());
 
 // Starts server
 httpServer.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)});
+
+//whitelist socket
+
+// io.of("/whitelist").on("connection", (socket) => {
+//     socket.on("addAdmin", (newAdmin: string) => {
+//         //add admin to whitelist with jsonHandler.ts functions
+//         writeWhitelist(newAdmin);
+//     });
+//     socket.on(  "debug", (data) => {
+//         console.log(`debug(admin): ${data}`);
+//     });
+// });
+

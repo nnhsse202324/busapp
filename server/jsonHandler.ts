@@ -9,7 +9,9 @@ const whitelistDatafile = path.resolve(__dirname, "../data/whitelist.json");
 const busListDatafile = path.resolve(__dirname, "../data/busList.json");
 
 export type BusData = {number: string, change: string | undefined, time: string | undefined, status: string | undefined};
+export type adminData = {address: string};
 type Weather = {status: string, icon: string, temperature: string, feelsLike: string}
+
 
 // Load data file. If no file exists creates one
 export function readData() {
@@ -45,10 +47,28 @@ export function readWhitelist(): {admins: string[]} {
     return {admins: JSON.parse(fs.readFileSync(whitelistDatafile, "utf-8"))};
 }
 
+export function readWeather(): {weather: string[]} {
+    return {weather: JSON.parse(fs.readFileSync(weatherDatafile, "utf-8"))};
+}
+
 export function readBusList(): {busList: string[]} {
     return {busList: JSON.parse(fs.readFileSync(busListDatafile, "utf-8"))};
 }
 
+export function readBusStatus(): {busList: string[]} {
+    return {busList: JSON.parse(fs.readFileSync(busesDatafile, "utf-8"))};
+}
+
 export function writeBusList(data: string[]) {
     fs.writeFileSync(busListDatafile, JSON.stringify(data));
+}
+/*
+export function writeWhitelist(data: string[]) {
+    fs.writeFileSync(whitelistDatafile, JSON.stringify(data));
+}
+*/
+export function writeWhitelist(data: string) {
+    let oldWhitelist: string[] = readWhitelist().admins;
+    oldWhitelist.push(data)
+    fs.writeFileSync(whitelistDatafile, JSON.stringify(oldWhitelist));
 }

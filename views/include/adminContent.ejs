@@ -1,10 +1,15 @@
 <div class="header">
+    
     <div class="buttons">
-        <button class="button" onclick="newBus()">Add Bus</button>
         <a class="button" href="/updateBusList">Update Bus List</a>
-        <a class="button" href="/">Back to hompage</a>
-        
+        <button class="button" onclick="addAdmin()">Add New Admin</button> <!--new button to redirect to whitelist page-->
+        <a class="button" href="/">Back to homepage</a>
     </div>
+    <script>
+        function addAdmin() {
+          location.replace("/whitelist")
+        }
+    </script>
 </div>
 <table id="bus-table" class="bus-table">
     <thead>

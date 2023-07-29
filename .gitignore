@@ -1,6 +1,5 @@
-data/buses.yml
-data/weather.yml
-
+# weather file
+data/weather.json
 
 # Created by https://www.toptal.com/developers/gitignore/api/node
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
@@ -145,4 +144,7 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
+.DS_Store
+
 # End of https://www.toptal.com/developers/gitignore/api/node
+

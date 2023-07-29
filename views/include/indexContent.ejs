@@ -10,31 +10,74 @@
             <img src=<%= data.weather.icon %>>
         </div>
     </div>
+    <!--
+    <div class="notif-container">
+        <a id="notif-notice" onclick="requestNotificationPermission()"><i class="fa-solid fa-bell"></i></a>
+    </div>
+    -->
     <div class="login-container">
-        <a href="/admin" class="button button2 login-button">Login As Editor</a>
+        <a id="login-button" href="/admin">Login as editor</a>
     </div>
     <div class="help-container">
         <a class="help-button" href="/help">Help!</a>
     </div>
 </div>
-<table class="bus-table">
-    <thead>
-        <tr>
-            <th>Bus Number</th>
-            <th>Bus Change</th>
-            <th>Status</th>
-            <th>Time</th>
-        </tr>
-    </thead>
-    <tbody>
-    <% for(let i = 0; i < data.buses.length; i++) { %> 
-        <tr>
-            <td><%= data.buses[i].number %></td>
-            <td><%= data.buses[i].change %></td>
-            <td><%= data.buses[i].status %></td>
-            <td><%= data.buses[i].time %></td>                
-        </tr>
-    <% } %> 
-    </tbody>
-
-</table>
+<div class="tables-container">
+    <div id="buses">
+        <!-- pins -->
+        <table class="bus-table" id="pin-bus-table">
+            <thead>
+                <tr>
+                    <th colspan="4" style="background-color: #bf2214; font-size: 160%;"><i class="fa-solid fa-thumbtack fa-fw"></i> Pinned Buses</th>
+                </tr>
+                <tr>
+                    <th class="num-col">Bus # &rarr; Change</th>
+                    <th class="status-col">Status</th>
+                    <th class="time-col">Time</th>
+                    <th class="pin-col">Pin?</th>
+                </tr>
+            </thead>
+            <tbody id="pin-bus-rows">
+            <% for(let i = 0; i < data.buses.length; i++) { %>
+                <tr>
+                    <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %> &rarr; <%= data.buses[i].change %></span><% } %></td>
+                    <td class="status-col"><%= data.buses[i].status %></td>
+                    <td class="time-col"><%= data.buses[i].time %></td>
+                    <td class="pin-col"><button class="pin-button" style="background-color: #bf2214" onclick="pinBus(this)"><i class="fa-solid fa-thumbtack"></i> Unpin</button></td>             
+                </tr>
+            <% } %> 
+                <tr>
+                    <td colspan="4" style="text-align:center">No buses pinned.</td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- all buses -->
+        <table class="bus-table" id="all-bus-table">
+            <thead>
+                <tr>
+                    <th colspan="4" style="background-color: #05a1f5; font-size: 160%;"><i class="fa fa-star fa-fw"></i> All Buses</th>
+                </tr>
+                <tr>
+                    <th class="num-col">Bus # &rarr; Change</th>
+                    <th class="status-col">Status</th>
+                    <th class="time-col">Time</th>
+                    <th class="pin-col">Pin?</th>
+                </tr>
+            </thead>
+            <tbody id="all-bus-rows">
+            <% for(let i = 0; i < data.buses.length; i++) { %> 
+                <tr>
+                    <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %> &rarr; <%= data.buses[i].change %></span><% } %></td>
+                    <td class="status-col"><%= data.buses[i].status %></td>
+                    <td class="time-col"><%= data.buses[i].time %></td>
+                    <td class="pin-col"><button class="pin-button" onclick="pinBus(this)"><i class="fa-solid fa-thumbtack"></i> Pin</button></td>
+                </tr>
+            <% } %> 
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- <p id="contactInfo">
+    If you have feedback, feature requests or bugs to report please contact busappnnhsse@gmail.com. 
+    Please include the topic of the email in the subject.
+</p> -->

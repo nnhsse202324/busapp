@@ -1,14 +1,6 @@
-<tr>
-    <td><input class="tableInput numberInput" type="number" oninput="startTimeout(this, `new`)"></td>
-    <td><input class="tableInput changeInput" type="number" oninput="startTimeout(this, `new`)"></td>
-    <td>
-        <select class="tableInput statusInput" onchange="statusChange(this, `new`); startTimeout(this, `new`)">
-            <option value="Not Here" selected>Not Here</option>
-            <option value="Next Wave">Next Wave</option>
-            <option value="Loading">Loading</option>
-            <option value="Gone">Gone</option>
-        </select>
-    </td>
-    <td><input class="tableInput timeInput" type="text" oninput="startTimeout(this, `new`)"></td>
-    <td class="deleteBus"><i class="fas fa-times" onclick="cancelBus(this)"></i></td>
+
+<tr class="new-admin-row">
+    <td><%= newAddress %></td>
+    <td class="change-col"><i class="fas fa-times remove-xssbutton new-table-button" onclick="removeAdmin_admins(this)"></i></td>
 </tr>
+    

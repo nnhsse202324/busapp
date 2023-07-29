@@ -4,14 +4,23 @@ The Bus App is a web application that allows admins in charge of bus communicati
 ## Intended Experience
 To access the Bus App, all users should enter the website url (https://busapp.nnhsse.org/) into a browser. For convenience, it is recommended that users save this website to their phone’s homepage. 
 
+This website can be saved to be used like a regular mobile application on Android and IOS devices. If using Google Chrome, users should click the three dots next to the URL bar and select 'add to homepage'. On Safari, users should click the 'send' icon, scroll down and select 'add to homescreen'. 
+
 The below are the intended experiences for both admins and students:
 
 #### Admin Experience
 From the homepage, admins should click the “Login as editor” button in the top right and complete authentication via google on the login page. If they are on the whitelist, they will be redirected to the admin page.
 
-From this page admins are able to edit bus changes, status (Not Here, Next Wave, Loading or Gone) and time. Time will update automatically when status is changed. Additionally, they can add or remove buses.
+From this page admins are able to edit bus changes, status (Not Here, Next Wave, Loading or Gone) and time. Time will update automatically when status is changed.
+
+From the button labeled "Update Bus List," admins can change the default bus list. Entering a number into the button labeled "Add" and clicking the checkmark will add the bus, though the rest of the bus app will not change immediately. To save their changes, admins should click "Save Changes" to save the changes they've made and to update all active pages, or "Save Without Updating" to save them without updating the pages until the following day. They can also press "Discard Changes" to remove any changes they've made without saving. 
+
+Additionally, admins are granted the ability to add or remove other admins from the whitelist, from the page directed to by the "Add New Admin" button. All admins are able to view the current whitelist at any time.
+
+Adding an admin requires the email address of the admin to be added. Enter the new address and press the plus next to their name to add them. In the event that an admin must be removed, it is as simple as pressing the button next to their name. Remember to press the save button at the top of the page after making any changes (unless the change in unintentional, in which case the discard button can be utilized).
 
 Administrator Handbook: https://docs.google.com/document/d/1MaySGjV3I7LIaNLHDQCaPODoN7ZUI3aYht6oijkWy_4/edit?usp=sharing
+
 
 #### Student Experience 
 On the home page, students have access to all the information they need. The page consists of  a bus table displaying Bus Number, Bus Change, Status and Time. Additionally, a panel displaying the weather is visible in the top right. 
@@ -19,6 +28,8 @@ On the home page, students have access to all the information they need. The pag
 Students should first check for a bus change when opening the app and then periodically check the status of their bus to make sure they catch it. Information updated by admins is live so students will not have to refresh to view new information.
 
 Informational video for students: https://drive.google.com/file/d/1GNePsvjmeqIkuCKzadV3rCa1L38vnhKd/view?usp=sharing
+--Pin System--
+A new addition to the Bus App is the Pin system. This system allows students to "Pin" their buses. The student will only recieve notifications from pinned buses' status changes. Thus, this closely links with the Notification system, as otherwise it would be quite hectic if students got notifications for every single bus change that happened.
 
 ## Project Setup
 Follow these steps to setup the Bus App project
@@ -30,6 +41,10 @@ Follow these steps to setup the Bus App project
 
 #### On Local Host
 To run the Bus App on local host, run `npm run buildStart` using a terminal currently in the home directory of the project. This compiles the typescript and starts the server. After you see the message `Server is running on port 5182` you’ve started the server successfully. Now go to `http://localhost:5182/` to start development.
+
+### On Dev Server
+To run the Bus App on the development server, you need to ask Mr. Schmit to host the server, and after he gives you confirmation that it is up and running, it's exactly the same as the production server, but with a different domain name. Go to 'https://busappdev.nnhsse.org/' to start development. One thing to note is that the development server does not update until the server is rebuilt, so make sure everything you want to test is in a finished state.
+
 
 #### Debugging
 To debug the Bus App on your development system, run `npm run devstart` using a terminal currently in the home directory of the project. Then choose the "Start Debugging" menu item in the "Run" menu. You can now set breakpoints in the typescript files.
@@ -47,7 +62,7 @@ sudo apt-get install -y nodejs
 ```
 
 6. On the EC2 instance, install nginx: `sudo apt-get -y install nginx`
-7. Create a reverse proxy for the Intelligent Grouping App node server. In the file /etc/nginx/sites-enabled/busApp:
+7. Create a reverse proxy for the Bus App node server. In the file /etc/nginx/sites-enabled/busApp:
 
 ```
 server {
@@ -124,7 +139,13 @@ Ejs is a form of html that allows javascript to be run during the creation of th
 ##### Socket.io
 Socket.io allows us to send data to and from the server in live time using `emit()` and `on()`. This is important because it allows us to update a page without it being refreshed which is key to the functionality of the Bus App. Please see the official documentation: https://socket.io/
 
+#### Service Workers
+Serice workers allow us to add extra functionality to the webapp. This allows it to run closer to a native app, doing things such as enabling notifications and allowing the webapp to access the local storage of the users device. Service workers are enabled through the existence of a the "manifest.webmanifest" file. This file edits the mobile appearance of the webapp. Service worker functionalities are edited through the "indexconnect.ts" file
+
 #### Review Checklist
 To reduce errors on the main branch, we developed a review checklist that MUST be completed before pull requests into the main branch. This list should be updated as new features are added that need to be reviewed.
 
 Bus App Review Checklist: https://docs.google.com/document/d/1LyFzvAMvRl7MwXduhM87Do7hioelJ-QnWEe4GnpKBU4/edit?usp=sharing
+
+## Remaining User Stories (in product backlog)
+Captured in Trello
