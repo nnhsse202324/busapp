@@ -12,7 +12,7 @@ body {
     display: grid;
     grid-template-columns: 7fr 5fr 3fr 3fr;
     grid-template-rows: 1fr 1fr;
-        padding: 3% 5%;
+    padding: 3% 5%;
     height: 7%;
 }
 

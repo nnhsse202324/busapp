@@ -90,7 +90,7 @@ app.use('/html', express.static(path.resolve(__dirname, "static/html")));
 
 startWeather(io);
 
-// Code to reset bus list automatically a midnight
+// Code to reset bus list automatically at midnight
 function resetBuses() {
     resetDatafile();
     setInterval(resetDatafile, 86400000);
