@@ -68,8 +68,9 @@ body {
 
 .help-container {
     text-align: right;
+    height: 80%;
     grid-column: 4/4;
-    grid-row: 1/2;
+    grid-row: 1/3;
 }
 
 .help-button {
