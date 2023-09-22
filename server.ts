@@ -26,7 +26,7 @@ type BusCommand = {
 const busesDatafile = path.resolve(__dirname, "./data/buses.json");
 const defaultBusesDatafile = path.resolve(__dirname, "./data/defaultBuses.txt");
 let buses: BusData[];
-resetBuses();
+resetDatafile();
 
 //root socket
 io.of("/").on("connection", (socket) => {
