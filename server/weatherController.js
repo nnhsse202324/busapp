@@ -18,11 +18,16 @@ const node_fetch_1 = __importDefault(require("node-fetch"));
 // Code to update weather automcatically every 5 minutes
 function getWeather(io) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield (0, node_fetch_1.default)("http://api.weatherapi.com/v1/current.json?"
-            + new URLSearchParams([["key", "8afcf03c285047a1b6e201401222202"], ["q", "60563"]]));
-        (0, jsonHandler_1.writeWeather)(yield res.json());
-        io.of("/").emit("update", (0, jsonHandler_1.readData)());
-        io.of("/admin").emit("updateWeather", (0, jsonHandler_1.readData)().weather);
+        try {
+            const res = yield (0, node_fetch_1.default)("http://api.weatherapi.com/v1/current.json?"
+                + new URLSearchParams([["key", "8afcf03c285047a1b6e201401222202"], ["q", "60563"]]));
+            (0, jsonHandler_1.writeWeather)(yield res.json());
+            io.of("/").emit("update", (0, jsonHandler_1.readData)());
+            io.of("/admin").emit("updateWeather", (0, jsonHandler_1.readData)().weather);
+        }
+        catch (error) {
+            console.log('failed to fetch data from weatherapi.com', error);
+        }
     });
 }
 function startWeather(io) {
