@@ -138,6 +138,24 @@ exports.router.get("/updateBusList", (req, res) => {
         res.render("unauthorized");
     }
 });
+exports.router.get("/makeAnnouncement", (req, res) => {
+    // If user is not authenticated (email is not is session) redirects to login page
+    if (!req.session.userEmail) {
+        res.redirect("/login");
+        return;
+    }
+    +
+    // Authorizes user, then either displays admin page or unauthorized page
+    authorize(req);
+    if (req.session.isAdmin) {
+        res.render("makeAnnouncement", {
+            data: (0, jsonHandler_1.readBusList)()
+        });
+    }
+    else {
+        res.render("unauthorized");
+    }
+});
 exports.router.get('/whitelist', (req, res) => {
     // If user is not authenticated (email is not is session) redirects to login page
     if (!req.session.userEmail) {
