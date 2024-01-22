@@ -202,3 +202,6 @@ res.render('help');
 router.post("/whitelistFile",(req:Request,res: Response) => {
     fs.writeFileSync(path.resolve(__dirname, "../data/whitelist.json"), JSON.stringify(req.body.admins));
 });
+router.post("/submitAnnouncement", (req: Request, res: Response) => {
+
+});
