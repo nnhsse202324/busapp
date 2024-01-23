@@ -45,12 +45,16 @@ const server_1 = require("../server");
 exports.router = express_1.default.Router();
 const CLIENT_ID = "319647294384-m93pfm59lb2i07t532t09ed5165let11.apps.googleusercontent.com";
 const oAuth2 = new google_auth_library_1.OAuth2Client(CLIENT_ID);
+const bodyParser = require('body-parser');
+exports.router.use(bodyParser.urlencoded({ extended: true }));
+let announcement = "";
 // Homepage. This is where students will view bus information from. 
 exports.router.get("/", (req, res) => {
     // Reads from data file and displays data
     res.render("index", {
         data: (0, jsonHandler_1.readData)(),
         render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/indexContent.ejs")),
+        announcement: announcement
     });
 });
 // not pages, but requests for the data
@@ -213,5 +217,13 @@ exports.router.get('/help', (req, res) => {
 });
 exports.router.post("/whitelistFile", (req, res) => {
     fs_1.default.writeFileSync(path_1.default.resolve(__dirname, "../data/whitelist.json"), JSON.stringify(req.body.admins));
+});
+exports.router.post("/submitAnnouncement", (req, res) => {
+    announcement = req.body.announcement;
+    res.redirect("/admin");
+});
+exports.router.post("/clearAnnouncement", (req, res) => {
+    announcement = "";
+    res.redirect("/admin");
 });
 //# sourceMappingURL=router.js.map

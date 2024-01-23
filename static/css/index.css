@@ -274,3 +274,12 @@ body {
         cursor: pointer;
     }
 }
+
+.announcement {
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    font-size: 30px;
+    text-align: center;
+    padding: 20px;
+    color:#003749;
+}

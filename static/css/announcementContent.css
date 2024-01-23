@@ -10,21 +10,22 @@ body {
 }
 
 .buttons {
-    height: 50px;
-    position: relative;
-    align-items: center;
-} 
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-left: 10%;
+}
 
 .button {
     font-family: 'Montserrat', sans-serif;
-    width: 30%;
-    font-size: 3vw;  
+    text-decoration: none;
+    font-size: 3vw;
     border-width: 0;
     background-color: #327fa8;
     color: #ffffff;
-    position: absolute;
-    top: 50%;
-    left: 35%;
+    padding: 4%;
+    cursor:pointer; /*changes pointer on "add bus" and "add new admin" as they were just arrows before this line was added. Not sure why it was different, could be fixed in a better way somewhere else.*/
 }
 
 * {
@@ -188,5 +189,7 @@ body {
         height: 50%;
         font-size: 2.5vw;
         font-family: 'Montserrat', sans-serif;
+        display: block;
+        margin-left: 12.5%;
     }
 }
