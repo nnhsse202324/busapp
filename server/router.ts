@@ -10,12 +10,18 @@ export const router = express.Router();
 const CLIENT_ID = "319647294384-m93pfm59lb2i07t532t09ed5165let11.apps.googleusercontent.com"
 const oAuth2 = new OAuth2Client(CLIENT_ID);
 
+const bodyParser = require('body-parser');
+router.use(bodyParser.urlencoded({ extended: true }));
+
+let announcement = "";
+
 // Homepage. This is where students will view bus information from. 
 router.get("/", (req: Request, res: Response) => {
     // Reads from data file and displays data
     res.render("index", {
         data: readData(),
-        render: fs.readFileSync(path.resolve(__dirname, "../views/include/indexContent.ejs")), 
+        render: fs.readFileSync(path.resolve(__dirname, "../views/include/indexContent.ejs")),
+        announcement: announcement
     });
 });
 
@@ -116,6 +122,26 @@ router.get("/updateBusList", (req: Request, res: Response) => {
     }
 });
 
+router.get("/makeAnnouncement", (req: Request, res: Response) => {
+    // If user is not authenticated (email is not is session) redirects to login page
+    if (!req.session.userEmail) {
+        res.redirect("/login");
+        return;
+    }+
+    
+    // Authorizes user, then either displays admin page or unauthorized page
+    authorize(req);
+    if (req.session.isAdmin) {
+        res.render("makeAnnouncement",
+        {
+            data: readBusList()
+        });
+    }
+    else {
+        res.render("unauthorized");
+    }
+});
+
 router.get('/whitelist', (req: Request,res: Response)=>{
     // If user is not authenticated (email is not is session) redirects to login page
     if (!req.session.userEmail) {
@@ -182,3 +208,14 @@ res.render('help');
 router.post("/whitelistFile",(req:Request,res: Response) => {
     fs.writeFileSync(path.resolve(__dirname, "../data/whitelist.json"), JSON.stringify(req.body.admins));
 });
+
+router.post("/submitAnnouncement", (req: Request, res: Response) => {
+    announcement = req.body.announcement;
+    res.redirect("/admin");
+});
+
+router.post("/clearAnnouncement", (req: Request, res: Response) => {
+    announcement = "";
+    res.redirect("/admin");
+});
+
