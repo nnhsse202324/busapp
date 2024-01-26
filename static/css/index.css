@@ -240,7 +240,7 @@ body {
     }
     
     .bus-table {
-        width: 70%;
+        width: 70%;     
         font-size: 1.5vw;
     }
 
@@ -280,6 +280,35 @@ body {
     text-decoration: none;
     font-size: 30px;
     text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color:#003749;
+}
+
+.announcement-table {
+    margin: 0 auto 3%;
+    width: 70%;
+    border-collapse: collapse;
+    font-size: 1.7vw;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.announcement-table thead tr {
+    background-color: #327fa8;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.announcement-table tbody tr {
+    border-bottom: 2px solid #dddddd;
+    height: 5vh;
+}
+
+#announcement-table tbody tr {
+    background-color: #ffffff;
+}
+=======
     padding: 20px;
     color:#003749;
 }

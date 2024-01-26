@@ -22,8 +22,19 @@
         <a class="help-button" href="/help">Help</a>
     </div>
 </div>
-<p class="announcement"><%= announcement %></p>
-<div class="tables-container">
+<div class="tables-container">\
+    <% if(announcement != "") { %>
+        <table class="announcement-table" id="announcement-table">
+            <thead>
+                <tr>
+                    <th style="background-color: #838BC2; font-size: 160%; padding-top: 8px; padding-bottom: 8px; padding-left: 16px;"><i class="fa-solid fa-bullhorn fa-fw"></i> Announcement</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td class="announcement"><%= announcement %></td>
+            </tbody>
+        </table>
+    <% } %>
     <div id="buses">
         <!-- pins -->
         <table class="bus-table" id="pin-bus-table">
