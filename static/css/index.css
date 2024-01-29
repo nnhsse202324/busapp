@@ -236,7 +236,9 @@ body {
 .announcement {
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
-    font-size: 30px;
+    font-size: 2.3vw;
+    padding-left: 5px;
+    padding-right: 5px;
     text-align: center;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -319,9 +321,14 @@ body {
     #notif-notice:hover {
         cursor: pointer;
     }
-
+  
     .announcement-table {
         width: 70%;
+        font-size: 1vw;
+    }
+
+    .announcement {
+        font-size: 1.3vw;
     }
 
 }
