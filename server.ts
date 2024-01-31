@@ -8,10 +8,16 @@ import {Server} from "socket.io";
 import {readData, writeBuses, BusData, readBusList, writeWhitelist} from "./server/jsonHandler";
 import {startWeather} from "./server/weatherController";
 import session from "express-session";
+const dotenv = require("dotenv");
+const connectDB = require("./server/database/connection");
+
 
 const app: Application = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer);
+
+dotenv.config({ path: ".env" });
+connectDB();
 
 const PORT = process.env.PORT || 5182;
 
@@ -19,9 +25,6 @@ type BusCommand = {
     type: string
     data: BusData
 }
-
-
-
 
 const busesDatafile = path.resolve(__dirname, "./data/buses.json");
 const defaultBusesDatafile = path.resolve(__dirname, "./data/defaultBuses.txt");
