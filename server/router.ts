@@ -44,6 +44,7 @@ router.get("/tv",(req: Request, res: Response) => {
     res.render("tv", {
         data: readData(),
         render: fs.readFileSync(path.resolve(__dirname, "../views/include/tvIndexContent.ejs")), 
+        announcement: announcement
     })
 })
 

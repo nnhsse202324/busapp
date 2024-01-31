@@ -73,6 +73,7 @@ exports.router.get("/tv", (req, res) => {
     res.render("tv", {
         data: (0, jsonHandler_1.readData)(),
         render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/tvIndexContent.ejs")),
+        announcement: announcement
     });
 });
 // Login page. User authenticates here and then is redirected to admin (where they will be authorized)
