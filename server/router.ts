@@ -4,8 +4,9 @@ import { readData, readWhitelist, readBusList, writeBusList, readWeather, readBu
 import path from "path";
 import fs, {readFileSync} from "fs";
 import {resetDatafile} from "../server";
-
+import { mongo } from "mongoose";
 export const router = express.Router();
+const Announcement = require("./model/announcement");
 
 const CLIENT_ID = "319647294384-m93pfm59lb2i07t532t09ed5165let11.apps.googleusercontent.com"
 const oAuth2 = new OAuth2Client(CLIENT_ID);
@@ -15,13 +16,16 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 let announcement = "";
 
+Announcement.findOneAndUpdate({}, {announcement: ""}, {upsert: true});
+
 // Homepage. This is where students will view bus information from. 
-router.get("/", (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
     // Reads from data file and displays data
+    console.log((await Announcement.findOne({})).announcement);
     res.render("index", {
         data: readData(),
         render: fs.readFileSync(path.resolve(__dirname, "../views/include/indexContent.ejs")),
-        announcement: announcement
+        announcement: (await Announcement.findOne({})).announcement
     });
 });
 
@@ -210,13 +214,16 @@ router.post("/whitelistFile",(req:Request,res: Response) => {
     fs.writeFileSync(path.resolve(__dirname, "../data/whitelist.json"), JSON.stringify(req.body.admins));
 });
 
-router.post("/submitAnnouncement", (req: Request, res: Response) => {
+router.post("/submitAnnouncement", async (req: Request, res: Response) => {
     announcement = req.body.announcement;
+    console.log(announcement);
+    //overwrites the announcement in the database
+    await Announcement.findOneAndUpdate({}, {announcement: announcement}, {upsert: true});
     res.redirect("/admin");
 });
 
-router.post("/clearAnnouncement", (req: Request, res: Response) => {
-    announcement = "";
+router.post("/clearAnnouncement", async (req: Request, res: Response) => {
+    await Announcement.findOneAndUpdate({}, {announcement: ""}, {upsert: true});
     res.redirect("/admin");
 });
 
