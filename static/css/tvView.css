@@ -29,7 +29,7 @@ body {
     grid-template-rows: 2fr 1fr;
     font-family: 'Montserrat', sans-serif;
 
-    height: 50%
+    height: 10vh;
 }
 
 .weather-container * {
