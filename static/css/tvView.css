@@ -28,7 +28,6 @@ body {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 2fr 1fr;
     font-family: 'Montserrat', sans-serif;
-
     height: 10vh;
 }
 
