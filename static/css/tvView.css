@@ -13,7 +13,7 @@ body {
     grid-template-columns: 9fr 16fr 4fr;
     grid-template-rows: 1fr 1fr;
     padding: 3% 3.2%;
-    height: 9%;
+    height: 5.5%;
 }
 
 .weather-container {
@@ -28,8 +28,7 @@ body {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 2fr 1fr;
     font-family: 'Montserrat', sans-serif;
-
-    height: 50%
+    height: 10vh;
 }
 
 .weather-container * {

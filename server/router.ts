@@ -4,7 +4,6 @@ import { readData, readWhitelist, readBusList, writeBusList, readWeather, readBu
 import path from "path";
 import fs, {readFileSync} from "fs";
 import {resetDatafile} from "../server";
-import { mongo } from "mongoose";
 export const router = express.Router();
 const Announcement = require("./model/announcement");
 
@@ -39,12 +38,12 @@ router.get('/weather',(req, res)=>{
 })
 
 // tv route
-router.get("/tv",(req: Request, res: Response) => {
+router.get("/tv", async (req: Request, res: Response) => {
     // Reads from data file and displays data
     res.render("tv", {
         data: readData(),
-        render: fs.readFileSync(path.resolve(__dirname, "../views/include/tvIndexContent.ejs")), 
-        announcement: announcement
+        render: fs.readFileSync(path.resolve(__dirname, "../views/include/tvIndexContent.ejs")),                                
+        announcement: (await Announcement.findOne({})).announcement
     })
 })
 
