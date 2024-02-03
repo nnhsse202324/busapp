@@ -1,6 +1,6 @@
 <form action="/submitAnnouncement" method="post">
 <text class="label">Announcement</label>
-<textarea type="text" name="announcement" class="content"></textarea>
+<textarea type="text" name="announcement" class="content"><%= currentAnnouncement%></textarea>
 <div class="buttons">
     <button class="button" type="submit">Submit Announcement</button>
     <form action="/clearAnnouncement" method="post">
