@@ -24,7 +24,7 @@
     </thead>
     <tbody id="tbody">
     <% for(let i = 0; i < data.buses.length; i++) { %> 
-        <tr>
+        <tr class="<%= data.buses[i].status === 'Gone' ? 'grayed-out' : '' %>">
             <td><input class="tableInput numberInput" type="number" value=<%= data.buses[i].number %> readonly></td>
             <td><input class="tableInput changeInput" type="number" oninput="startTimeout(this)" value=<%= data.buses[i].change %> ></td>
             <td>

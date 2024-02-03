@@ -125,6 +125,12 @@ body {
     border-bottom: 2px solid #dddddd;
 }
 
+.grayed-out{
+    background-color: #ffffff;
+    opacity: 0.25;
+    filter: alpha(opacity = 25);
+}
+
 .bus-table tbody tr:nth-of-type(even) {
     background-color: #e7e6e6;
 }
