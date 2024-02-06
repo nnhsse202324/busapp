@@ -50,8 +50,8 @@ async function  save(reset: boolean) {
     fetch("/updateBusList", {
         method: 'POST',
         headers: {
-          accept: 'application.json',
-          'Content-Type': 'application/json'
+            accept: 'application.json',
+            'Content-Type': 'application/json'
         },
         body: 
         JSON.stringify({

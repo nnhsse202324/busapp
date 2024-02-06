@@ -41,9 +41,9 @@ const google_auth_library_1 = require("google-auth-library");
 const jsonHandler_1 = require("./jsonHandler");
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importStar(require("fs"));
-const server_1 = require("../server");
 exports.router = express_1.default.Router();
 const Announcement = require("./model/announcement");
+const Bus = require("./model/bus");
 const CLIENT_ID = "319647294384-m93pfm59lb2i07t532t09ed5165let11.apps.googleusercontent.com";
 const oAuth2 = new google_auth_library_1.OAuth2Client(CLIENT_ID);
 const bodyParser = require('body-parser');
@@ -212,9 +212,19 @@ exports.router.get("/whitelistFile", (req, res) => {
     res.type("json").send((0, fs_1.readFileSync)(path_1.default.resolve(__dirname, "../data/whitelist.json")));
 });
 exports.router.post("/updateBusList", (req, res) => {
-    fs_1.default.writeFileSync(path_1.default.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
-    if (req.body.reset)
-        (0, server_1.resetDatafile)();
+    // fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
+    // console.log(req.body.busList);
+    // if (req.body.reset) resetDatafile();
+    const bussesOnMongo = Bus.find({});
+    const bussesToPush = req.body.busList.filter((bus) => !bussesOnMongo.includes(bus));
+    bussesToPush.forEach((bus) => {
+        Bus.create(bus);
+    });
+    const bussesToDelete = bussesOnMongo.filter((bus) => !req.body.busList.includes(bus));
+    bussesToDelete.forEach((bus) => {
+        Bus.deleteOne(bus);
+    });
+    console.log(bussesToPush);
 });
 exports.router.get('/help', (req, res) => {
     res.render('help');

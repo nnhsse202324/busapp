@@ -4,9 +4,9 @@ import { readData, readWhitelist, readBusList, writeBusList, readWeather, readBu
 import path from "path";
 import fs, {readFileSync} from "fs";
 import {resetDatafile} from "../server";
-import { mongo } from "mongoose";
 export const router = express.Router();
 const Announcement = require("./model/announcement");
+const Bus = require("./model/bus");
 
 const CLIENT_ID = "319647294384-m93pfm59lb2i07t532t09ed5165let11.apps.googleusercontent.com"
 const oAuth2 = new OAuth2Client(CLIENT_ID);
@@ -203,8 +203,20 @@ router.get("/whitelistFile", (req: Request, res: Response) => {
 });
 
 router.post("/updateBusList", (req: Request, res: Response) => {
-    fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
-    if (req.body.reset) resetDatafile();
+    // fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
+    // console.log(req.body.busList);
+    // if (req.body.reset) resetDatafile();
+
+    let bussesOnMongo = Bus.find({});
+    const bussesToPush = req.body.busList.filter((bus: any) => !bussesOnMongo.includes(bus));
+    bussesToPush.forEach((bus: any) => {
+        Bus.create(bus);
+    });
+    const bussesToDelete = bussesOnMongo.filter((bus: any) => !req.body.busList.includes(bus));
+    bussesToDelete.forEach((bus: any) => {
+        Bus.deleteOne(bus);
+    });
+    console.log(bussesToPush);
 });
 
 router.get('/help',(req: Request, res: Response)=>{
