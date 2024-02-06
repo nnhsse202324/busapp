@@ -31,9 +31,9 @@
                 <td class="bus-input-cell"><input type="text" id="gleepGlorp" placeholder="Add"></td>
                 <td class="add-bus-cell"><i class="fa-solid fa-check confirm-button table-button" onclick="addBus_busList(this)"></i></td>
             </tr>
-            <% for(i = 0; i <data.busList.length; i++) { %>
+            <% for(i = 0; i <busList.length; i++) { %>
                 <tr>
-                    <td><%= data.busList[i]%></td>
+                    <td><%= busList[i].number%></td>
                     <td class="remove-col"><i class="fas fa-times remove-button table-button" onclick="removeBus_busList(this)"></i></td>
                 </tr>
             <% } %> 

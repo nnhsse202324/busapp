@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import {OAuth2Client, TokenPayload} from "google-auth-library";
-import { readData, readWhitelist, readBusList, writeBusList, readWeather, readBusStatus } from './jsonHandler';
+import { readData, readWhitelist, readWeather, readBusStatus } from './jsonHandler';
 import path from "path";
 import fs, {readFileSync} from "fs";
 import {resetDatafile} from "../server";
@@ -17,6 +17,13 @@ router.use(bodyParser.urlencoded({ extended: true }));
 let announcement = "";
 
 Announcement.findOneAndUpdate({}, {announcement: ""}, {upsert: true});
+
+async function readBusList() {
+    let busses = await Bus.find({});
+    busses = busses.map((bus: any) => ({number: bus.busNumber, status: bus.status, time: bus.time}));
+    console.log(busses)
+    return busses;
+}
 
 // Homepage. This is where students will view bus information from. 
 router.get("/", async (req: Request, res: Response) => {
@@ -107,7 +114,7 @@ router.get("/sw.js", (req: Request, res: Response) => {
 
 /* Admin page. This is where bus information can be updated from
 Reads from data file and displays data */
-router.get("/updateBusList", (req: Request, res: Response) => {
+router.get("/updateBusList", async (req: Request, res: Response) => {
     // If user is not authenticated (email is not is session) redirects to login page
     if (!req.session.userEmail) {
         res.redirect("/login");
@@ -119,7 +126,7 @@ router.get("/updateBusList", (req: Request, res: Response) => {
     if (req.session.isAdmin) {
         res.render("updateBusList",
         {
-            data: readBusList()
+            busList: await readBusList()
         });
     }
     else {
@@ -194,29 +201,40 @@ router.get("/adminEmptyRow", (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, "../views/sockets/adminEmptyRow.ejs"));
 });
 
-router.get("/busList", (req: Request, res: Response) => {
-    res.type("json").send(readFileSync(path.resolve(__dirname, "../data/busList.json")));
+router.get("/busList", async (req: Request, res: Response) => {
+    res.type("json").send(await readBusList());
 });
 
 router.get("/whitelistFile", (req: Request, res: Response) => {
     res.type("json").send(readFileSync(path.resolve(__dirname, "../data/whitelist.json")));
 });
 
-router.post("/updateBusList", (req: Request, res: Response) => {
+router.post("/updateBusList", async (req: Request, res: Response) => {
     // fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
     // console.log(req.body.busList);
     // if (req.body.reset) resetDatafile();
 
-    let bussesOnMongo = Bus.find({});
+    let bussesOnMongo = await Bus.find({});
+    bussesOnMongo = bussesOnMongo.map((bus: any) => bus.busNumber);
+
     const bussesToPush = req.body.busList.filter((bus: any) => !bussesOnMongo.includes(bus));
-    bussesToPush.forEach((bus: any) => {
-        Bus.create(bus);
+
+    bussesToPush.forEach(async (busNumber: any) => {
+        let busToAdd = new Bus({
+            busNumber: Number(busNumber),
+            status: "Not Here",
+        })
+        await busToAdd.save();
     });
+
     const bussesToDelete = bussesOnMongo.filter((bus: any) => !req.body.busList.includes(bus));
-    bussesToDelete.forEach((bus: any) => {
-        Bus.deleteOne(bus);
+    bussesToDelete.forEach(async (busNumber: any) => {
+        await Bus.findOneAndDelete({
+            busNumber: Number(busNumber)
+        });
+
+    console.log(await Bus.find({}));
     });
-    console.log(bussesToPush);
 });
 
 router.get('/help',(req: Request, res: Response)=>{

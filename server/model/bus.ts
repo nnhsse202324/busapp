@@ -18,11 +18,7 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    timeOfArrival: {
-        type: Date,
-        required: false,
-    },
-    timeOfDeparture: {
+    time: {
         type: Date,
         required: false,
     },

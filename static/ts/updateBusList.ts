@@ -1,5 +1,7 @@
-let busList: string[];
-fetch("/busList").then((res) => res.json()).then((data) => busList = data);
+let busData;
+fetch("/busList").then((res) => res.json()).then((data) => busData = data);
+let busList = busData.map((bus: any) => bus.busNumber.toString());
+
 
 let newBusEmptyRow: string;
 fetch("/updateBusListEmptyRow").then((res) => res.text()).then((data) => newBusEmptyRow = data);

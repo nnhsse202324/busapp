@@ -50,6 +50,14 @@ const bodyParser = require('body-parser');
 exports.router.use(bodyParser.urlencoded({ extended: true }));
 let announcement = "";
 Announcement.findOneAndUpdate({}, { announcement: "" }, { upsert: true });
+function readBusList() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let busses = yield Bus.find({});
+        busses = busses.map((bus) => ({ number: bus.busNumber, status: bus.status, time: bus.time }));
+        console.log(busses);
+        return busses;
+    });
+}
 // Homepage. This is where students will view bus information from. 
 exports.router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Reads from data file and displays data
@@ -128,7 +136,7 @@ exports.router.get("/sw.js", (req, res) => {
 });
 /* Admin page. This is where bus information can be updated from
 Reads from data file and displays data */
-exports.router.get("/updateBusList", (req, res) => {
+exports.router.get("/updateBusList", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // If user is not authenticated (email is not is session) redirects to login page
     if (!req.session.userEmail) {
         res.redirect("/login");
@@ -139,13 +147,13 @@ exports.router.get("/updateBusList", (req, res) => {
     authorize(req);
     if (req.session.isAdmin) {
         res.render("updateBusList", {
-            data: (0, jsonHandler_1.readBusList)()
+            busList: yield readBusList()
         });
     }
     else {
         res.render("unauthorized");
     }
-});
+}));
 exports.router.get("/makeAnnouncement", (req, res) => {
     // If user is not authenticated (email is not is session) redirects to login page
     if (!req.session.userEmail) {
@@ -157,7 +165,7 @@ exports.router.get("/makeAnnouncement", (req, res) => {
     authorize(req);
     if (req.session.isAdmin) {
         res.render("makeAnnouncement", {
-            data: (0, jsonHandler_1.readBusList)()
+            data: readBusList()
         });
     }
     else {
@@ -205,27 +213,34 @@ exports.router.get("/updateBusListPopulatedRow", (req, res) => {
 exports.router.get("/adminEmptyRow", (req, res) => {
     res.sendFile(path_1.default.resolve(__dirname, "../views/sockets/adminEmptyRow.ejs"));
 });
-exports.router.get("/busList", (req, res) => {
-    res.type("json").send((0, fs_1.readFileSync)(path_1.default.resolve(__dirname, "../data/busList.json")));
-});
+exports.router.get("/busList", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.type("json").send(yield readBusList());
+}));
 exports.router.get("/whitelistFile", (req, res) => {
     res.type("json").send((0, fs_1.readFileSync)(path_1.default.resolve(__dirname, "../data/whitelist.json")));
 });
-exports.router.post("/updateBusList", (req, res) => {
+exports.router.post("/updateBusList", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
     // console.log(req.body.busList);
     // if (req.body.reset) resetDatafile();
-    const bussesOnMongo = Bus.find({});
+    let bussesOnMongo = yield Bus.find({});
+    bussesOnMongo = bussesOnMongo.map((bus) => bus.busNumber);
     const bussesToPush = req.body.busList.filter((bus) => !bussesOnMongo.includes(bus));
-    bussesToPush.forEach((bus) => {
-        Bus.create(bus);
-    });
+    bussesToPush.forEach((busNumber) => __awaiter(void 0, void 0, void 0, function* () {
+        let busToAdd = new Bus({
+            busNumber: Number(busNumber),
+            status: "Not Here",
+        });
+        yield busToAdd.save();
+    }));
     const bussesToDelete = bussesOnMongo.filter((bus) => !req.body.busList.includes(bus));
-    bussesToDelete.forEach((bus) => {
-        Bus.deleteOne(bus);
-    });
-    console.log(bussesToPush);
-});
+    bussesToDelete.forEach((busNumber) => __awaiter(void 0, void 0, void 0, function* () {
+        yield Bus.findOneAndDelete({
+            busNumber: Number(busNumber)
+        });
+        console.log(yield Bus.find({}));
+    }));
+}));
 exports.router.get('/help', (req, res) => {
     res.render('help');
 });

@@ -8,8 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-let busList;
+let busData;
 fetch("/busList").then((res) => res.json()).then((data) => busList = data);
+let busList = busData.map((bus) => bus.busNumber.toString());
 let newBusEmptyRow;
 fetch("/updateBusListEmptyRow").then((res) => res.text()).then((data) => newBusEmptyRow = data);
 let newBusRow;
