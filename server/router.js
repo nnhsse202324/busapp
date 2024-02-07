@@ -146,7 +146,7 @@ exports.router.get("/updateBusList", (req, res) => {
         res.render("unauthorized");
     }
 });
-exports.router.get("/makeAnnouncement", (req, res) => {
+exports.router.get("/makeAnnouncement", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // If user is not authenticated (email is not is session) redirects to login page
     if (!req.session.userEmail) {
         res.redirect("/login");
@@ -157,13 +157,13 @@ exports.router.get("/makeAnnouncement", (req, res) => {
     authorize(req);
     if (req.session.isAdmin) {
         res.render("makeAnnouncement", {
-            data: (0, jsonHandler_1.readBusList)()
+            currentAnnouncement: (yield Announcement.findOne({})).announcement
         });
     }
     else {
         res.render("unauthorized");
     }
-});
+}));
 exports.router.get('/whitelist', (req, res) => {
     // If user is not authenticated (email is not is session) redirects to login page
     if (!req.session.userEmail) {

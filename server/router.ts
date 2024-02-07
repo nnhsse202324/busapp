@@ -42,7 +42,7 @@ router.get("/tv", async (req: Request, res: Response) => {
     // Reads from data file and displays data
     res.render("tv", {
         data: readData(),
-        render: fs.readFileSync(path.resolve(__dirname, "../views/include/tvIndexContent.ejs")), 
+        render: fs.readFileSync(path.resolve(__dirname, "../views/include/tvIndexContent.ejs")),                                
         announcement: (await Announcement.findOne({})).announcement
     })
 })
@@ -126,7 +126,7 @@ router.get("/updateBusList", (req: Request, res: Response) => {
     }
 });
 
-router.get("/makeAnnouncement", (req: Request, res: Response) => {
+router.get("/makeAnnouncement", async (req: Request, res: Response) => {
     // If user is not authenticated (email is not is session) redirects to login page
     if (!req.session.userEmail) {
         res.redirect("/login");
@@ -138,7 +138,7 @@ router.get("/makeAnnouncement", (req: Request, res: Response) => {
     if (req.session.isAdmin) {
         res.render("makeAnnouncement",
         {
-            data: readBusList()
+            currentAnnouncement: (await Announcement.findOne({})).announcement
         });
     }
     else {
@@ -215,7 +215,6 @@ router.post("/whitelistFile",(req:Request,res: Response) => {
 
 router.post("/submitAnnouncement", async (req: Request, res: Response) => {
     announcement = req.body.announcement;
-    console.log(announcement);
     //overwrites the announcement in the database
     await Announcement.findOneAndUpdate({}, {announcement: announcement}, {upsert: true});
     res.redirect("/admin");
