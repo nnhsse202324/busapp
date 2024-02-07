@@ -220,8 +220,17 @@ body {
     padding: 4%;
     transition: 0.2s;
 }
+.names {
+    color: #006678; 
+    font-size: 2vw; 
+    text-align: center;                                                                                                                                                         
+    font-family: 'Montserrat', sans-serif;
+}
 
 @media (orientation: landscape) {
+    .names {
+        font-size: 1.2vw; 
+    }
     .header {
         grid-template-columns: 4fr 9fr 3fr;
     }
@@ -274,3 +283,4 @@ body {
         cursor: pointer;
     }
 }
+
