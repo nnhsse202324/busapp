@@ -1,11 +1,13 @@
 <form action="/submitAnnouncement" method="post">
-<text class="label">Announcement</label>
-<textarea type="text" name="announcement" class="content"><%= currentAnnouncement%></textarea>
-<div class="buttons">
-    <button class="button" type="submit">Submit Announcement</button>
-    <form action="/clearAnnouncement" method="post">
+    <text class="label">Announcement</label>
+    <textarea type="text" name="announcement" class="content"><%= currentAnnouncement%></textarea>
+    <div class="buttons">
         <button class="button" type="submit">Clear Current Announcement</button>
-    </form>
-    <button class="button back-button" href="/admin">Back to Admin Page</a>
-</div>
+    </div>
+    <text class="label">TV Announcement</label>
+    <textarea type="text" name="tvAnnouncement" class="content"><%= currentTvAnnouncement%></textarea>
+    <div class="buttons">
+        <button class="button" type="submit">Clear Current Announcement</button>
+        <button class="button back-button" href="/admin">Back to Admin Page</a>
+    </div>
 </form>
