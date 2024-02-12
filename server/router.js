@@ -224,7 +224,6 @@ exports.router.post("/whitelistFile", (req, res) => {
 });
 exports.router.post("/submitAnnouncement", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     announcement = req.body.announcement;
-    console.log(announcement);
     //overwrites the announcement in the database
     yield Announcement.findOneAndUpdate({}, { announcement: announcement }, { upsert: true });
     res.redirect("/admin");
