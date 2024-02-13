@@ -29,6 +29,19 @@ body {
     text-align: center;
     border-radius: 10px;
     cursor:pointer; /*changes pointer on "add bus" and "add new admin" as they were just arrows before this line was added. Not sure why it was different, could be fixed in a better way somewhere else.*/
+} 
+
+.table-button {
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    font-size: 1.7vw;
+    border-width: 0;
+    background-color: #327fa8;
+    color: #ffffff;
+    padding: 3%;
+    text-align: center;
+    border-radius: 10px;
+    cursor:pointer; /*changes pointer on "add bus" and "add new admin" as they were just arrows before this line was added. Not sure why it was different, could be fixed in a better way somewhere else.*/
 }
 
 * {
@@ -148,6 +161,13 @@ body {
 
 .remove-col {
     width: 6% !important;
+}
+
+
+.currentWave {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
 }
 
 @media (orientation: portrait) {

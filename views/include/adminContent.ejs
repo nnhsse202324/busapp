@@ -14,15 +14,18 @@
 </div>
 <table id="bus-table" class="bus-table">
     <thead>
-        <tr>
-            <th colspan="5" style="background-color: #05a1f5; font-size: 160%;"><i class="fa fa-star fa-fw"></i> Current Wave</th>
+        <tr colspan="5" style="background-color: #05a1f5; font-size: 160%;">
+            <th><i class="fa fa-star fa-fw"></i> Current Wave</th>
+            <th></th> <!-- Dont remove... stuff breaks... idk why -->
+            <th><button class="table-button">Lock Wave</button></th>
+            <th><button class="table-button">Send Wave</button></th>
+            <th></th>
         </tr>
         <tr>
             <th>Bus Number</th>
             <th>Bus Change</th>
             <th>Status</th>
             <th>Time</th>
-            
             <th class="remove-col"></th>
         </tr>
     </thead>
@@ -32,7 +35,8 @@
 <table id="bus-table" class="bus-table">
     <thead>
         <tr>
-            <th colspan="5" style="background-color: #05a1f5; font-size: 160%;"><i class="fa-solid fa-forward"></i> Next Wave</th>
+            <th colspan="5" style="background-color: #05a1f5; font-size: 160%;"><i class="fa-solid fa-forward"></i> Next Wave
+            </th>
         </tr>
         <tr>
             <th>Bus Number</th>
