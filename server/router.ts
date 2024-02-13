@@ -221,6 +221,5 @@ router.post("/submitAnnouncement", async (req: Request, res: Response) => {    /
 
 router.post("/clearAnnouncement", async (req: Request, res: Response) => {
     await Announcement.findOneAndUpdate({}, {announcement: ""}, {upsert: true});
-    res.redirect("/admin");
 });
 

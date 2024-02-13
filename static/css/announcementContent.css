@@ -12,9 +12,17 @@ body {
 .buttons {
     width: 80%;
     display: flex;
-    justify-content: space-between;
     padding-top: 20px;
-    padding-left: 10%;
+    padding-left: 35%;
+    text-align: center;
+}
+.buttonsTv {
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding-top: 20px;
+    padding-left: 12.5%;
     text-align: center;
 }
 
@@ -22,7 +30,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
     font-size: 3vw;
-    border-width: 0;
+    border-width: 0px;
     background-color: #327fa8;
     color: #ffffff;
     padding: 4%;

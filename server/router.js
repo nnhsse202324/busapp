@@ -229,6 +229,5 @@ exports.router.post("/submitAnnouncement", (req, res) => __awaiter(void 0, void 
 }));
 exports.router.post("/clearAnnouncement", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield Announcement.findOneAndUpdate({}, { announcement: "" }, { upsert: true });
-    res.redirect("/admin");
 }));
 //# sourceMappingURL=router.js.map
