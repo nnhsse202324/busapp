@@ -36,56 +36,6 @@ body {
     margin: 0;
 }
 
-.weather-container {
-    grid-column: 1/2;
-    grid-row: 1/3;
-
-    background-color: rgb(208, 207, 188);
-    border: rgb(208, 207, 188);;
-    border-radius: 10px;
-    
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 2fr 1fr;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.weather-container * {
-    margin: 0;
-}
-
-.weather-temperature {
-    grid-column: 1/2;
-    grid-row: 1/2;
-    text-align: center;
-    font-size: 2.4vh;
-}
-
-.weather-temperature > * {
-    padding: 13% 0 0;
-}
-
-.weather-status {
-    grid-column: 1/2;
-    grid-row: 2/3;    
-    text-align: center;
-    font-size: 1.5vh;
-}
-
-.weather-status > * {
-    padding: 0 0 5%;
-}
-
-.weather-img {
-    text-align: center;
-    grid-column: 2/3;
-    grid-row: 1/3;
-}
-
-.weather-img > * {
-    height: 100%;
-}
-
 /* Table */
 .bus-table {
     margin: 0 auto 3%;
