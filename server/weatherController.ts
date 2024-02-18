@@ -8,7 +8,7 @@ async function getWeather(io: Server) {
         const res = await fetch("http://api.weatherapi.com/v1/current.json?"
             + new URLSearchParams([["key", "8afcf03c285047a1b6e201401222202"], ["q", "60563"]]
             ));
-        writeWeather(await res.json());
+        await writeWeather(await res.json());
         io.of("/").emit("update", readData());
         io.of("/admin").emit("updateWeather", readData().weather);
     } catch (error) {

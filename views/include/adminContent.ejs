@@ -16,7 +16,6 @@
     <thead>
         <tr colspan="5" style="background-color: #05a1f5; font-size: 160%;">
             <th><i class="fa fa-star fa-fw"></i> Current Wave</th>
-            <th></th> <!-- Dont remove... stuff breaks... idk why -->
             <th><button class="table-button">Lock Wave</button></th>
             <th><button class="table-button">Send Wave</button></th>
             <th></th>
@@ -26,10 +25,21 @@
             <th>Bus Change</th>
             <th>Status</th>
             <th>Time</th>
-            <th class="remove-col"></th>
         </tr>
     </thead>
     <tbody id="tbody">
+        <% for(let i = 0; i < data.allBuses.length; i++) { %>
+            <% if (data.allBuses[i].status === 'Loading') { %>
+                <tr>
+                    <td><input class="tableInput numberInput" type="number" value=<%= data.allBuses[i].number %> readonly></td>
+                    <td><input class="tableInput changeInput" type="number" oninput="updateBusChange(this)" value=<%= data.allBuses[i].change %> ></td>
+                    <td>
+                        <p onclick="removeFromWave(this)">Remove</p>
+                    </td>
+                    <td><input class="tableInput timeInput" type="text" oninput="startTimeout(this)" value=<%= data.allBuses[i].time %> ></td>
+                </tr>
+            <% } %>
+        <% } %>
     </tbody>
 </table>
 <table id="bus-table" class="bus-table">
@@ -43,10 +53,21 @@
             <th>Bus Change</th>
             <th>Status</th>
             <th>Time</th>
-            <th class="remove-col"></th>
         </tr>
     </thead>
     <tbody id="tbody">
+        <% for(let i = 0; i < data.allBuses.length; i++) { %> 
+            <% if (data.allBuses[i].status === 'Next Wave') { %>
+                <tr>
+                    <td><input class="tableInput numberInput" type="number" value=<%= data.allBuses[i].number %> readonly></td>
+                    <td><input class="tableInput changeInput" type="number" oninput="updateBusChange(this)" value=<%= data.allBuses[i].change %> ></td>
+                    <td>
+                        <p onclick="removeFromWave(this)">Remove</p>
+                    </td>
+                    <td><input class="tableInput timeInput" type="text" oninput="startTimeout(this)" value=<%= data.allBuses[i].time %> ></td>
+                </tr>
+            <% } %>
+        <% } %>
     </tbody>
 </table>
 <table id="bus-table" class="bus-table">
@@ -54,28 +75,31 @@
         <tr>
             <th>Bus Number</th>
             <th>Bus Change</th>
-            <th>Status</th>
             <th>Time</th>
-            <th class="remove-col"></th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody id="tbody">
-    <% for(let i = 0; i < data.buses.length; i++) { %> 
-        <tr>
-            <td><input class="tableInput numberInput" type="number" value=<%= data.buses[i].number %> readonly></td>
-            <td><input class="tableInput changeInput" type="number" oninput="startTimeout(this)" value=<%= data.buses[i].change %> ></td>
-            <td>
-                <select class="tableInput statusInput" onchange="statusChange(this); startTimeout(this)">
-                    <option value="Not Here" <%= data.buses[i].status == "Not Here"? "selected" : "" %>>Not Here</option>
-                    <option value="Next Wave" <%= data.buses[i].status == "Next Wave"? "selected" : "" %>>Next Wave</option>
-                    <option value="Loading" <%= data.buses[i].status == "Loading"? "selected" : "" %>>Loading</option>
-                    <option value="Gone" <%= data.buses[i].status == "Gone"? "selected" : "" %>>Gone</option>
-                </select>
-            </td>
-            <td><input class="tableInput timeInput" type="text" oninput="startTimeout(this)" value=<%= data.buses[i].time %> ></td>
-            
-            <td class="remove-col"><i class="fas fa-times" onclick="confirmRemove(this);"></i></td>
-        </tr>
-    <% } %> 
+        <% for(let i = 0; i < data.allBuses.length; i++) { %> 
+            <tr>
+                <td><input class="tableInput numberInput" type="number" value=<%= data.allBuses[i].number %> readonly></td>
+                <td><input class="tableInput changeInput" type="number" oninput="updateBusChange(this)" value=<%= data.allBuses[i].change %> ></td>
+                
+                <td><input class="tableInput timeInput" type="text" oninput="startTimeout(this)" value=<%= data.allBuses[i].time %> ></td>
+                
+                <td>
+                    <% if (data.allBuses[i].status === 'Loading') { %>
+                        <p>Loading</p>
+                    <% } else if (data.allBuses[i].status === 'Next Wave') { %>
+                        <p>Next Wave</p>
+                    <% } else if (data.allBuses[i].status !== 'Loading' && data.numberInWave >= 8) { %>
+                        <p onclick="addToNextWave(this)">Add Next</p>
+                    <% } else { %>
+                        <p onclick="addToWave(this)">Add Current</p>
+                    <% } %>
+                </td>
+                
+            </tr>
+        <% } %> 
     </tbody>
 </table>

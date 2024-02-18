@@ -44,18 +44,46 @@ const fs_1 = __importStar(require("fs"));
 exports.router = express_1.default.Router();
 const Announcement = require("./model/announcement");
 const Bus = require("./model/bus");
+const Weather = require("./model/weather");
 const CLIENT_ID = "319647294384-m93pfm59lb2i07t532t09ed5165let11.apps.googleusercontent.com";
 const oAuth2 = new google_auth_library_1.OAuth2Client(CLIENT_ID);
 const bodyParser = require('body-parser');
 exports.router.use(bodyParser.urlencoded({ extended: true }));
 let announcement = "";
 Announcement.findOneAndUpdate({}, { announcement: "" }, { upsert: true });
+function getBuses() {
+    return __awaiter(this, void 0, void 0, function* () {
+        // get all the buses and create a list of objects like the following {number:,change:,time:,status:}
+        const buses = yield Bus.find({});
+        const busList = [];
+        buses.forEach((bus) => {
+            busList.push({ number: bus.busNumber, change: bus.busChange, time: bus.time, status: bus.status });
+        });
+        // if change is 0, make it an empty string
+        busList.forEach((bus) => {
+            if (bus.change === 0)
+                bus.change = "";
+            if (bus.time == undefined)
+                bus.time = new Date();
+            if (bus.status === "normal")
+                bus.status = "";
+            bus.time = bus.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+            if (bus.status === "")
+                bus.time = "";
+        });
+        // sort the list by bus number
+        busList.sort((a, b) => {
+            return a.number - b.number;
+        });
+        return busList;
+    });
+}
 // Homepage. This is where students will view bus information from. 
 exports.router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Reads from data file and displays data
-    console.log((yield Announcement.findOne({})).announcement);
+    let data = { buses: yield getBuses(), weather: yield Weather.findOne({}) };
     res.render("index", {
-        data: (0, jsonHandler_1.readData)(),
+        data: data,
         render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/indexContent.ejs")),
         announcement: (yield Announcement.findOne({})).announcement
     });
@@ -96,17 +124,25 @@ function authorize(req) {
 }
 /* Admin page. This is where bus information can be updated from
 Reads from data file and displays data */
-exports.router.get("/admin", (req, res) => {
+exports.router.get("/admin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // If user is not authenticated (email is not is session) redirects to login page
-    if (!req.session.userEmail) {
-        res.redirect("/login");
-        return;
-    }
+    // if (!req.session.userEmail) {
+    //     res.redirect("/login");
+    //     return;
+    // }
     // Authorizes user, then either displays admin page or unauthorized page
+    let data = {
+        allBuses: yield getBuses(),
+        nextWave: yield Bus.find({ status: "Next Wave" }),
+        loading: yield Bus.find({ status: "Loading" }),
+        numberInWave: 0
+    };
+    data.numberInWave = data.loading.length;
+    console.log(data.numberInWave);
     authorize(req);
-    if (req.session.isAdmin) {
+    if (true) {
         res.render("admin", {
-            data: (0, jsonHandler_1.readData)(),
+            data: data,
             render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/adminContent.ejs")),
             emptyRow: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/sockets/adminEmptyRow.ejs")),
             populatedRow: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/sockets/adminPopulatedRow.ejs")),
@@ -116,7 +152,21 @@ exports.router.get("/admin", (req, res) => {
     else {
         res.render("unauthorized");
     }
-});
+}));
+exports.router.post("/updateBusChange", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body.number, " ", req.body.change, " ", req.body.time);
+    let busNumber = req.body.number;
+    let busChange = req.body.change;
+    let time = req.body.time;
+    yield Bus.findOneAndUpdate({ busNumber: busNumber }, { busChange: busChange, time: time });
+}));
+exports.router.post("/updateBusStatus", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body.number, " ", req.body.status, " ", req.body.time);
+    let busNumber = req.body.number;
+    let busStatus = req.body.status;
+    let time = req.body.time;
+    yield Bus.findOneAndUpdate({ busNumber: busNumber }, { status: busStatus, time: time });
+}));
 exports.router.get("/beans", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.sendFile(path_1.default.resolve(__dirname, "../static/img/beans.jpg"));
 }));
@@ -214,7 +264,6 @@ exports.router.get("/whitelistFile", (req, res) => {
     res.type("json").send((0, fs_1.readFileSync)(path_1.default.resolve(__dirname, "../data/whitelist.json")));
 });
 exports.router.post("/updateBusList", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body.busList);
     // fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
     // if (req.body.reset) resetDatafile();
     // use the posted bus list to update the database, removing any buses that are not in the list, and adding any buses that are in the list but not in the database
@@ -243,7 +292,6 @@ exports.router.post("/updateBusList", (req, res) => __awaiter(void 0, void 0, vo
             }
         }));
     });
-    console.log(yield (Bus.find({})).distinct("busNumber"));
 }));
 exports.router.get('/help', (req, res) => {
     res.render('help');

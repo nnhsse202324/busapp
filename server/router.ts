@@ -5,8 +5,11 @@ import path from "path";
 import fs, {readFileSync} from "fs";
 import {resetDatafile} from "../server";
 export const router = express.Router();
+
 const Announcement = require("./model/announcement");
 const Bus = require("./model/bus");
+const Weather = require("./model/weather");
+
 
 const CLIENT_ID = "319647294384-m93pfm59lb2i07t532t09ed5165let11.apps.googleusercontent.com"
 const oAuth2 = new OAuth2Client(CLIENT_ID);
@@ -18,12 +21,37 @@ let announcement = "";
 
 Announcement.findOneAndUpdate({}, {announcement: ""}, {upsert: true});
 
+async function getBuses() {
+    // get all the buses and create a list of objects like the following {number:,change:,time:,status:}
+    const buses: any[] = await Bus.find({});
+    const busList: any[] = [];
+    buses.forEach((bus: any) => {
+        busList.push({number: bus.busNumber, change: bus.busChange, time: bus.time, status: bus.status});
+    });
+    // if change is 0, make it an empty string
+    busList.forEach((bus: any) => {
+        if (bus.change === 0) bus.change = "";
+        if(bus.time == undefined) bus.time = new Date();
+        if (bus.status === "normal") bus.status = "";
+        bus.time = bus.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+        if(bus.status === "") bus.time = "";
+    });
+
+    // sort the list by bus number
+    busList.sort((a: any, b: any) => {
+        return a.number - b.number;
+    });
+
+    return busList;
+}
+
 // Homepage. This is where students will view bus information from. 
 router.get("/", async (req: Request, res: Response) => {
     // Reads from data file and displays data
-    console.log((await Announcement.findOne({})).announcement);
+    let data = {buses: await getBuses(), weather: await Weather.findOne({})};
+
     res.render("index", {
-        data: readData(),
+        data: data,
         render: fs.readFileSync(path.resolve(__dirname, "../views/include/indexContent.ejs")),
         announcement: (await Announcement.findOne({})).announcement
     });
@@ -71,18 +99,27 @@ function authorize(req: Request) {
 
 /* Admin page. This is where bus information can be updated from
 Reads from data file and displays data */
-router.get("/admin", (req: Request, res: Response) => {
+router.get("/admin", async (req: Request, res: Response) => {
     // If user is not authenticated (email is not is session) redirects to login page
-    if (!req.session.userEmail) {
-        res.redirect("/login");
-        return;
-    }
+    // if (!req.session.userEmail) {
+    //     res.redirect("/login");
+    //     return;
+    // }
     
     // Authorizes user, then either displays admin page or unauthorized page
+
+    let data = {
+        allBuses: await getBuses(),
+        nextWave: await Bus.find({status: "Next Wave"}),
+        loading: await Bus.find({status: "Loading"}),
+        numberInWave: 0
+    };
+    data.numberInWave = data.loading.length;
+    console.log(data.numberInWave);
     authorize(req);
-    if (req.session.isAdmin) {
+    if (true) {
         res.render("admin", {
-            data: readData(),
+            data: data,
             render: fs.readFileSync(path.resolve(__dirname, "../views/include/adminContent.ejs")),
             emptyRow: fs.readFileSync(path.resolve(__dirname, "../views/sockets/adminEmptyRow.ejs")),
             populatedRow: fs.readFileSync(path.resolve(__dirname, "../views/sockets/adminPopulatedRow.ejs")),
@@ -92,6 +129,22 @@ router.get("/admin", (req: Request, res: Response) => {
     else {
         res.render("unauthorized");
     }
+});
+
+router.post("/updateBusChange", async (req: Request, res: Response) => {
+    console.log(req.body.number, " ", req.body.change, " ", req.body.time);
+    let busNumber = req.body.number;
+    let busChange = req.body.change;
+    let time = req.body.time;
+    await Bus.findOneAndUpdate({busNumber: busNumber}, {busChange: busChange, time: time});
+});
+
+router.post("/updateBusStatus", async (req: Request, res: Response) => {
+    console.log(req.body.number, " ", req.body.status, " ", req.body.time);
+    let busNumber = req.body.number;
+    let busStatus = req.body.status;
+    let time = req.body.time;
+    await Bus.findOneAndUpdate({busNumber: busNumber}, {status: busStatus, time: time});
 });
 
 router.get("/beans", async (req: Request, res: Response) => {
@@ -209,7 +262,6 @@ router.get("/whitelistFile", (req: Request, res: Response) => {
 });
 
 router.post("/updateBusList", async (req: Request, res: Response) => {
-    console.log(req.body.busList);
     // fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
     // if (req.body.reset) resetDatafile();
 
@@ -238,7 +290,6 @@ router.post("/updateBusList", async (req: Request, res: Response) => {
                 }
             });
         })
-    console.log(await (Bus.find({})).distinct("busNumber"));
 });
 
 router.get('/help',(req: Request, res: Response)=>{
