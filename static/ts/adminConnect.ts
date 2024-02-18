@@ -1,3 +1,12 @@
+
+function lockWave() {
+    fetch('/lockWave', {
+        method: 'POST'
+    })
+    location.reload()
+
+}
+
 function updateStatus(button, status) {
     let number = button.parentElement.parentElement.children[0].children[0].value
     let time =  new Date()
@@ -21,6 +30,13 @@ function updateStatus(button, status) {
     location.reload()
 }
 
+function sendWave() {
+    fetch('/sendWave', {
+        method: 'POST'
+    })
+    //location.reload()
+}
+
 function addToWave(button) {
     updateStatus(button, "Loading")
 }
@@ -31,6 +47,11 @@ function removeFromWave(button) {
 
 function addToNextWave(button) {
     updateStatus(button, "Next Wave")
+}
+
+function reset(button) {
+    updateStatus(button, "")
+
 }
 
 function updateBusChange(button) {
@@ -53,3 +74,4 @@ function updateBusChange(button) {
     })
     location.reload()
 }
+

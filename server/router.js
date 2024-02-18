@@ -45,6 +45,7 @@ exports.router = express_1.default.Router();
 const Announcement = require("./model/announcement");
 const Bus = require("./model/bus");
 const Weather = require("./model/weather");
+const Wave = require("./model/wave");
 const CLIENT_ID = "319647294384-m93pfm59lb2i07t532t09ed5165let11.apps.googleusercontent.com";
 const oAuth2 = new google_auth_library_1.OAuth2Client(CLIENT_ID);
 const bodyParser = require('body-parser');
@@ -138,7 +139,6 @@ exports.router.get("/admin", (req, res) => __awaiter(void 0, void 0, void 0, fun
         numberInWave: 0
     };
     data.numberInWave = data.loading.length;
-    console.log(data.numberInWave);
     authorize(req);
     if (true) {
         res.render("admin", {
@@ -153,19 +153,32 @@ exports.router.get("/admin", (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.render("unauthorized");
     }
 }));
+exports.router.post("/lockWave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // use the wave schema to lock the wave
+    const leavingAt = new Date();
+    leavingAt.setMinutes(leavingAt.getMinutes() + 5);
+    yield Wave.findOneAndUpdate({}, { locked: true, leavingAt }, { upsert: true });
+}));
+exports.router.get("/waveStatus", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // get the wave status from the wave schema
+    const wave = yield Wave.findOne({});
+    res.send(wave.locked);
+}));
 exports.router.post("/updateBusChange", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body.number, " ", req.body.change, " ", req.body.time);
     let busNumber = req.body.number;
     let busChange = req.body.change;
     let time = req.body.time;
     yield Bus.findOneAndUpdate({ busNumber: busNumber }, { busChange: busChange, time: time });
 }));
 exports.router.post("/updateBusStatus", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body.number, " ", req.body.status, " ", req.body.time);
     let busNumber = req.body.number;
     let busStatus = req.body.status;
     let time = req.body.time;
     yield Bus.findOneAndUpdate({ busNumber: busNumber }, { status: busStatus, time: time });
+}));
+exports.router.post("/sendWave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield Bus.updateMany({ status: "Loading" }, { $set: { status: "Gone" } });
+    yield Bus.updateMany({ status: "Next Wave" }, { $set: { status: "Loading" } });
 }));
 exports.router.get("/beans", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.sendFile(path_1.default.resolve(__dirname, "../static/img/beans.jpg"));

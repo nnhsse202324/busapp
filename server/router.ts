@@ -9,7 +9,7 @@ export const router = express.Router();
 const Announcement = require("./model/announcement");
 const Bus = require("./model/bus");
 const Weather = require("./model/weather");
-
+const Wave = require("./model/wave");
 
 const CLIENT_ID = "319647294384-m93pfm59lb2i07t532t09ed5165let11.apps.googleusercontent.com"
 const oAuth2 = new OAuth2Client(CLIENT_ID);
@@ -115,7 +115,6 @@ router.get("/admin", async (req: Request, res: Response) => {
         numberInWave: 0
     };
     data.numberInWave = data.loading.length;
-    console.log(data.numberInWave);
     authorize(req);
     if (true) {
         res.render("admin", {
@@ -131,8 +130,13 @@ router.get("/admin", async (req: Request, res: Response) => {
     }
 });
 
+router.get("/waveStatus", async (req: Request, res: Response) => {
+    // get the wave status from the wave schema
+    const wave = await Wave.findOne({});
+    res.send(wave.locked);
+});
+
 router.post("/updateBusChange", async (req: Request, res: Response) => {
-    console.log(req.body.number, " ", req.body.change, " ", req.body.time);
     let busNumber = req.body.number;
     let busChange = req.body.change;
     let time = req.body.time;
@@ -140,11 +144,18 @@ router.post("/updateBusChange", async (req: Request, res: Response) => {
 });
 
 router.post("/updateBusStatus", async (req: Request, res: Response) => {
-    console.log(req.body.number, " ", req.body.status, " ", req.body.time);
     let busNumber = req.body.number;
     let busStatus = req.body.status;
     let time = req.body.time;
     await Bus.findOneAndUpdate({busNumber: busNumber}, {status: busStatus, time: time});
+});
+
+
+router.post("/sendWave", async (req: Request, res: Response) => {
+
+    await Bus.updateMany({ status: "Loading" }, { $set: { status: "Gone" } });
+    await Bus.updateMany({ status: "Next Wave" }, { $set: { status: "Loading" } });
+
 });
 
 router.get("/beans", async (req: Request, res: Response) => {

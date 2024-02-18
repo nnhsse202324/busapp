@@ -17,7 +17,8 @@
         <tr colspan="5" style="background-color: #05a1f5; font-size: 160%;">
             <th><i class="fa fa-star fa-fw"></i> Current Wave</th>
             <th><button class="table-button">Lock Wave</button></th>
-            <th><button class="table-button">Send Wave</button></th>
+            <th><button class="table-button" onclick="sendWave()">Send Wave</button></th>
+            <p id="timer"></p>
             <th></th>
         </tr>
         <tr>
@@ -92,6 +93,8 @@
                         <p>Loading</p>
                     <% } else if (data.allBuses[i].status === 'Next Wave') { %>
                         <p>Next Wave</p>
+                    <% } else if (data.allBuses[i].status === 'Gone') { %>
+                        <p onclick="reset(this)">Reset</p>
                     <% } else if (data.allBuses[i].status !== 'Loading' && data.numberInWave >= 8) { %>
                         <p onclick="addToNextWave(this)">Add Next</p>
                     <% } else { %>
