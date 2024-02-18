@@ -6,6 +6,7 @@ import fs, {readFileSync} from "fs";
 import {resetDatafile} from "../server";
 export const router = express.Router();
 const Announcement = require("./model/announcement");
+const Bus = require("./model/bus");
 
 const CLIENT_ID = "319647294384-m93pfm59lb2i07t532t09ed5165let11.apps.googleusercontent.com"
 const oAuth2 = new OAuth2Client(CLIENT_ID);
@@ -106,19 +107,25 @@ router.get("/sw.js", (req: Request, res: Response) => {
 
 /* Admin page. This is where bus information can be updated from
 Reads from data file and displays data */
-router.get("/updateBusList", (req: Request, res: Response) => {
+router.get("/updateBusList", async (req: Request, res: Response) => {
     // If user is not authenticated (email is not is session) redirects to login page
     if (!req.session.userEmail) {
         res.redirect("/login");
         return;
-    }+
-    
+    }
+
     // Authorizes user, then either displays admin page or unauthorized page
+
+    // get all the bus numbers of all the buses from the database and make a list of them
+    const busList: string[] = await Bus.find().distinct("busNumber");
+
+    let data = { busList: busList };
+
     authorize(req);
     if (req.session.isAdmin) {
         res.render("updateBusList",
         {
-            data: readBusList()
+            data: data
         });
     }
     else {
@@ -201,9 +208,37 @@ router.get("/whitelistFile", (req: Request, res: Response) => {
     res.type("json").send(readFileSync(path.resolve(__dirname, "../data/whitelist.json")));
 });
 
-router.post("/updateBusList", (req: Request, res: Response) => {
-    fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
-    if (req.body.reset) resetDatafile();
+router.post("/updateBusList", async (req: Request, res: Response) => {
+    console.log(req.body.busList);
+    // fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
+    // if (req.body.reset) resetDatafile();
+
+    // use the posted bus list to update the database, removing any buses that are not in the list, and adding any buses that are in the list but not in the database
+    const busList: string[] = req.body.busList;
+    Bus.find({})
+        .then((buses: any[]) => {
+            buses.forEach((bus: any) => { // for each bus in the database
+                if (!busList.includes(bus.busNumber)) { // if the bus is not in the list
+                    Bus.findOneAndDelete({ busNumber: bus.busNumber }).exec(); // remove the bus from the database
+                }
+            });
+            busList.forEach(async (busNumber: string) => { // for each bus in the list
+                if (!buses.map( (bus: any) => bus.busNumber).includes(busNumber)) { // if the bus is not in the database
+                    try {
+                        const newBus = new Bus({ // add the bus to the database
+                            busNumber: busNumber,
+                            busChange: 0,
+                            status: "normal",
+                            time: new Date(),
+                        });
+                        await newBus.save();
+                    } catch (error) {
+                        console.log("bus creation failed");
+                    }
+                }
+            });
+        })
+    console.log(await (Bus.find({})).distinct("busNumber"));
 });
 
 router.get('/help',(req: Request, res: Response)=>{
