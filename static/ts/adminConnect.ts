@@ -4,7 +4,6 @@ function lockWave() {
         method: 'POST'
     })
     location.reload()
-
 }
 
 function updateStatus(button, status) {
@@ -34,7 +33,7 @@ function sendWave() {
     fetch('/sendWave', {
         method: 'POST'
     })
-    //location.reload()
+    location.reload()
 }
 
 function addToWave(button) {
@@ -51,7 +50,6 @@ function addToNextWave(button) {
 
 function reset(button) {
     updateStatus(button, "")
-
 }
 
 function updateBusChange(button) {

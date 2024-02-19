@@ -101,10 +101,10 @@ function authorize(req: Request) {
 Reads from data file and displays data */
 router.get("/admin", async (req: Request, res: Response) => {
     // If user is not authenticated (email is not is session) redirects to login page
-    // if (!req.session.userEmail) {
-    //     res.redirect("/login");
-    //     return;
-    // }
+    if (!req.session.userEmail) {
+        res.redirect("/login");
+        return;
+    }
     
     // Authorizes user, then either displays admin page or unauthorized page
 
@@ -112,9 +112,9 @@ router.get("/admin", async (req: Request, res: Response) => {
         allBuses: await getBuses(),
         nextWave: await Bus.find({status: "Next Wave"}),
         loading: await Bus.find({status: "Loading"}),
-        numberInWave: 0
+        isLocked: false
     };
-    data.numberInWave = data.loading.length;
+    data.isLocked = (await Wave.findOne({})).locked;
     authorize(req);
     if (true) {
         res.render("admin", {
@@ -155,6 +155,13 @@ router.post("/sendWave", async (req: Request, res: Response) => {
 
     await Bus.updateMany({ status: "Loading" }, { $set: { status: "Gone" } });
     await Bus.updateMany({ status: "Next Wave" }, { $set: { status: "Loading" } });
+    await Wave.findOneAndUpdate({}, { locked: false }, { upsert: true });
+
+});
+
+router.post("/lockWave", async (req: Request, res: Response) => {
+
+    await Wave.findOneAndUpdate({}, { locked: !(await Wave.findOne({})).locked }, { upsert: true });
 
 });
 

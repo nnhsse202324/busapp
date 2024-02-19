@@ -127,18 +127,18 @@ function authorize(req) {
 Reads from data file and displays data */
 exports.router.get("/admin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // If user is not authenticated (email is not is session) redirects to login page
-    // if (!req.session.userEmail) {
-    //     res.redirect("/login");
-    //     return;
-    // }
+    if (!req.session.userEmail) {
+        res.redirect("/login");
+        return;
+    }
     // Authorizes user, then either displays admin page or unauthorized page
     let data = {
         allBuses: yield getBuses(),
         nextWave: yield Bus.find({ status: "Next Wave" }),
         loading: yield Bus.find({ status: "Loading" }),
-        numberInWave: 0
+        isLocked: false
     };
-    data.numberInWave = data.loading.length;
+    data.isLocked = (yield Wave.findOne({})).locked;
     authorize(req);
     if (true) {
         res.render("admin", {
@@ -152,12 +152,6 @@ exports.router.get("/admin", (req, res) => __awaiter(void 0, void 0, void 0, fun
     else {
         res.render("unauthorized");
     }
-}));
-exports.router.post("/lockWave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // use the wave schema to lock the wave
-    const leavingAt = new Date();
-    leavingAt.setMinutes(leavingAt.getMinutes() + 5);
-    yield Wave.findOneAndUpdate({}, { locked: true, leavingAt }, { upsert: true });
 }));
 exports.router.get("/waveStatus", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // get the wave status from the wave schema
@@ -179,6 +173,10 @@ exports.router.post("/updateBusStatus", (req, res) => __awaiter(void 0, void 0, 
 exports.router.post("/sendWave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield Bus.updateMany({ status: "Loading" }, { $set: { status: "Gone" } });
     yield Bus.updateMany({ status: "Next Wave" }, { $set: { status: "Loading" } });
+    yield Wave.findOneAndUpdate({}, { locked: false }, { upsert: true });
+}));
+exports.router.post("/lockWave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield Wave.findOneAndUpdate({}, { locked: !(yield Wave.findOne({})).locked }, { upsert: true });
 }));
 exports.router.get("/beans", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.sendFile(path_1.default.resolve(__dirname, "../static/img/beans.jpg"));
