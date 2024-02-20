@@ -165,6 +165,12 @@ router.post("/lockWave", async (req: Request, res: Response) => {
 
 });
 
+router.post("/resetAllBusses", async (req: Request, res: Response) => {
+
+    await Bus.updateMany({}, { $set: { status: "" } }); 
+
+});
+
 router.get("/beans", async (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, "../static/img/beans.jpg"));
 });

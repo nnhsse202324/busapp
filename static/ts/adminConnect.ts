@@ -52,6 +52,13 @@ function reset(button) {
     updateStatus(button, "")
 }
 
+function resetAllBusses(button) {
+    fetch('/resetAllBusses', {
+        method: 'POST'
+    })
+    location.reload()
+}
+
 function updateBusChange(button) {
     // children are number, change, time, status
     let number = button.parentElement.parentElement.children[0].children[0].value
