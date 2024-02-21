@@ -40,7 +40,7 @@
                     <td><input class="tableInput changeInput" type="number" oninput="updateBusChange(this)" value=<%= data.allBuses[i].change %> ></td>
                     <td><input class="tableInput timeInput" type="text" oninput="startTimeout(this)" value=<%= data.allBuses[i].time %> ></td>
                     <td>
-                        <p onclick="removeFromWave(this)">Remove</p>
+                        <p onclick="removeFromWave(this)" class="button-text">Remove</p>
                     </td>
                 </tr>
             <% } %>
@@ -68,7 +68,7 @@
                     <td><input class="tableInput changeInput" type="number" oninput="updateBusChange(this)" value=<%= data.allBuses[i].change %> ></td>
                     <td><input class="tableInput timeInput" type="text" oninput="startTimeout(this)" value=<%= data.allBuses[i].time %> ></td>
                     <td>
-                        <p onclick="removeFromWave(this)">Remove</p>
+                        <p onclick="removeFromWave(this)" class="button-text">Remove</p>
                     </td>
                 </tr>
             <% } %>
@@ -98,11 +98,11 @@
                     <% } else if (data.allBuses[i].status === 'Next Wave') { %>
                         <p>Next Wave</p>
                     <% } else if (data.allBuses[i].status === 'Gone') { %>
-                        <p onclick="reset(this)">Reset</p>
+                        <p onclick="reset(this)" class="button-text">Reset</p>
                     <% } else if (data.allBuses[i].status !== 'Loading' && data.isLocked === true) { %>
-                        <p onclick="addToNextWave(this)">Add Next</p>
+                        <p onclick="addToNextWave(this)" class="button-text">Add Next</p>
                     <% } else { %>
-                        <p onclick="addToWave(this)">Add Current</p>
+                        <p onclick="addToWave(this)" class="button-text">Add Current</p>
                     <% } %>
                 </td>
                 
