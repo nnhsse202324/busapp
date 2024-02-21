@@ -9,6 +9,7 @@ body {
     grid-template-rows: 1fr 1fr;
     padding: 3% 5%;
     height: 7%;
+    margin-bottom: 20px;
 }
 
 .buttons {
@@ -22,6 +23,19 @@ body {
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
     font-size: 3vw;
+    border-width: 0;
+    background-color: #327fa8;
+    color: #ffffff;
+    padding: 3%;
+    text-align: center;
+    border-radius: 10px;
+    cursor:pointer; /*changes pointer on "add bus" and "add new admin" as they were just arrows before this line was added. Not sure why it was different, could be fixed in a better way somewhere else.*/
+} 
+
+.table-button {
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    font-size: 1.7vw;
     border-width: 0;
     background-color: #327fa8;
     color: #ffffff;
@@ -125,6 +139,12 @@ body {
     border-bottom: 2px solid #dddddd;
 }
 
+.grayed-out{
+    background-color: #ffffff;
+    opacity: 0.3;
+    filter: alpha(opacity = 3);
+}
+
 .bus-table tbody tr:nth-of-type(even) {
     background-color: #e7e6e6;
 }
@@ -146,8 +166,20 @@ body {
     width: 23%;
 }
 
+.button-text {
+    color: #225875;
+    text-decoration: underline;
+}
+
 .remove-col {
     width: 6% !important;
+}
+
+
+.currentWave {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
 }
 
 @media (orientation: portrait) {
