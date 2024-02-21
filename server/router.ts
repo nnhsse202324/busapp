@@ -17,9 +17,8 @@ const oAuth2 = new OAuth2Client(CLIENT_ID);
 const bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: true }));
 
-let announcement = "";
-
 Announcement.findOneAndUpdate({}, {announcement: ""}, {upsert: true});
+Announcement.findOneAndUpdate({}, {tvAnnouncement: ""}, {upsert: true});
 
 async function getBuses() {
     // get all the buses and create a list of objects like the following {number:,change:,time:,status:}
@@ -72,7 +71,7 @@ router.get("/tv", async (req: Request, res: Response) => {
     res.render("tv", {
         data: readData(),
         render: fs.readFileSync(path.resolve(__dirname, "../views/include/tvIndexContent.ejs")),                                
-        announcement: (await Announcement.findOne({})).announcement
+        announcement: (await Announcement.findOne({})).tvAnnouncement
     })
 })
 
@@ -222,7 +221,8 @@ router.get("/makeAnnouncement", async (req: Request, res: Response) => {
     if (req.session.isAdmin) {
         res.render("makeAnnouncement",
         {
-            currentAnnouncement: (await Announcement.findOne({})).announcement
+            currentAnnouncement: (await Announcement.findOne({})).announcement,
+            currentTvAnnouncement: (await Announcement.findOne({})).tvAnnouncement
         });
     }
     else {
@@ -323,15 +323,13 @@ router.post("/whitelistFile",(req:Request,res: Response) => {
     fs.writeFileSync(path.resolve(__dirname, "../data/whitelist.json"), JSON.stringify(req.body.admins));
 });
 
-router.post("/submitAnnouncement", async (req: Request, res: Response) => {
-    announcement = req.body.announcement;
-    //overwrites the announcement in the database
-    await Announcement.findOneAndUpdate({}, {announcement: announcement}, {upsert: true});
+router.post("/submitAnnouncement", async (req: Request, res: Response) => {    //overwrites the announcement in the database
+    await Announcement.findOneAndUpdate({}, {announcement: req.body.announcement, tvAnnouncement: req.body.tvAnnouncement}, {upsert: true});
     res.redirect("/admin");
 });
 
+
 router.post("/clearAnnouncement", async (req: Request, res: Response) => {
     await Announcement.findOneAndUpdate({}, {announcement: ""}, {upsert: true});
-    res.redirect("/admin");
 });
 

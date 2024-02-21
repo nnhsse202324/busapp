@@ -240,8 +240,6 @@ body {
     padding-left: 5px;
     padding-right: 5px;
     text-align: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
     color:#000000;
 }
 
@@ -253,8 +251,12 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
-.announcement-table thead tr {
-    background-color: #327fa8;
+.announcement-table thead th {
+    background-color: #838BC2; 
+    font-size: 310%; 
+    padding-top: 5px; 
+    padding-bottom: 5px; 
+    padding-left: 7px;
     color: #ffffff;
     text-align: left;
     font-weight: bold;
@@ -324,7 +326,13 @@ body {
   
     .announcement-table {
         width: 70%;
-        font-size: 1vw;
+        font-size: 0.8vw;
+        background-color: #838BC2; 
+        padding-top: 5px; 
+        padding-bottom: 5px; 
+        padding-left: 10px;
+        color: #ffffff;
+        text-align: left;
     }
 
     .announcement {
