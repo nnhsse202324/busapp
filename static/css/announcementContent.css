@@ -15,6 +15,7 @@ body {
     justify-content: space-between;
     padding-top: 20px;
     padding-left: 10%;
+    text-align: center;
 }
 
 .button {
@@ -147,49 +148,63 @@ body {
     width: 6% !important;
 }
 
-@media (orientation: portrait) {
-
+.button {
+    font-size: 1.8vw;
+    padding: 2%;
 }
 
-@media (orientation: landscape) {
+.bus-table th,
+.bus-table td {
+    padding: 0.7% 2%;
+    width: 23%;
+}
+
+.bus-table {
+    width: 70%;
+    font-size: 1.5vw;
+}
+
+.bus-table select {
+    font-size: 1.5vw
+}
+
+.bus-table input {
+    font-size: 1.5vw;
+}
+.label
+{
+    display: block;
+    text-align: center;
+    font-size: 5vw;
+    font-family: 'Montserrat', sans-serif;
+}
+.content
+{
+    border: none;
+    width: 75%;
+    height: 50%;
+    font-size: 6vw;
+    font-family: 'Montserrat', sans-serif;
+    display: block;
+    margin-left: 12.5%;
+    word-wrap: break-word;
+}
+
+@media (orientation: portrait) {
+    .buttons {
+        height: 10%;
+        gap: 5%;
+        flex-direction: column;
+    }
+
     .button {
-        font-size: 1.8vw;
+        font-size: 8vw;
         padding: 2%;
-    }
-    
-    .bus-table th,
-    .bus-table td {
-        padding: 0.7% 2%;
-        width: 23%;
+        border-radius: 3.5vw;
+        text-overflow: break-word;
     }
 
-    .bus-table {
-        width: 70%;
-        font-size: 1.5vw;
-    }
-
-    .bus-table select {
-        font-size: 1.5vw
-    }
-
-    .bus-table input {
-        font-size: 1.5vw;
-    }
-    .label
-    {
-        display: block;
-        text-align: center;
-        font-size: 5vw;
-        font-family: 'Montserrat', sans-serif;
-    }
-    .content
-    {
-        border: none;
-        width: 75%;
-        height: 50%;
-        font-size: 2.5vw;
-        font-family: 'Montserrat', sans-serif;
-        display: block;
-        margin-left: 12.5%;
+    .label {
+        font-size: 10vw;
     }
 }

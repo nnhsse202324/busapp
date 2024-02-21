@@ -16,6 +16,18 @@
     <div class="image-container">
         <img src="/img/busappqrcode.png" id="qr-image">
     </div>
+    <% if(announcement != "") { %>
+        <table class="announcement-table" id="announcement-table">
+            <thead>
+                <tr>
+                    <th style="background-color: #838BC2; font-size: 310%; padding-top: 2px; padding-bottom: 2px; padding-left: 10px;"><i class="fa-solid fa-bullhorn fa-fw"></i> Announcement</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td class="announcement"><%= announcement %></td>
+            </tbody>
+        </table>
+    <% } %>
 </div>
 <!-- TV STUFF START-->
 <div class="tvGridContainer">

@@ -66,7 +66,16 @@ body {
     height: 100%;
 }
 
+.buttons-container {
+    grid-column: 3/4;
+    grid-row: 1/3;
+    align-items: right;
+    display: flex;
+    gap: 2%;
+}
+
 .help-container {
+    padding: 0 2%;
     text-align: right;
     height: 80%;
     grid-column: 4/4;
@@ -74,6 +83,8 @@ body {
 }
 
 .help-button {
+    border-radius: 10px;
+    padding: 0 2%;
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
     font-size: 3.5vw;
@@ -99,6 +110,7 @@ body {
 }
 
 #login-button {
+    border-radius: 10px;
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
     font-size: 3.5vw;
@@ -117,12 +129,12 @@ body {
     transition-duration: 0.4s;
     cursor: pointer;
 }
-  
+
 .button2 {
     background-color: #008CBA; 
     color: #ffffff;
 }
-  
+
 .button2:hover {
     background-color: #003749;
     color: rgb(255, 255, 255);
@@ -221,6 +233,42 @@ body {
     transition: 0.2s;
 }
 
+.announcement {
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    font-size: 3.1vw;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color:#000000;
+}
+
+.announcement-table {
+    margin: 0 auto 3%;
+    width: 90%;
+    border-collapse: collapse;
+    font-size: 1.7vw;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.announcement-table thead tr {
+    background-color: #327fa8;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.announcement-table tbody tr {
+    border-bottom: 2px solid #dddddd;
+    height: 5vh;
+}
+
+#announcement-table tbody tr {
+    background-color: #ffffff;
+}
+
 @media (orientation: landscape) {
     .header {
         grid-template-columns: 4fr 9fr 3fr;
@@ -240,7 +288,7 @@ body {
     }
     
     .bus-table {
-        width: 70%;
+        width: 70%;     
         font-size: 1.5vw;
     }
 
@@ -273,13 +321,14 @@ body {
     #notif-notice:hover {
         cursor: pointer;
     }
-}
+  
+    .announcement-table {
+        width: 70%;
+        font-size: 1vw;
+    }
 
-.announcement {
-    font-family: 'Montserrat', sans-serif;
-    text-decoration: none;
-    font-size: 30px;
-    text-align: center;
-    padding: 20px;
-    color:#003749;
+    .announcement {
+        font-size: 1.5vw;
+    }
+
 }
