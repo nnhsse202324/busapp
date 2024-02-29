@@ -51,7 +51,7 @@ const oAuth2 = new google_auth_library_1.OAuth2Client(CLIENT_ID);
 const bodyParser = require('body-parser');
 exports.router.use(bodyParser.urlencoded({ extended: true }));
 Announcement.findOneAndUpdate({}, { announcement: "" }, { upsert: true });
-
+Announcement.findOneAndUpdate({}, { tvAnnouncement: "" }, { upsert: true });
 function getBuses() {
     return __awaiter(this, void 0, void 0, function* () {
         // get all the buses and create a list of objects like the following {number:,change:,time:,status:}
@@ -315,9 +315,7 @@ exports.router.post("/whitelistFile", (req, res) => {
     fs_1.default.writeFileSync(path_1.default.resolve(__dirname, "../data/whitelist.json"), JSON.stringify(req.body.admins));
 });
 exports.router.post("/submitAnnouncement", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    announcement = req.body.announcement;
-    //overwrites the announcement in the database
-    yield Announcement.findOneAndUpdate({}, { announcement: announcement }, { upsert: true });
+    yield Announcement.findOneAndUpdate({}, { announcement: req.body.announcement, tvAnnouncement: req.body.tvAnnouncement }, { upsert: true });
     res.redirect("/admin");
 }));
 exports.router.post("/clearAnnouncement", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
