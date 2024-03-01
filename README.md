@@ -21,6 +21,7 @@ Adding an admin requires the email address of the admin to be added. Enter the n
 
 Administrator Handbook: https://docs.google.com/document/d/1MaySGjV3I7LIaNLHDQCaPODoN7ZUI3aYht6oijkWy_4/edit?usp=sharing
 
+Admin Video Tutorial on Grey Out Busses, Wave System, and Editing and Viewing Announcements: https://drive.google.com/file/d/1okofo47q2vuZsaQ01qOejM5qpYVgVvP4/view
 
 #### Student Experience 
 On the home page, students have access to all the information they need. The page consists of  a bus table displaying Bus Number, Bus Change, Status and Time. Additionally, a panel displaying the weather is visible in the top right. 
