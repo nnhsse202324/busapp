@@ -47,7 +47,13 @@ async function getBuses() {
 // Homepage. This is where students will view bus information from. 
 router.get("/", async (req: Request, res: Response) => {
     // Reads from data file and displays data
-    let data = {buses: await getBuses(), weather: await Weather.findOne({})};
+    let data = {
+        buses: await getBuses(), weather: await Weather.findOne({}),
+        isLocked: false,
+        leavingAt: new Date()
+    };
+    data.isLocked = (await Wave.findOne({})).locked;
+    data.leavingAt = (await Wave.findOne({})).leavingAt;
 
     res.render("index", {
         data: data,
@@ -111,9 +117,11 @@ router.get("/admin", async (req: Request, res: Response) => {
         allBuses: await getBuses(),
         nextWave: await Bus.find({status: "Next Wave"}),
         loading: await Bus.find({status: "Loading"}),
-        isLocked: false
+        isLocked: false, 
+        leavingAt: new Date()
     };
     data.isLocked = (await Wave.findOne({})).locked;
+    data.leavingAt = (await Wave.findOne({})).leavingAt;
     authorize(req);
     if (true) {
         res.render("admin", {
@@ -161,6 +169,10 @@ router.post("/sendWave", async (req: Request, res: Response) => {
 router.post("/lockWave", async (req: Request, res: Response) => {
 
     await Wave.findOneAndUpdate({}, { locked: !(await Wave.findOne({})).locked }, { upsert: true });
+    const leavingAt = new Date();
+    leavingAt.setMinutes(leavingAt.getMinutes() + 3);
+    await Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
+    console.log((await Wave.findOne({})).leavingAt);
 
 });
 

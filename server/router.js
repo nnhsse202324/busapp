@@ -82,7 +82,13 @@ function getBuses() {
 // Homepage. This is where students will view bus information from. 
 exports.router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Reads from data file and displays data
-    let data = { buses: yield getBuses(), weather: yield Weather.findOne({}) };
+    let data = {
+        buses: yield getBuses(), weather: yield Weather.findOne({}),
+        isLocked: false,
+        leavingAt: new Date()
+    };
+    data.isLocked = (yield Wave.findOne({})).locked;
+    data.leavingAt = (yield Wave.findOne({})).leavingAt;
     res.render("index", {
         data: data,
         render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/indexContent.ejs")),
@@ -136,9 +142,11 @@ exports.router.get("/admin", (req, res) => __awaiter(void 0, void 0, void 0, fun
         allBuses: yield getBuses(),
         nextWave: yield Bus.find({ status: "Next Wave" }),
         loading: yield Bus.find({ status: "Loading" }),
-        isLocked: false
+        isLocked: false,
+        leavingAt: new Date()
     };
     data.isLocked = (yield Wave.findOne({})).locked;
+    data.leavingAt = (yield Wave.findOne({})).leavingAt;
     authorize(req);
     if (true) {
         res.render("admin", {
@@ -177,6 +185,10 @@ exports.router.post("/sendWave", (req, res) => __awaiter(void 0, void 0, void 0,
 }));
 exports.router.post("/lockWave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield Wave.findOneAndUpdate({}, { locked: !(yield Wave.findOne({})).locked }, { upsert: true });
+    const leavingAt = new Date();
+    leavingAt.setMinutes(leavingAt.getMinutes() + 3);
+    yield Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
+    console.log((yield Wave.findOne({})).leavingAt);
 }));
 exports.router.post("/resetAllBusses", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield Bus.updateMany({}, { $set: { status: "" } });
