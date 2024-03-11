@@ -172,8 +172,13 @@ router.post("/lockWave", async (req: Request, res: Response) => {
     const leavingAt = new Date();
     leavingAt.setMinutes(leavingAt.getMinutes() + 3);
     await Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
-    console.log((await Wave.findOne({})).leavingAt);
+    //console.log((await Wave.findOne({})).leavingAt);
 
+});
+
+router.get("/leavingAt", async (req: Request, res: Response) => {
+    const leavingAt = (await Wave.findOne({})).leavingAt;
+    res.send(leavingAt);
 });
 
 router.post("/resetAllBusses", async (req: Request, res: Response) => {

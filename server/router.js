@@ -188,7 +188,11 @@ exports.router.post("/lockWave", (req, res) => __awaiter(void 0, void 0, void 0,
     const leavingAt = new Date();
     leavingAt.setMinutes(leavingAt.getMinutes() + 3);
     yield Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
-    console.log((yield Wave.findOne({})).leavingAt);
+    //console.log((await Wave.findOne({})).leavingAt);
+}));
+exports.router.get("/leavingAt", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const leavingAt = (yield Wave.findOne({})).leavingAt;
+    res.send(leavingAt);
 }));
 exports.router.post("/resetAllBusses", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield Bus.updateMany({}, { $set: { status: "" } });
