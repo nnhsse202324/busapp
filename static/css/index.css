@@ -271,6 +271,22 @@ body {
     background-color: #ffffff;
 }
 
+.timer-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3vw;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #31538d;
+    color: #ffffff;
+    padding: 1%;
+    text-align: center;
+    border-radius: 10px;
+    margin: 0 auto;
+    width: 88%;
+    margin-bottom: 3%;
+}
+
 @media (orientation: landscape) {
     .header {
         grid-template-columns: 4fr 9fr 3fr;
@@ -338,5 +354,21 @@ body {
     .announcement {
         font-size: 1.5vw;
     }
+    .timer-box{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5vw;
+        font-family: 'Montserrat', sans-serif;
+        background-color: #31538d;
+        color: #ffffff;
+        padding: 1%;
+        text-align: center;
+        border-radius: 10px;
+        margin: 0 auto;
+        width: 68%;
+        margin-bottom: 3%;
+    }
 
 }
+

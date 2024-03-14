@@ -12,6 +12,13 @@
         }
     </script>
 </div>
+
+<% if (data.isLocked === true) { %>
+    <div class="timer-box">
+        <p id="timer" class="timer-text"></p>
+    </div>
+<% } %>
+
 <table id="bus-table" class="bus-table">
     <thead>
         <tr colspan="5" style="background-color: #05a1f5; font-size: 160%;">
@@ -23,7 +30,6 @@
                 <th><button class="table-button" onclick="lockWave()">Lock Wave</button></th>
             <% } %>
             <th><button class="table-button" onclick="sendWave()" href="/admin">Send Wave</button></th>
-            <p id="timer"></p>
         </tr>
         <tr>
             <th>Bus Number</th>
@@ -115,3 +121,50 @@
     <button class="button" onclick="resetAllBusses()">Reset All Buses</button>
 </div>
 
+<script>
+    // Set the date we're counting down to
+    
+
+    // Update the count down every 1 second
+    var x = setInterval(async function() {
+        var countDownDate; // Define the countDownDate variable
+
+        await fetch('/leavingAt')
+        .then(response => response.json())
+        .then(data => {
+            // convert the data string to a date object
+            const leavingAt = new Date(data);
+            
+            countDownDate = leavingAt; // Assign the value to countDownDate
+            console.log(leavingAt)
+
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the result in an element with id="demo"
+        document.querySelectorAll("[id=timer]").forEach((element) => {
+            element.innerHTML = "The current wave will leave in " + minutes + "min " + seconds + "sec ";
+        });
+
+        // If the count down is over, write some text 
+        if (distance < 0) {
+            clearInterval(x);
+            document.querySelectorAll("[id=timer]").forEach((element) => {
+                element.innerHTML = "The current is about to leave!";
+            });
+        }
+    }, 1000);
+</script>
