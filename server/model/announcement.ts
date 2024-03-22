@@ -9,6 +9,10 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    tvAnnouncement: {
+        type: String,
+        required: true,
+    },
 });
 
 const Announcement = mongoose.model("Announcement", schema);

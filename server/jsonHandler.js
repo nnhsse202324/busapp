@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -21,7 +12,6 @@ const weatherDatafile = path_1.default.resolve(__dirname, "../data/weather.json"
 const defaultWeatherDatafile = path_1.default.resolve(__dirname, "../data/defaultWeather.txt");
 const whitelistDatafile = path_1.default.resolve(__dirname, "../data/whitelist.json");
 const busListDatafile = path_1.default.resolve(__dirname, "../data/busList.json");
-const Weather = require("./model/weather");
 // Load data file. If no file exists creates one
 function readData() {
     // Makes data files if they don't exist
@@ -41,16 +31,13 @@ function writeBuses(data) {
 }
 exports.writeBuses = writeBuses;
 function writeWeather(weather) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const data = {
-            status: weather.current.condition.text,
-            icon: weather.current.condition.icon,
-            temperature: weather.current.temp_f,
-            feelsLike: weather.current.feelslike_f
-        };
-        // post the data to the weather schema
-        yield Weather.findOneAndUpdate({}, data, { upsert: true });
-    });
+    const data = {
+        status: weather.current.condition.text,
+        icon: weather.current.condition.icon,
+        temperature: weather.current.temp_f,
+        feelsLike: weather.current.feelslike_f
+    };
+    fs_1.default.writeFileSync(weatherDatafile, JSON.stringify(data));
 }
 exports.writeWeather = writeWeather;
 // Reads a list of users who are allowed access to the admin page

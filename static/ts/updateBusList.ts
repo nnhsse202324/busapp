@@ -1,5 +1,5 @@
 let busList: string[];
-fetch("/busList").then((res) => res.json()).then((data) => busList = data).then(() => console.log(busList));
+fetch("/busList").then((res) => res.json()).then((data) => busList = data);
 
 let newBusEmptyRow: string;
 fetch("/updateBusListEmptyRow").then((res) => res.text()).then((data) => newBusEmptyRow = data);
@@ -18,6 +18,10 @@ function newBus_busList() {
 function addBus_busList(confirmButton: HTMLElement) {
     let row = confirmButton.parentElement!.parentElement! as HTMLTableRowElement;
     let number = (row.children[0]!.children[0] as HTMLInputElement).value;
+    if (busList.includes(number)) {
+        alert("Duplicate buses are not allowed");
+        return;
+    }
     let index = busList.findIndex((currentNumber) => {return parseInt(number) < parseInt(currentNumber)});
     if (index == -1) index = busList.length;
     busList.splice(index, 0, number);
@@ -42,11 +46,12 @@ async function  save(reset: boolean) {
     else {
         if(!confirm("Are you sure you would like to update the bus list? (This will not change any active pages until midnight)")) return;
     }
+
     fetch("/updateBusList", {
         method: 'POST',
         headers: {
-            accept: 'application.json',
-            'Content-Type': 'application/json'
+          accept: 'application.json',
+          'Content-Type': 'application/json'
         },
         body: 
         JSON.stringify({
