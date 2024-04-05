@@ -55,7 +55,7 @@ exports.router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function
     // Reads from data file and displays data
     console.log((yield Announcement.findOne({})).announcement);
     res.render("index", {
-        data: (0, jsonHandler_1.readData)(),
+        data: yield (0, jsonHandler_1.readData)(),
         render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/indexContent.ejs")),
         announcement: (yield Announcement.findOne({})).announcement
     });
@@ -71,7 +71,7 @@ exports.router.get('/weather', (req, res) => {
 exports.router.get("/tv", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Reads from data file and displays data
     res.render("tv", {
-        data: (0, jsonHandler_1.readData)(),
+        data: yield (0, jsonHandler_1.readData)(),
         render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/tvIndexContent.ejs")),
         announcement: (yield Announcement.findOne({})).tvAnnouncement
     });
@@ -96,7 +96,7 @@ function authorize(req) {
 }
 /* Admin page. This is where bus information can be updated from
 Reads from data file and displays data */
-exports.router.get("/admin", (req, res) => {
+exports.router.get("/admin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // If user is not authenticated (email is not is session) redirects to login page
     if (!req.session.userEmail) {
         res.redirect("/login");
@@ -106,7 +106,7 @@ exports.router.get("/admin", (req, res) => {
     authorize(req);
     if (req.session.isAdmin) {
         res.render("admin", {
-            data: (0, jsonHandler_1.readData)(),
+            data: yield (0, jsonHandler_1.readData)(),
             render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/adminContent.ejs")),
             emptyRow: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/sockets/adminEmptyRow.ejs")),
             populatedRow: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/sockets/adminPopulatedRow.ejs")),
@@ -116,7 +116,7 @@ exports.router.get("/admin", (req, res) => {
     else {
         res.render("unauthorized");
     }
-});
+}));
 exports.router.get("/beans", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.sendFile(path_1.default.resolve(__dirname, "../static/img/beans.jpg"));
 }));

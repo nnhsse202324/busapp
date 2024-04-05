@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -12,18 +21,21 @@ const weatherDatafile = path_1.default.resolve(__dirname, "../data/weather.json"
 const defaultWeatherDatafile = path_1.default.resolve(__dirname, "../data/defaultWeather.txt");
 const whitelistDatafile = path_1.default.resolve(__dirname, "../data/whitelist.json");
 const busListDatafile = path_1.default.resolve(__dirname, "../data/busList.json");
+const Announcement = require("./model/announcement");
 // Load data file. If no file exists creates one
 function readData() {
-    // Makes data files if they don't exist
-    if (!fs_1.default.existsSync(busesDatafile)) {
-        (0, server_1.resetDatafile)();
-    }
-    if (!fs_1.default.existsSync(weatherDatafile)) {
-        fs_1.default.writeFileSync(weatherDatafile, fs_1.default.readFileSync(defaultWeatherDatafile));
-    }
-    const buses = JSON.parse(fs_1.default.readFileSync(busesDatafile, "utf-8"));
-    const weather = JSON.parse(fs_1.default.readFileSync(weatherDatafile, "utf-8"));
-    return { buses: buses, weather: weather };
+    return __awaiter(this, void 0, void 0, function* () {
+        // Makes data files if they don't exist
+        if (!fs_1.default.existsSync(busesDatafile)) {
+            (0, server_1.resetDatafile)();
+        }
+        if (!fs_1.default.existsSync(weatherDatafile)) {
+            fs_1.default.writeFileSync(weatherDatafile, fs_1.default.readFileSync(defaultWeatherDatafile));
+        }
+        const buses = JSON.parse(fs_1.default.readFileSync(busesDatafile, "utf-8"));
+        const weather = JSON.parse(fs_1.default.readFileSync(weatherDatafile, "utf-8"));
+        return { buses: buses, weather: weather, announcement: (yield Announcement.findOne({})).announcement };
+    });
 }
 exports.readData = readData;
 function writeBuses(data) {

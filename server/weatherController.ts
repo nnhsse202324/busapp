@@ -9,8 +9,8 @@ async function getWeather(io: Server) {
             + new URLSearchParams([["key", "8afcf03c285047a1b6e201401222202"], ["q", "60563"]]
             ));
         writeWeather(await res.json());
-        io.of("/").emit("update", readData());
-        io.of("/admin").emit("updateWeather", readData().weather);
+        io.of("/").emit("update", await readData());
+        io.of("/admin").emit("updateWeather", (await readData()).weather);
     } catch (error) {
         console.log('failed to fetch data from weatherapi.com', error);
     }

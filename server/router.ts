@@ -21,7 +21,7 @@ router.get("/", async (req: Request, res: Response) => {
     // Reads from data file and displays data
     console.log((await Announcement.findOne({})).announcement);
     res.render("index", {
-        data: readData(),
+        data: await readData(),
         render: fs.readFileSync(path.resolve(__dirname, "../views/include/indexContent.ejs")),
         announcement: (await Announcement.findOne({})).announcement
     });
@@ -40,7 +40,7 @@ router.get('/weather',(req, res)=>{
 router.get("/tv", async (req: Request, res: Response) => {
     // Reads from data file and displays data
     res.render("tv", {
-        data: readData(),
+        data: await readData(),
         render: fs.readFileSync(path.resolve(__dirname, "../views/include/tvIndexContent.ejs")),                                
         announcement: (await Announcement.findOne({})).tvAnnouncement
     })
@@ -69,7 +69,7 @@ function authorize(req: Request) {
 
 /* Admin page. This is where bus information can be updated from
 Reads from data file and displays data */
-router.get("/admin", (req: Request, res: Response) => {
+router.get("/admin", async (req: Request, res: Response) => {
     // If user is not authenticated (email is not is session) redirects to login page
     if (!req.session.userEmail) {
         res.redirect("/login");
@@ -80,7 +80,7 @@ router.get("/admin", (req: Request, res: Response) => {
     authorize(req);
     if (req.session.isAdmin) {
         res.render("admin", {
-            data: readData(),
+            data: await readData(),
             render: fs.readFileSync(path.resolve(__dirname, "../views/include/adminContent.ejs")),
             emptyRow: fs.readFileSync(path.resolve(__dirname, "../views/sockets/adminEmptyRow.ejs")),
             populatedRow: fs.readFileSync(path.resolve(__dirname, "../views/sockets/adminPopulatedRow.ejs")),
