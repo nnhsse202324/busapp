@@ -10,7 +10,8 @@ updateNotifStatus();
 console.log(notifStatus);
 // end of initializing stuff
 indexSocket.on("update", (data) => {
-    const html = ejs.render(document.getElementById("getRender").getAttribute("render"), { data: data });
+    console.log("update received");
+    const html = ejs.render(document.getElementById("getRender").getAttribute("render"), { data: data, announcement: data.announcement });
     document.getElementById("content").innerHTML = html;
     updateTables();
     if (Notification.permission === 'granted') {
