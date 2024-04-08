@@ -19,7 +19,6 @@ Announcement.findOneAndUpdate({}, {tvAnnouncement: ""}, {upsert: true});
 // Homepage. This is where students will view bus information from. 
 router.get("/", async (req: Request, res: Response) => {
     // Reads from data file and displays data
-    console.log((await Announcement.findOne({})).announcement);
     res.render("index", {
         data: await readData(),
         render: fs.readFileSync(path.resolve(__dirname, "../views/include/indexContent.ejs")),
