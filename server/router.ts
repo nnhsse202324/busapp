@@ -169,6 +169,12 @@ router.post("/resetAllBusses", async (req: Request, res: Response) => {
     await Bus.updateMany({}, { $set: { status: "" } }); 
 
 });
+router.post("/increaseTime", (req: Request, res: Response) => {
+
+});
+router.post("/decreaseTime", (req: Request, res: Response) => {
+    
+});
 
 router.get("/beans", async (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, "../static/img/beans.jpg"));
