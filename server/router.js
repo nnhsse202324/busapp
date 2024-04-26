@@ -190,6 +190,10 @@ exports.router.post("/lockWave", (req, res) => __awaiter(void 0, void 0, void 0,
     yield Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
     //console.log((await Wave.findOne({})).leavingAt);
 }));
+exports.router.post("/increaseTime", (req, res) => {
+});
+exports.router.post("/decreaseTime", (req, res) => {
+});
 exports.router.get("/leavingAt", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const leavingAt = (yield Wave.findOne({})).leavingAt;
     res.send(leavingAt);

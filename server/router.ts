@@ -176,6 +176,13 @@ router.post("/lockWave", async (req: Request, res: Response) => {
 
 });
 
+router.post("/increaseTime", (req: Request, res: Response) => {
+
+});
+router.post("/decreaseTime", (req: Request, res: Response) => {
+    
+});
+
 router.get("/leavingAt", async (req: Request, res: Response) => {
     const leavingAt = (await Wave.findOne({})).leavingAt;
     res.send(leavingAt);
