@@ -4,14 +4,14 @@ The Bus App is a web application that allows admins in charge of bus communicati
 ## Intended Experience
 To access the Bus App, all users should enter the website url (https://busapp.nnhsse.org/) into a browser. For convenience, it is recommended that users save this website to their phone’s homepage. 
 
-This website can be saved to be used like a regular mobile application on Android and IOS devices. If using Google Chrome, users should click the three dots next to the URL bar and select 'add to homepage'. On Safari, users should click the 'send' icon, scroll down and select 'add to homescreen'. 
+This website can be saved to be used like a regular mobile application on Android and IOS devices. If using Google Chrome, users should click the three dots next to the URL bar and select 'add to homepage'. On Safari, users should click the 'send' icon, scroll down and select 'add to home screen'. 
 
 The below are the intended experiences for both admins and students:
 
 #### Admin Experience
-From the homepage, admins should click the “Login as editor” button in the top right and complete authentication via google on the login page. If they are on the whitelist, they will be redirected to the admin page.
+From the homepage, admins should click the “Admin” button in the top right and complete authentication via google on the login page. If they are on the whitelist, they will be redirected to the admin page.
 
-From this page admins are able to edit bus changes, status (Not Here, Next Wave, Loading or Gone) and time. Time will update automatically when status is changed.
+From this page admins are able to edit bus changes, status  and time. Time will update automatically when status is changed. Status will change when busses are moving into waves, wave is locked, or wave is sent.
 
 From the button labeled "Update Bus List," admins can change the default bus list. Entering a number into the button labeled "Add" and clicking the checkmark will add the bus, though the rest of the bus app will not change immediately. To save their changes, admins should click "Save Changes" to save the changes they've made and to update all active pages, or "Save Without Updating" to save them without updating the pages until the following day. They can also press "Discard Changes" to remove any changes they've made without saving. 
 
@@ -23,7 +23,7 @@ Administrator Handbook: https://docs.google.com/document/d/1MaySGjV3I7LIaNLHDQCa
 
 
 #### Student Experience 
-On the home page, students have access to all the information they need. The page consists of  a bus table displaying Bus Number, Bus Change, Status and Time. Additionally, a panel displaying the weather is visible in the top right. 
+On the home page, students have access to all the information they need. The page consists of  a bus table displaying Bus Number, Bus Change, Status, Time of the status change, announcements, timer (when admin presses the lockWave button). Additionally, a panel displaying the weather is visible in the top right. 
 
 Students should first check for a bus change when opening the app and then periodically check the status of their bus to make sure they catch it. Information updated by admins is live so students will not have to refresh to view new information.
 
@@ -140,7 +140,10 @@ Ejs is a form of html that allows javascript to be run during the creation of th
 Socket.io allows us to send data to and from the server in live time using `emit()` and `on()`. This is important because it allows us to update a page without it being refreshed which is key to the functionality of the Bus App. Please see the official documentation: https://socket.io/
 
 #### Service Workers
-Serice workers allow us to add extra functionality to the webapp. This allows it to run closer to a native app, doing things such as enabling notifications and allowing the webapp to access the local storage of the users device. Service workers are enabled through the existence of a the "manifest.webmanifest" file. This file edits the mobile appearance of the webapp. Service worker functionalities are edited through the "indexconnect.ts" file
+Service workers allow us to add extra functionality to the webapp. This allows it to run closer to a native app, doing things such as enabling notifications and allowing the webapp to access the local storage of the users device. Service workers are enabled through the existence of a the "manifest.webmanifest" file. This file edits the mobile appearance of the webapp. Service worker functionalities are edited through the "indexconnect.ts" file
+
+#### MongoDB
+MongoDB is a data base that we pushed all of our data to such as bus lists, announcements, and hopefully whitelist soon.
 
 #### Review Checklist
 To reduce errors on the main branch, we developed a review checklist that MUST be completed before pull requests into the main branch. This list should be updated as new features are added that need to be reviewed.

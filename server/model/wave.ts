@@ -1,3 +1,4 @@
+import { time } from "console";
 
 /**
  * schema for a journal entry
@@ -13,7 +14,12 @@ const schema = new mongoose.Schema({
     leavingAt: {
         type: Date,
         required: true,
-    }
+    },
+    time: {
+        type: Number,
+        required: true,
+    },
+
 });
 
 const Wave = mongoose.model("Wave", schema);

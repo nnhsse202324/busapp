@@ -143,7 +143,8 @@ exports.router.get("/admin", (req, res) => __awaiter(void 0, void 0, void 0, fun
         nextWave: yield Bus.find({ status: "Next Wave" }),
         loading: yield Bus.find({ status: "Loading" }),
         isLocked: false,
-        leavingAt: new Date()
+        leavingAt: new Date(),
+        time: yield Wave.findOne({}).time
     };
     data.isLocked = (yield Wave.findOne({})).locked;
     data.leavingAt = (yield Wave.findOne({})).leavingAt;
@@ -186,9 +187,9 @@ exports.router.post("/sendWave", (req, res) => __awaiter(void 0, void 0, void 0,
 exports.router.post("/lockWave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield Wave.findOneAndUpdate({}, { locked: !(yield Wave.findOne({})).locked }, { upsert: true });
     const leavingAt = new Date();
-    leavingAt.setMinutes(leavingAt.getMinutes() + 3);
+    yield leavingAt.setMinutes(leavingAt.getMinutes() + (yield Wave.findOne({})).time);
     yield Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
-    //console.log((await Wave.findOne({})).leavingAt);
+    console.log((yield Wave.findOne({})).leavingAt);
 }));
 exports.router.get("/leavingAt", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const leavingAt = (yield Wave.findOne({})).leavingAt;
@@ -196,6 +197,12 @@ exports.router.get("/leavingAt", (req, res) => __awaiter(void 0, void 0, void 0,
 }));
 exports.router.post("/resetAllBusses", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield Bus.updateMany({}, { $set: { status: "" } });
+}));
+exports.router.post("/increaseTimer", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield Wave.findOne({}).time++;
+}));
+exports.router.post("/decreaseTimer", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield Wave.findOne({}).time--;
 }));
 exports.router.get("/beans", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.sendFile(path_1.default.resolve(__dirname, "../static/img/beans.jpg"));

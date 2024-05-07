@@ -4,6 +4,7 @@ import { readData, readWhitelist, readBusList, writeBusList, readWeather, readBu
 import path from "path";
 import fs, {readFileSync} from "fs";
 import {resetDatafile} from "../server";
+import { time } from "console";
 export const router = express.Router();
 
 const Announcement = require("./model/announcement");
@@ -118,7 +119,9 @@ router.get("/admin", async (req: Request, res: Response) => {
         nextWave: await Bus.find({status: "Next Wave"}),
         loading: await Bus.find({status: "Loading"}),
         isLocked: false, 
-        leavingAt: new Date()
+        leavingAt: new Date(),
+        time: await Wave.findOne({}).time
+
     };
     data.isLocked = (await Wave.findOne({})).locked;
     data.leavingAt = (await Wave.findOne({})).leavingAt;
@@ -167,12 +170,11 @@ router.post("/sendWave", async (req: Request, res: Response) => {
 });
 
 router.post("/lockWave", async (req: Request, res: Response) => {
-
     await Wave.findOneAndUpdate({}, { locked: !(await Wave.findOne({})).locked }, { upsert: true });
     const leavingAt = new Date();
-    leavingAt.setMinutes(leavingAt.getMinutes() + 3);
+    await leavingAt.setMinutes(leavingAt.getMinutes() + (await Wave.findOne({})).time);
     await Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
-    //console.log((await Wave.findOne({})).leavingAt);
+    console.log((await Wave.findOne({})).leavingAt);
 
 });
 
@@ -186,6 +188,12 @@ router.post("/resetAllBusses", async (req: Request, res: Response) => {
 
     await Bus.updateMany({}, { $set: { status: "" } }); 
 
+});
+router.post("/increaseTimer", async (req: Request, res: Response) => {
+    await Wave.findOne({}).time++;
+});
+router.post("/decreaseTimer", async (req: Request, res: Response) => {
+    await Wave.findOne({}).time--;
 });
 
 router.get("/beans", async (req: Request, res: Response) => {
