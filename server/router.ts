@@ -19,6 +19,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 Announcement.findOneAndUpdate({}, {announcement: ""}, {upsert: true});
 Announcement.findOneAndUpdate({}, {tvAnnouncement: ""}, {upsert: true});
+let timer = 3;
 
 async function getBuses() {
     // get all the buses and create a list of objects like the following {number:,change:,time:,status:}
@@ -170,12 +171,17 @@ router.post("/lockWave", async (req: Request, res: Response) => {
 
     await Wave.findOneAndUpdate({}, { locked: !(await Wave.findOne({})).locked }, { upsert: true });
     const leavingAt = new Date();
-    leavingAt.setMinutes(leavingAt.getMinutes() + 3);
+    console.log("minutes: " + leavingAt.getMinutes());
+    leavingAt.setMinutes(leavingAt.getMinutes() + timer);
+    console.log("timer: " + timer);
     await Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
-    //console.log((await Wave.findOne({})).leavingAt);
+    console.log("minutes: " + leavingAt.getMinutes());
 
 });
 
+router.post("/setTimer", async (req: Request, res: Response) => {
+    timer = Number(req.body.minutes)
+});
 
 router.get("/leavingAt", async (req: Request, res: Response) => {
     const leavingAt = (await Wave.findOne({})).leavingAt;

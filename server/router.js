@@ -52,6 +52,7 @@ const bodyParser = require('body-parser');
 exports.router.use(bodyParser.urlencoded({ extended: true }));
 Announcement.findOneAndUpdate({}, { announcement: "" }, { upsert: true });
 Announcement.findOneAndUpdate({}, { tvAnnouncement: "" }, { upsert: true });
+let timer = 3;
 function getBuses() {
     return __awaiter(this, void 0, void 0, function* () {
         // get all the buses and create a list of objects like the following {number:,change:,time:,status:}
@@ -186,9 +187,14 @@ exports.router.post("/sendWave", (req, res) => __awaiter(void 0, void 0, void 0,
 exports.router.post("/lockWave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield Wave.findOneAndUpdate({}, { locked: !(yield Wave.findOne({})).locked }, { upsert: true });
     const leavingAt = new Date();
-    leavingAt.setMinutes(leavingAt.getMinutes() + 3);
+    console.log("minutes: " + leavingAt.getMinutes());
+    leavingAt.setMinutes(leavingAt.getMinutes() + timer);
+    console.log("timer: " + timer);
     yield Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
-    //console.log((await Wave.findOne({})).leavingAt);
+    console.log("minutes: " + leavingAt.getMinutes());
+}));
+exports.router.post("/setTimer", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    timer = Number(req.body.minutes);
 }));
 exports.router.get("/leavingAt", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const leavingAt = (yield Wave.findOne({})).leavingAt;
