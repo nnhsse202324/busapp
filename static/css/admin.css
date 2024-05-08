@@ -232,11 +232,11 @@ body {
 select[name="minutes"] {
     padding: 12px; /* Increase padding */
     font-size: 16px; /* Increase font size */
-    border: 1px solid #266080;
-    border-radius: 4px;
+    border: 0px solid #266080;
+    border-radius: 10px;
     background-color: #327fa8;
     color: #ffffff;
-    width: 200px; /* Increase width */
+    width: 100%; /* Increase width */
   }
   
   /* Style for the options */
