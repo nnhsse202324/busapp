@@ -187,11 +187,8 @@ exports.router.post("/sendWave", (req, res) => __awaiter(void 0, void 0, void 0,
 exports.router.post("/lockWave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield Wave.findOneAndUpdate({}, { locked: !(yield Wave.findOne({})).locked }, { upsert: true });
     const leavingAt = new Date();
-    console.log("minutes: " + leavingAt.getMinutes());
     leavingAt.setMinutes(leavingAt.getMinutes() + timer);
-    console.log("timer: " + timer);
     yield Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
-    console.log("minutes: " + leavingAt.getMinutes());
 }));
 exports.router.post("/setTimer", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     timer = Number(req.body.minutes);
