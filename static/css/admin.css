@@ -226,4 +226,27 @@ body {
     margin: 0 auto;
     width: 40%;
     margin-bottom: 2%;
+
 }
+
+/* Style for the select element */
+select[name="minutes"] {
+    padding: 12px; /* Increase padding */
+    font-size: 16px; /* Increase font size */
+    border: 1px solid #266080;
+    border-radius: 4px;
+    background-color: #327fa8;
+    color: #ffffff;
+    width: 200px; /* Increase width */
+  }
+  
+  /* Style for the options */
+  select[name="minutes"] option {
+    padding: 8px;
+    font-size: 16px;
+  }
+  
+  /* Style for the dropdown arrow */
+  select[name="minutes"]::-ms-expand {
+    display: none;
+  }
