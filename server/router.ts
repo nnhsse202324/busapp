@@ -171,11 +171,8 @@ router.post("/lockWave", async (req: Request, res: Response) => {
 
     await Wave.findOneAndUpdate({}, { locked: !(await Wave.findOne({})).locked }, { upsert: true });
     const leavingAt = new Date();
-    console.log("minutes: " + leavingAt.getMinutes());
     leavingAt.setMinutes(leavingAt.getMinutes() + timer);
-    console.log("timer: " + timer);
     await Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
-    console.log("minutes: " + leavingAt.getMinutes());
 
 });
 
