@@ -226,13 +226,23 @@ body {
     margin: 0 auto;
     width: 40%;
     margin-bottom: 2%;
-
+}
+.timerForm{
+    display: flex;
+    justify-content: center;
+    align-items: space-between;
+    font-size: 1.5vw;
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff;
+    padding: 1%;
+    text-align: center;
+    width: 20%;
 }
 
 /* Style for the select element */
 select[name="minutes"] {
-    padding: 12px; /* Increase padding */
-    font-size: 16px; /* Increase font size */
+    padding: 10%; /* Increase padding */
+    font-size: 1.5vw; /* Increase font size */
     border: 0px solid #266080;
     border-radius: 10px;
     background-color: #327fa8;
@@ -242,8 +252,8 @@ select[name="minutes"] {
   
   /* Style for the options */
   select[name="minutes"] option {
-    padding: 8px;
-    font-size: 16px;
+    padding: 10%;
+    font-size: 1.5vw;
   }
   
   /* Style for the dropdown arrow */
