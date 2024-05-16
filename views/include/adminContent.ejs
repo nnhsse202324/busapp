@@ -118,9 +118,9 @@
 </table>
 
 <div style="align-items: center; display: flex; justify-content: center;">
-    <button class="button" onclick="resetAllBusses()">Reset All Buses</button>
+        <button class="button" onclick="resetAllBusses()">Reset All Buses</button>
     <form class="timerForm" id="timerForm" action="/setTimer" method="post">
-        <select name="minutes" style="margin-left: 10px;">
+        <select name="minutes">
             <% var options = []; %>
             <% for(var i = 1; i <= 6; i++) { %>
               <option value='<%= i %>'><%= i %></option>
