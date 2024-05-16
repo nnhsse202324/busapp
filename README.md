@@ -23,6 +23,8 @@ Administrator Handbook: https://docs.google.com/document/d/1MaySGjV3I7LIaNLHDQCa
 
 Admin Video Tutorial on Grey Out Busses, Wave System, and Editing and Viewing Announcements: https://drive.google.com/file/d/1okofo47q2vuZsaQ01qOejM5qpYVgVvP4/view
 
+Video Tutorial primarily targeted towards future development teams: https://drive.google.com/file/d/1ulnChPS5pEHX3aqH_wu1c70YdODRildk/view?usp=sharing 
+
 #### Student Experience 
 On the home page, students have access to all the information they need. The page consists of  a bus table displaying Bus Number, Bus Change, Status and Time. Additionally, a panel displaying the weather is visible in the top right. 
 
