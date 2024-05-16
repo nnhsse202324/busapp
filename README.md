@@ -151,19 +151,33 @@ Captured in Trello
 ## Folder Structure
 
 server/ - the most important file
+
 | - database/ - sets up the mongo server. I would not recommend messing with this file
+
 | - - - connection.js
+
 | - - - connection.js.map
+
 | - - - connection.ts
+
 | - jsonHandler.js - useless and deprecated
+
 | - jsonHandler.ts - useless and deprecated
+
 | - model/ - contains all the mongo schema files
+
 | - - - announcement.js
+
 | - - - announcement.js.map
+
 | - - - announcement.ts - contains the code for the announcement schema
+
 | - router.js
+
 | - router.ts - where 90% of stuff is. When the user goes to an endpoint (URL), it calls the function for the URL and runs the code
+
 | - weatherController.js 
+
 | - weatherController.ts - where the weather data is stored
 
 ## Mongo
