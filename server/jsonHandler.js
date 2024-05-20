@@ -21,19 +21,21 @@ const weatherDatafile = path_1.default.resolve(__dirname, "../data/weather.json"
 const defaultWeatherDatafile = path_1.default.resolve(__dirname, "../data/defaultWeather.txt");
 const whitelistDatafile = path_1.default.resolve(__dirname, "../data/whitelist.json");
 const busListDatafile = path_1.default.resolve(__dirname, "../data/busList.json");
-const Weather = require("./model/weather");
+const Announcement = require("./model/announcement");
 // Load data file. If no file exists creates one
 function readData() {
-    // Makes data files if they don't exist
-    if (!fs_1.default.existsSync(busesDatafile)) {
-        (0, server_1.resetDatafile)();
-    }
-    if (!fs_1.default.existsSync(weatherDatafile)) {
-        fs_1.default.writeFileSync(weatherDatafile, fs_1.default.readFileSync(defaultWeatherDatafile));
-    }
-    const buses = JSON.parse(fs_1.default.readFileSync(busesDatafile, "utf-8"));
-    const weather = JSON.parse(fs_1.default.readFileSync(weatherDatafile, "utf-8"));
-    return { buses: buses, weather: weather };
+    return __awaiter(this, void 0, void 0, function* () {
+        // Makes data files if they don't exist
+        if (!fs_1.default.existsSync(busesDatafile)) {
+            (0, server_1.resetDatafile)();
+        }
+        if (!fs_1.default.existsSync(weatherDatafile)) {
+            fs_1.default.writeFileSync(weatherDatafile, fs_1.default.readFileSync(defaultWeatherDatafile));
+        }
+        const buses = JSON.parse(fs_1.default.readFileSync(busesDatafile, "utf-8"));
+        const weather = JSON.parse(fs_1.default.readFileSync(weatherDatafile, "utf-8"));
+        return { buses: buses, weather: weather, announcement: (yield Announcement.findOne({})).announcement };
+    });
 }
 exports.readData = readData;
 function writeBuses(data) {
@@ -41,16 +43,13 @@ function writeBuses(data) {
 }
 exports.writeBuses = writeBuses;
 function writeWeather(weather) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const data = {
-            status: weather.current.condition.text,
-            icon: weather.current.condition.icon,
-            temperature: weather.current.temp_f,
-            feelsLike: weather.current.feelslike_f
-        };
-        // post the data to the weather schema
-        yield Weather.findOneAndUpdate({}, data, { upsert: true });
-    });
+    const data = {
+        status: weather.current.condition.text,
+        icon: weather.current.condition.icon,
+        temperature: weather.current.temp_f,
+        feelsLike: weather.current.feelslike_f
+    };
+    fs_1.default.writeFileSync(weatherDatafile, JSON.stringify(data));
 }
 exports.writeWeather = writeWeather;
 // Reads a list of users who are allowed access to the admin page

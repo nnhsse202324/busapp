@@ -107,7 +107,7 @@ exports.router.get('/weather', (req, res) => {
 exports.router.get("/tv", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Reads from data file and displays data
     res.render("tv", {
-        data: (0, jsonHandler_1.readData)(),
+        data: yield (0, jsonHandler_1.readData)(),
         render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/tvIndexContent.ejs")),
         announcement: (yield Announcement.findOne({})).tvAnnouncement
     });

@@ -40,8 +40,8 @@ io.of("/").on("connection", (socket) => {
 });
 
 //admin socket
-io.of("/admin").on("connection", (socket) => {
-    socket.on("updateMain", (command: BusCommand) => {
+io.of("/admin").on("connection", async (socket) => {
+    socket.on("updateMain", async (command: BusCommand) => {
         switch (command.type) {
             case "add":
                 const busAfter = buses.find((otherBus) => {
@@ -67,7 +67,7 @@ io.of("/admin").on("connection", (socket) => {
         }
         writeBuses(buses);
         // buses.forEach((bus) => {console.log(bus.number)});
-        io.of("/").emit("update", readData());
+        io.of("/").emit("update", await readData());
         socket.broadcast.emit("updateBuses", command);
         
     });
@@ -98,12 +98,12 @@ function resetBuses() {
     resetDatafile();
     setInterval(resetDatafile, 86400000);
 }
-export function resetDatafile() {
+export async function resetDatafile() {
     let newBuses: BusData[] = [];
     readBusList().busList.forEach((number) => newBuses.push({number: number, change: "", time: "", status: "Not Here"}));
     fs.writeFileSync(busesDatafile, JSON.stringify(newBuses));
     buses = newBuses;
-    io.of("/").emit("update", readData());
+    io.of("/").emit("update", await readData());
     io.of("/admin").emit("restart");
 }
 const midnight = new Date();

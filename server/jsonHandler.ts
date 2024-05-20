@@ -7,15 +7,15 @@ const weatherDatafile = path.resolve(__dirname, "../data/weather.json");
 const defaultWeatherDatafile = path.resolve(__dirname, "../data/defaultWeather.txt");
 const whitelistDatafile = path.resolve(__dirname, "../data/whitelist.json");
 const busListDatafile = path.resolve(__dirname, "../data/busList.json");
+const Announcement = require("./model/announcement");
 
 export type BusData = {number: string, change: string | undefined, time: string | undefined, status: string | undefined};
 export type adminData = {address: string};
 type Weather = {status: string, icon: string, temperature: string, feelsLike: string}
 
-const Weather = require("./model/weather");
 
 // Load data file. If no file exists creates one
-export function readData() {
+export async function readData() {
     // Makes data files if they don't exist
     if (!fs.existsSync(busesDatafile)) {
         resetDatafile()
@@ -26,23 +26,21 @@ export function readData() {
 
     const buses = <BusData[]> JSON.parse(fs.readFileSync(busesDatafile, "utf-8"));
     const weather = <Weather> JSON.parse(fs.readFileSync(weatherDatafile, "utf-8"));
-    return {buses: buses, weather: weather};
+    return {buses: buses, weather: weather, announcement: (await Announcement.findOne({})).announcement};
 }
 
 export function writeBuses(data: BusData[]){
     fs.writeFileSync(busesDatafile, JSON.stringify(data));
 }
 
-export async function writeWeather(weather: any) {
+export function writeWeather(weather: any) {
     const data: Weather = {
         status: <string> weather.current.condition.text,
         icon: <string> weather.current.condition.icon,
         temperature: <string> weather.current.temp_f,
         feelsLike: <string> weather.current.feelslike_f
     }
-    // post the data to the weather schema
-    await Weather.findOneAndUpdate({}, data, {upsert: true});
-
+    fs.writeFileSync(weatherDatafile, JSON.stringify(data));
 }
 
 // Reads a list of users who are allowed access to the admin page

@@ -76,7 +76,7 @@ router.get('/weather',(req, res)=>{
 router.get("/tv", async (req: Request, res: Response) => {
     // Reads from data file and displays data
     res.render("tv", {
-        data: readData(),
+        data: await readData(),
         render: fs.readFileSync(path.resolve(__dirname, "../views/include/tvIndexContent.ejs")),                                
         announcement: (await Announcement.findOne({})).tvAnnouncement
     })
