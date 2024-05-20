@@ -3,7 +3,7 @@ function lockWave() {
     fetch('/lockWave', {
         method: 'POST'
     })
-    location.reload()
+    // location.reload
 }
 
 function updateStatus(button, status) {
@@ -26,14 +26,14 @@ function updateStatus(button, status) {
     })
 
     // rerender the page
-    location.reload()
+    // location.reload
 }
 
 function sendWave() {
     fetch('/sendWave', {
         method: 'POST'
     })
-    location.reload()
+    // location.reload
 }
 
 function addToWave(button) {
@@ -56,7 +56,7 @@ function resetAllBusses(button) {
     fetch('/resetAllBusses', {
         method: 'POST'
     })
-    location.reload()
+    // location.reload
 }
 
 function updateBusChange(button) {
@@ -77,6 +77,6 @@ function updateBusChange(button) {
         },
         body: JSON.stringify(data)
     })
-    location.reload()
+    // location.reload
 }
 
