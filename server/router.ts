@@ -3,7 +3,6 @@ import {OAuth2Client, TokenPayload} from "google-auth-library";
 import { readData, readWhitelist, readBusList, writeBusList, readWeather, readBusStatus } from './jsonHandler';
 import path from "path";
 import fs, {readFileSync} from "fs";
-import {resetDatafile} from "../server";
 export const router = express.Router();
 
 const Announcement = require("./model/announcement");
@@ -149,6 +148,7 @@ router.post("/updateBusChange", async (req: Request, res: Response) => {
     let busChange = req.body.change;
     let time = req.body.time;
     await Bus.findOneAndUpdate({busNumber: busNumber}, {busChange: busChange, time: time});
+    res.send("success");
 });
 
 router.post("/updateBusStatus", async (req: Request, res: Response) => {
@@ -156,6 +156,7 @@ router.post("/updateBusStatus", async (req: Request, res: Response) => {
     let busStatus = req.body.status;
     let time = req.body.time;
     await Bus.findOneAndUpdate({busNumber: busNumber}, {status: busStatus, time: time});
+    res.send("success");
 });
 
 
@@ -164,7 +165,7 @@ router.post("/sendWave", async (req: Request, res: Response) => {
     await Bus.updateMany({ status: "Loading" }, { $set: { status: "Gone" } });
     await Bus.updateMany({ status: "Next Wave" }, { $set: { status: "Loading" } });
     await Wave.findOneAndUpdate({}, { locked: false }, { upsert: true });
-
+    res.send("success");
 });
 
 router.post("/lockWave", async (req: Request, res: Response) => {
@@ -173,21 +174,24 @@ router.post("/lockWave", async (req: Request, res: Response) => {
     const leavingAt = new Date();
     leavingAt.setMinutes(leavingAt.getMinutes() + timer);
     await Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
-
+    res.send("success");
 });
 
 router.post("/setTimer", async (req: Request, res: Response) => {
     timer = Number(req.body.minutes)
+    res.send("success");
 });
 
 router.get("/leavingAt", async (req: Request, res: Response) => {
     const leavingAt = (await Wave.findOne({})).leavingAt;
     res.send(leavingAt);
+
 });
 
 router.post("/resetAllBusses", async (req: Request, res: Response) => {
 
     await Bus.updateMany({}, { $set: { status: "" } }); 
+    res.send("success");
 
 });
 

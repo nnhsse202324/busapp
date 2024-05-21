@@ -1,12 +1,20 @@
+const adminSocket = window.io('/admin'); 
 
-function lockWave() {
-    fetch('/lockWave', {
-        method: 'POST'
-    })
-    // location.reload
+function update() {
+    console.log("update called")
+    adminSocket.emit("updateMain", {
+        type: "update",
+    });
 }
 
-function updateStatus(button, status) {
+async function lockWave() {
+    await fetch('/lockWave', {
+        method: 'POST'
+    })
+    update()
+}
+
+async function updateStatus(button, status) {
     let number = button.parentElement.parentElement.children[0].children[0].value
     let time =  new Date()
 
@@ -17,7 +25,7 @@ function updateStatus(button, status) {
     }
 
 
-    fetch('/updateBusStatus', {
+    await fetch('/updateBusStatus', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -25,41 +33,47 @@ function updateStatus(button, status) {
         body: JSON.stringify(data)
     })
 
+    update()
+
     // rerender the page
     // location.reload
 }
 
-function sendWave() {
-    fetch('/sendWave', {
+async function sendWave() {
+    await fetch('/sendWave', {
         method: 'POST'
     })
+    update()
+
     // location.reload
 }
 
-function addToWave(button) {
-    updateStatus(button, "Loading")
+async function addToWave(button) {
+    await updateStatus(button, "Loading")
 }
 
-function removeFromWave(button) {
-    updateStatus(button, "")
+async function removeFromWave(button) {
+    await updateStatus(button, "")
 }
 
-function addToNextWave(button) {
-    updateStatus(button, "Next Wave")
+async function addToNextWave(button) {
+    await updateStatus(button, "Next Wave")
 }
 
-function reset(button) {
-    updateStatus(button, "")
+async function reset(button) {
+    await updateStatus(button, "")
 }
 
-function resetAllBusses(button) {
-    fetch('/resetAllBusses', {
+async function resetAllBusses(button) {
+    await fetch('/resetAllBusses', {
         method: 'POST'
     })
     // location.reload
+    update()
+
 }
 
-function updateBusChange(button) {
+async function updateBusChange(button) {
     // children are number, change, time, status
     let number = button.parentElement.parentElement.children[0].children[0].value
     let change = button.parentElement.parentElement.children[1].children[0].value
@@ -70,7 +84,7 @@ function updateBusChange(button) {
         change: change,
         time: time,
     }
-    fetch('/updateBusChange', {
+    await fetch('/updateBusChange', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -78,5 +92,7 @@ function updateBusChange(button) {
         body: JSON.stringify(data)
     })
     // location.reload
+    update()
+
 }
 

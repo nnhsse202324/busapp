@@ -172,26 +172,31 @@ exports.router.post("/updateBusChange", (req, res) => __awaiter(void 0, void 0, 
     let busChange = req.body.change;
     let time = req.body.time;
     yield Bus.findOneAndUpdate({ busNumber: busNumber }, { busChange: busChange, time: time });
+    res.send("success");
 }));
 exports.router.post("/updateBusStatus", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let busNumber = req.body.number;
     let busStatus = req.body.status;
     let time = req.body.time;
     yield Bus.findOneAndUpdate({ busNumber: busNumber }, { status: busStatus, time: time });
+    res.send("success");
 }));
 exports.router.post("/sendWave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield Bus.updateMany({ status: "Loading" }, { $set: { status: "Gone" } });
     yield Bus.updateMany({ status: "Next Wave" }, { $set: { status: "Loading" } });
     yield Wave.findOneAndUpdate({}, { locked: false }, { upsert: true });
+    res.send("success");
 }));
 exports.router.post("/lockWave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield Wave.findOneAndUpdate({}, { locked: !(yield Wave.findOne({})).locked }, { upsert: true });
     const leavingAt = new Date();
     leavingAt.setMinutes(leavingAt.getMinutes() + timer);
     yield Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
+    res.send("success");
 }));
 exports.router.post("/setTimer", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     timer = Number(req.body.minutes);
+    res.send("success");
 }));
 exports.router.get("/leavingAt", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const leavingAt = (yield Wave.findOne({})).leavingAt;
@@ -199,6 +204,7 @@ exports.router.get("/leavingAt", (req, res) => __awaiter(void 0, void 0, void 0,
 }));
 exports.router.post("/resetAllBusses", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield Bus.updateMany({}, { $set: { status: "" } });
+    res.send("success");
 }));
 exports.router.get("/beans", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.sendFile(path_1.default.resolve(__dirname, "../static/img/beans.jpg"));

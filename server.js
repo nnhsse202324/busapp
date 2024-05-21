@@ -12,11 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resetDatafile = void 0;
 const express_1 = __importDefault(require("express"));
 const router_1 = require("./server/router");
 const path_1 = __importDefault(require("path"));
-const fs_1 = __importDefault(require("fs"));
 const http_1 = require("http");
 const socket_io_1 = require("socket.io");
 const jsonHandler_1 = require("./server/jsonHandler");
@@ -33,7 +31,6 @@ const PORT = process.env.PORT || 5182;
 const busesDatafile = path_1.default.resolve(__dirname, "./data/buses.json");
 const defaultBusesDatafile = path_1.default.resolve(__dirname, "./data/defaultBuses.txt");
 let buses;
-resetDatafile();
 //root socket
 io.of("/").on("connection", (socket) => {
     //console.log(`new connection on root (id:${socket.id})`);
@@ -44,33 +41,7 @@ io.of("/").on("connection", (socket) => {
 //admin socket
 io.of("/admin").on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
     socket.on("updateMain", (command) => __awaiter(void 0, void 0, void 0, function* () {
-        switch (command.type) {
-            case "add":
-                const busAfter = buses.find((otherBus) => {
-                    return parseInt(command.data.number) < parseInt(otherBus.number);
-                });
-                let index;
-                if (busAfter) {
-                    index = buses.indexOf(busAfter);
-                }
-                else {
-                    index = buses.length;
-                }
-                buses.splice(index, 0, command.data);
-                break;
-            case "update":
-                buses[buses.indexOf(buses.find((bus) => { return bus.number == command.data.number; }))] = command.data;
-                break;
-            case "delete":
-                buses.splice(buses.indexOf(buses.find((bus) => { return bus.number == command.data.number; })), 1);
-                break;
-            default:
-                throw `Invalid bus command: ${command.type}`;
-        }
-        (0, jsonHandler_1.writeBuses)(buses);
-        // buses.forEach((bus) => {console.log(bus.number)});
         io.of("/").emit("update", yield (0, jsonHandler_1.readData)());
-        socket.broadcast.emit("updateBuses", command);
     }));
     socket.on("debug", (data) => {
         console.log(`debug(admin): ${data}`);
@@ -89,36 +60,5 @@ app.use("/js", express_1.default.static(path_1.default.resolve(__dirname, "stati
 app.use("/img", express_1.default.static(path_1.default.resolve(__dirname, "static/img")));
 app.use('/html', express_1.default.static(path_1.default.resolve(__dirname, "static/html")));
 (0, weatherController_1.startWeather)(io);
-// Code to reset bus list automatically at midnight
-function resetBuses() {
-    resetDatafile();
-    setInterval(resetDatafile, 86400000);
-}
-function resetDatafile() {
-    return __awaiter(this, void 0, void 0, function* () {
-        let newBuses = [];
-        (0, jsonHandler_1.readBusList)().busList.forEach((number) => newBuses.push({ number: number, change: "", time: "", status: "Not Here" }));
-        fs_1.default.writeFileSync(busesDatafile, JSON.stringify(newBuses));
-        buses = newBuses;
-        io.of("/").emit("update", yield (0, jsonHandler_1.readData)());
-        io.of("/admin").emit("restart");
-    });
-}
-exports.resetDatafile = resetDatafile;
-const midnight = new Date();
-midnight.setDate(midnight.getDate() + 1);
-midnight.setHours(5, 0, 0, 0);
-setTimeout(resetBuses, midnight.valueOf() - new Date().valueOf());
-// Starts server
 httpServer.listen(PORT, () => { console.log(`Server is running on port ${PORT}`); });
-//whitelist socket
-// io.of("/whitelist").on("connection", (socket) => {
-//     socket.on("addAdmin", (newAdmin: string) => {
-//         //add admin to whitelist with jsonHandler.ts functions
-//         writeWhitelist(newAdmin);
-//     });
-//     socket.on(  "debug", (data) => {
-//         console.log(`debug(admin): ${data}`);
-//     });
-// });
 //# sourceMappingURL=server.js.map

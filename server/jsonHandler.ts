@@ -1,6 +1,5 @@
 import path from "path";
 import fs from "fs";
-import {resetDatafile} from "../server";
 
 const busesDatafile = path.resolve(__dirname, "../data/buses.json");
 const weatherDatafile = path.resolve(__dirname, "../data/weather.json");
@@ -8,6 +7,8 @@ const defaultWeatherDatafile = path.resolve(__dirname, "../data/defaultWeather.t
 const whitelistDatafile = path.resolve(__dirname, "../data/whitelist.json");
 const busListDatafile = path.resolve(__dirname, "../data/busList.json");
 const Announcement = require("./model/announcement");
+const Bus = require("./model/bus");
+const Weather = require("./model/weather");
 
 export type BusData = {number: string, change: string | undefined, time: string | undefined, status: string | undefined};
 export type adminData = {address: string};
@@ -16,16 +17,13 @@ type Weather = {status: string, icon: string, temperature: string, feelsLike: st
 
 // Load data file. If no file exists creates one
 export async function readData() {
-    // Makes data files if they don't exist
-    if (!fs.existsSync(busesDatafile)) {
-        resetDatafile()
-    }
-    if (!fs.existsSync(weatherDatafile)) {
-        fs.writeFileSync(weatherDatafile, fs.readFileSync(defaultWeatherDatafile));
-    }
 
+    console.log(<BusData[]> await Bus.find({}));
+    console.log(<Weather> await Weather.findOne({}))
     const buses = <BusData[]> JSON.parse(fs.readFileSync(busesDatafile, "utf-8"));
+    console.log(buses)
     const weather = <Weather> JSON.parse(fs.readFileSync(weatherDatafile, "utf-8"));
+    console.log(weather)
     return {buses: buses, weather: weather, announcement: (await Announcement.findOne({})).announcement};
 }
 

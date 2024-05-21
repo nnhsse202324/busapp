@@ -15,25 +15,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.writeWhitelist = exports.writeBusList = exports.readBusStatus = exports.readBusList = exports.readWeather = exports.readWhitelist = exports.writeWeather = exports.writeBuses = exports.readData = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const server_1 = require("../server");
 const busesDatafile = path_1.default.resolve(__dirname, "../data/buses.json");
 const weatherDatafile = path_1.default.resolve(__dirname, "../data/weather.json");
 const defaultWeatherDatafile = path_1.default.resolve(__dirname, "../data/defaultWeather.txt");
 const whitelistDatafile = path_1.default.resolve(__dirname, "../data/whitelist.json");
 const busListDatafile = path_1.default.resolve(__dirname, "../data/busList.json");
 const Announcement = require("./model/announcement");
+const Bus = require("./model/bus");
+const Weather = require("./model/weather");
 // Load data file. If no file exists creates one
 function readData() {
     return __awaiter(this, void 0, void 0, function* () {
-        // Makes data files if they don't exist
-        if (!fs_1.default.existsSync(busesDatafile)) {
-            (0, server_1.resetDatafile)();
-        }
-        if (!fs_1.default.existsSync(weatherDatafile)) {
-            fs_1.default.writeFileSync(weatherDatafile, fs_1.default.readFileSync(defaultWeatherDatafile));
-        }
+        console.log(yield Bus.find({}));
+        console.log(yield Weather.findOne({}));
         const buses = JSON.parse(fs_1.default.readFileSync(busesDatafile, "utf-8"));
+        console.log(buses);
         const weather = JSON.parse(fs_1.default.readFileSync(weatherDatafile, "utf-8"));
+        console.log(weather);
         return { buses: buses, weather: weather, announcement: (yield Announcement.findOne({})).announcement };
     });
 }
