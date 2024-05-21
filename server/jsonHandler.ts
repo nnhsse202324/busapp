@@ -18,12 +18,17 @@ type Weather = {status: string, icon: string, temperature: string, feelsLike: st
 // Load data file. If no file exists creates one
 export async function readData() {
 
-    console.log(<BusData[]> await Bus.find({}));
-    console.log(<Weather> await Weather.findOne({}))
-    const buses = <BusData[]> JSON.parse(fs.readFileSync(busesDatafile, "utf-8"));
-    console.log(buses)
-    const weather = <Weather> JSON.parse(fs.readFileSync(weatherDatafile, "utf-8"));
-    console.log(weather)
+    
+    const weather = await Weather.findOne({})
+    let buses = await Bus.find({});
+
+    buses = buses.map((bus) => ({
+        number: bus.busNumber || '',
+        change: bus.busChange || '',
+        time: bus.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) || '',
+        status: bus.status || ''
+    }));
+
     return {buses: buses, weather: weather, announcement: (await Announcement.findOne({})).announcement};
 }
 

@@ -26,12 +26,14 @@ const Weather = require("./model/weather");
 // Load data file. If no file exists creates one
 function readData() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(yield Bus.find({}));
-        console.log(yield Weather.findOne({}));
-        const buses = JSON.parse(fs_1.default.readFileSync(busesDatafile, "utf-8"));
-        console.log(buses);
-        const weather = JSON.parse(fs_1.default.readFileSync(weatherDatafile, "utf-8"));
-        console.log(weather);
+        const weather = yield Weather.findOne({});
+        let buses = yield Bus.find({});
+        buses = buses.map((bus) => ({
+            number: bus.busNumber || '',
+            change: bus.busChange || '',
+            time: bus.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) || '',
+            status: bus.status || ''
+        }));
         return { buses: buses, weather: weather, announcement: (yield Announcement.findOne({})).announcement };
     });
 }
