@@ -44,7 +44,7 @@ io.of("/").on("connection", (socket) => {
 io.of("/admin").on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
     socket.on("updateMain", (command) => __awaiter(void 0, void 0, void 0, function* () {
         let data = {
-            allBuses: yield (0, jsonHandler_1.readData)(),
+            allBuses: (yield (0, jsonHandler_1.readData)()).buses,
             nextWave: yield Bus.find({ status: "Next Wave" }),
             loading: yield Bus.find({ status: "Loading" }),
             isLocked: false,
@@ -52,6 +52,7 @@ io.of("/admin").on("connection", (socket) => __awaiter(void 0, void 0, void 0, f
         };
         data.isLocked = (yield Wave.findOne({})).locked;
         data.leavingAt = (yield Wave.findOne({})).leavingAt;
+        console.log("updateMain called");
         io.of("/admin").emit("update", data);
         io.of("/").emit("update", yield (0, jsonHandler_1.readData)());
     }));

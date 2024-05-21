@@ -1,10 +1,16 @@
 /// <reference path="./socket-io-client.d.ts"/>
 
-const adminSocket = window.io('/admin'); 
+var adminSocket = window.io('/admin'); 
 
-adminSocket.on("update", async (data) => {
+adminSocket.on("update", (data) => {
     console.log("update received")
     // rerender the page
+
+
+
+    const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
+    console.log(html)
+    document.getElementById("content")!.innerHTML = html;
     console.log(data)
 
 });

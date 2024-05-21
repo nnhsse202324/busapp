@@ -9,12 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const adminSocket = window.io('/admin');
-adminSocket.on("update", (data) => __awaiter(void 0, void 0, void 0, function* () {
+var adminSocket = window.io('/admin');
+adminSocket.on("update", (data) => {
     console.log("update received");
     // rerender the page
+    const html = ejs.render(document.getElementById("getRender").getAttribute("render"), { data: data });
+    console.log(html);
+    document.getElementById("content").innerHTML = html;
     console.log(data);
-}));
+});
 function update() {
     console.log("update called");
     adminSocket.emit("updateMain", {

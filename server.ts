@@ -42,8 +42,10 @@ io.of("/").on("connection", (socket) => {
 //admin socket
 io.of("/admin").on("connection", async (socket) => {
     socket.on("updateMain", async (command: BusCommand) => {
+
+
         let data = {
-            allBuses: await readData(),
+            allBuses: (await readData()).buses,
             nextWave: await Bus.find({status: "Next Wave"}),
             loading: await Bus.find({status: "Loading"}),
             isLocked: false, 
@@ -51,6 +53,8 @@ io.of("/admin").on("connection", async (socket) => {
         };
         data.isLocked = (await Wave.findOne({})).locked;
         data.leavingAt = (await Wave.findOne({})).leavingAt;
+        
+        console.log("updateMain called")
 
         io.of("/admin").emit("update", data);
         io.of("/").emit("update", await readData());        
