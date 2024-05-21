@@ -56,8 +56,14 @@ io.of("/admin").on("connection", async (socket) => {
         
         console.log("updateMain called")
 
+        let indexData = {
+            buses: await readData(),
+            isLocked: data.isLocked,
+            leavingAt: data.leavingAt
+        }
+        
         io.of("/admin").emit("update", data);
-        io.of("/").emit("update", await readData());        
+        io.of("/").emit("update", indexData);        
     });
     socket.on("debug", (data) => {
         console.log(`debug(admin): ${data}`);

@@ -53,8 +53,13 @@ io.of("/admin").on("connection", (socket) => __awaiter(void 0, void 0, void 0, f
         data.isLocked = (yield Wave.findOne({})).locked;
         data.leavingAt = (yield Wave.findOne({})).leavingAt;
         console.log("updateMain called");
+        let indexData = {
+            buses: yield (0, jsonHandler_1.readData)(),
+            isLocked: data.isLocked,
+            leavingAt: data.leavingAt
+        };
         io.of("/admin").emit("update", data);
-        io.of("/").emit("update", yield (0, jsonHandler_1.readData)());
+        io.of("/").emit("update", indexData);
     }));
     socket.on("debug", (data) => {
         console.log(`debug(admin): ${data}`);
