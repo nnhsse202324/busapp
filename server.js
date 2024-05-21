@@ -22,6 +22,8 @@ const weatherController_1 = require("./server/weatherController");
 const express_session_1 = __importDefault(require("express-session"));
 const dotenv = require("dotenv");
 const connectDB = require("./server/database/connection");
+const Bus = require("./server/model/bus");
+const Wave = require("./server/model/wave");
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(httpServer);
@@ -41,6 +43,16 @@ io.of("/").on("connection", (socket) => {
 //admin socket
 io.of("/admin").on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
     socket.on("updateMain", (command) => __awaiter(void 0, void 0, void 0, function* () {
+        let data = {
+            allBuses: yield (0, jsonHandler_1.readData)(),
+            nextWave: yield Bus.find({ status: "Next Wave" }),
+            loading: yield Bus.find({ status: "Loading" }),
+            isLocked: false,
+            leavingAt: new Date()
+        };
+        data.isLocked = (yield Wave.findOne({})).locked;
+        data.leavingAt = (yield Wave.findOne({})).leavingAt;
+        io.of("/admin").emit("update", data);
         io.of("/").emit("update", yield (0, jsonHandler_1.readData)());
     }));
     socket.on("debug", (data) => {

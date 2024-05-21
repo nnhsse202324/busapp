@@ -1,4 +1,13 @@
+/// <reference path="./socket-io-client.d.ts"/>
+
 const adminSocket = window.io('/admin'); 
+
+adminSocket.on("update", async (data) => {
+    console.log("update received")
+    // rerender the page
+    console.log(data)
+
+});
 
 function update() {
     console.log("update called")

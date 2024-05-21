@@ -10,7 +10,8 @@ import {startWeather} from "./server/weatherController";
 import session from "express-session";
 const dotenv = require("dotenv");
 const connectDB = require("./server/database/connection");
-
+const Bus = require("./server/model/bus");
+const Wave = require("./server/model/wave");
 
 const app: Application = express();
 const httpServer = createServer(app);
@@ -41,6 +42,17 @@ io.of("/").on("connection", (socket) => {
 //admin socket
 io.of("/admin").on("connection", async (socket) => {
     socket.on("updateMain", async (command: BusCommand) => {
+        let data = {
+            allBuses: await readData(),
+            nextWave: await Bus.find({status: "Next Wave"}),
+            loading: await Bus.find({status: "Loading"}),
+            isLocked: false, 
+            leavingAt: new Date()
+        };
+        data.isLocked = (await Wave.findOne({})).locked;
+        data.leavingAt = (await Wave.findOne({})).leavingAt;
+
+        io.of("/admin").emit("update", data);
         io.of("/").emit("update", await readData());        
     });
     socket.on("debug", (data) => {
