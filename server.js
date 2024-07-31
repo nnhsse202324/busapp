@@ -37,7 +37,7 @@ let buses;
 io.of("/").on("connection", (socket) => {
     //console.log(`new connection on root (id:${socket.id})`);
     socket.on("debug", (data) => {
-        console.log(`debug(root): ${data}`);
+        // console.log(`debug(root): ${data}`);
     });
 });
 //admin socket
@@ -52,9 +52,9 @@ io.of("/admin").on("connection", (socket) => __awaiter(void 0, void 0, void 0, f
         };
         data.isLocked = (yield Wave.findOne({})).locked;
         data.leavingAt = (yield Wave.findOne({})).leavingAt;
-        console.log("updateMain called");
+        // console.log("updateMain called")
         let indexData = {
-            buses: yield (0, jsonHandler_1.readData)(),
+            buses: (yield (0, jsonHandler_1.readData)()).buses,
             isLocked: data.isLocked,
             leavingAt: data.leavingAt
         };
@@ -62,7 +62,7 @@ io.of("/admin").on("connection", (socket) => __awaiter(void 0, void 0, void 0, f
         io.of("/").emit("update", indexData);
     }));
     socket.on("debug", (data) => {
-        console.log(`debug(admin): ${data}`);
+        // console.log(`debug(admin): ${data}`);
     });
 }));
 app.set("view engine", "ejs"); // Allows res.render() to render ejs

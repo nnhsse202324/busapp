@@ -35,7 +35,7 @@ let buses: BusData[];
 io.of("/").on("connection", (socket) => {
     //console.log(`new connection on root (id:${socket.id})`);
     socket.on("debug", (data) => {
-        console.log(`debug(root): ${data}`);
+        // console.log(`debug(root): ${data}`);
     });
 });
 
@@ -54,10 +54,10 @@ io.of("/admin").on("connection", async (socket) => {
         data.isLocked = (await Wave.findOne({})).locked;
         data.leavingAt = (await Wave.findOne({})).leavingAt;
         
-        console.log("updateMain called")
+        // console.log("updateMain called")
 
         let indexData = {
-            buses: await readData(),
+            buses: (await readData()).buses,
             isLocked: data.isLocked,
             leavingAt: data.leavingAt
         }
@@ -66,7 +66,7 @@ io.of("/admin").on("connection", async (socket) => {
         io.of("/").emit("update", indexData);        
     });
     socket.on("debug", (data) => {
-        console.log(`debug(admin): ${data}`);
+        // console.log(`debug(admin): ${data}`);
     });
 });
 
