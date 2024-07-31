@@ -1,4 +1,15 @@
 <div class="header">
+    <div class="weather-container">    
+        <div class="weather-temperature">
+            <p><%= data.weather.temperature %>°F</p>
+        </div>
+        <div class="weather-status">
+            <p><%= data.weather.status %> </p>
+        </div>
+        <div class="weather-img">
+            <img src=<%= data.weather.icon %>>
+        </div>
+    </div>
     <!--
     <div class="notif-container">
         <a id="notif-notice" onclick="requestNotificationPermission()"><i class="fa-solid fa-bell"></i></a>

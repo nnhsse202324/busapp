@@ -24,6 +24,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./server/database/connection");
 const Bus = require("./server/model/bus");
 const Wave = require("./server/model/wave");
+const Weather = require("./server/model/weather");
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(httpServer);
@@ -56,7 +57,8 @@ io.of("/admin").on("connection", (socket) => __awaiter(void 0, void 0, void 0, f
         let indexData = {
             buses: (yield (0, jsonHandler_1.readData)()).buses,
             isLocked: data.isLocked,
-            leavingAt: data.leavingAt
+            leavingAt: data.leavingAt,
+            weather: yield Weather.findOne({})
         };
         io.of("/admin").emit("update", data);
         io.of("/").emit("update", indexData);

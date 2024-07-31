@@ -12,6 +12,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./server/database/connection");
 const Bus = require("./server/model/bus");
 const Wave = require("./server/model/wave");
+const Weather = require("./server/model/weather");
 
 const app: Application = express();
 const httpServer = createServer(app);
@@ -59,7 +60,8 @@ io.of("/admin").on("connection", async (socket) => {
         let indexData = {
             buses: (await readData()).buses,
             isLocked: data.isLocked,
-            leavingAt: data.leavingAt
+            leavingAt: data.leavingAt,
+            weather: await Weather.findOne({})
         }
         
         io.of("/admin").emit("update", data);
