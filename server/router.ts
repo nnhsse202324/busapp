@@ -5,8 +5,6 @@ import path from "path";
 import fs, {readFileSync} from "fs";
 export const router = express.Router();
 const Announcement = require("./model/announcement");
-
-const Announcement = require("./model/announcement");
 const Bus = require("./model/bus");
 const Weather = require("./model/weather");
 const Wave = require("./model/wave");
