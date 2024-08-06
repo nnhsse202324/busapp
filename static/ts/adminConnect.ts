@@ -3,20 +3,26 @@
 var adminSocket = window.io('/admin'); 
 
 adminSocket.on("update", (data) => {
-    console.log("update received")
+    // console.log("update received")
+
+    // console.log(data)
+
+    // convert from time strings to dates to allow conversion to local time
+    data.allBuses.forEach((bus) => {
+        if (bus.time != "")
+            bus.time = new Date(bus.time);
+    });
+
     // rerender the page
-
-
-
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
-    console.log(html)
+    // console.log(html)
     document.getElementById("content")!.innerHTML = html;
-    console.log(data)
+    
 
 });
 
 function update() {
-    console.log("update called")
+    // console.log("update called")
     adminSocket.emit("updateMain", {
         type: "update",
     });
