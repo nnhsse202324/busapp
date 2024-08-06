@@ -4,6 +4,7 @@ import { readData, readWhitelist, readBusList, writeBusList, readWeather, readBu
 import path from "path";
 import fs, {readFileSync} from "fs";
 export const router = express.Router();
+const Announcement = require("./model/announcement");
 
 const Announcement = require("./model/announcement");
 const Bus = require("./model/bus");

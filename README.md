@@ -21,6 +21,9 @@ Adding an admin requires the email address of the admin to be added. Enter the n
 
 Administrator Handbook: https://docs.google.com/document/d/1MaySGjV3I7LIaNLHDQCaPODoN7ZUI3aYht6oijkWy_4/edit?usp=sharing
 
+Admin Video Tutorial on Grey Out Busses, Wave System, and Editing and Viewing Announcements: https://drive.google.com/file/d/1okofo47q2vuZsaQ01qOejM5qpYVgVvP4/view
+
+Video Tutorial primarily targeted towards future development teams: https://drive.google.com/file/d/1ulnChPS5pEHX3aqH_wu1c70YdODRildk/view?usp=sharing 
 
 #### Student Experience 
 On the home page, students have access to all the information they need. The page consists of  a bus table displaying Bus Number, Bus Change, Status and Time. Additionally, a panel displaying the weather is visible in the top right. 
@@ -139,9 +142,6 @@ Ejs is a form of html that allows javascript to be run during the creation of th
 ##### Socket.io
 Socket.io allows us to send data to and from the server in live time using `emit()` and `on()`. This is important because it allows us to update a page without it being refreshed which is key to the functionality of the Bus App. Please see the official documentation: https://socket.io/
 
-#### Service Workers
-Serice workers allow us to add extra functionality to the webapp. This allows it to run closer to a native app, doing things such as enabling notifications and allowing the webapp to access the local storage of the users device. Service workers are enabled through the existence of a the "manifest.webmanifest" file. This file edits the mobile appearance of the webapp. Service worker functionalities are edited through the "indexconnect.ts" file
-
 #### Review Checklist
 To reduce errors on the main branch, we developed a review checklist that MUST be completed before pull requests into the main branch. This list should be updated as new features are added that need to be reviewed.
 
@@ -149,3 +149,54 @@ Bus App Review Checklist: https://docs.google.com/document/d/1LyFzvAMvRl7MwXduhM
 
 ## Remaining User Stories (in product backlog)
 Captured in Trello
+
+## Folder Structure
+
+server/ - the most important file
+
+| - database/ - sets up the mongo server. I would not recommend messing with this file
+
+| - - - connection.js
+
+| - - - connection.js.map
+
+| - - - connection.ts
+
+| - jsonHandler.js - useless and deprecated
+
+| - jsonHandler.ts - useless and deprecated
+
+| - model/ - contains all the mongo schema files
+
+| - - - announcement.js
+
+| - - - announcement.js.map
+
+| - - - announcement.ts - contains the code for the announcement schema
+
+| - router.js
+
+| - router.ts - where 90% of stuff is. When the user goes to an endpoint (URL), it calls the function for the URL and runs the code
+
+| - weatherController.js 
+
+| - weatherController.ts - where the weather data is stored
+
+## Mongo
+
+```
+const Announcement = require("./model/announcement");
+
+Announcement.findOneAndUpdate({}, {announcement: ""}, {upsert: true});
+Announcement.findOneAndUpdate({}, {tvAnnouncement: ""}, {upsert: true});
+```
+
+this is how you import amongo schema. and using mongo methods on the imported schema allows you interact with the objects in the collection
+
+```
+(await Announcement.findOne({})).announcement
+```
+
+you can get information about the collection by calling the findOne function. inside the currently empty curly braces you can include filter intructions. 
+
+NOTE: IT IS VERY IMPORTANT TO INCLUDE A PARENTHESES AROUND THE AWAIT ALL THE WAY UNTIL THE PERIOD. IF YOU DONT, EVERYTHING BREAKS.
