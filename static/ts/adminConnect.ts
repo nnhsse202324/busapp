@@ -3,11 +3,9 @@
 var adminSocket = window.io('/admin'); 
 
 adminSocket.on("update", (data) => {
-    console.log("update received")
-    // rerender the page
+    // console.log("update received")
 
-
-    console.log(data)
+    // console.log(data)
 
     // convert from time strings to dates to allow conversion to local time
     data.allBuses.forEach((bus) => {
@@ -15,15 +13,16 @@ adminSocket.on("update", (data) => {
             bus.time = new Date(bus.time);
     });
 
+    // rerender the page
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data});
-    console.log(html)
+    // console.log(html)
     document.getElementById("content")!.innerHTML = html;
     
 
 });
 
 function update() {
-    console.log("update called")
+    // console.log("update called")
     adminSocket.emit("updateMain", {
         type: "update",
     });
