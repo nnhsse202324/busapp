@@ -21,8 +21,7 @@ function getWeather(io) {
         try {
             const res = yield (0, node_fetch_1.default)("http://api.weatherapi.com/v1/current.json?"
                 + new URLSearchParams([["key", "8afcf03c285047a1b6e201401222202"], ["q", "60563"]]));
-            (0, jsonHandler_1.writeWeather)(yield res.json());
-            io.of("/").emit("update", yield (0, jsonHandler_1.readData)());
+            yield (0, jsonHandler_1.writeWeather)(yield res.json());
             io.of("/admin").emit("updateWeather", (yield (0, jsonHandler_1.readData)()).weather);
         }
         catch (error) {

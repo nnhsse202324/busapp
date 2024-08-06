@@ -9,6 +9,7 @@ body {
     grid-template-rows: 1fr 1fr;
     padding: 3% 5%;
     height: 7%;
+    margin-bottom: 20px;
 }
 
 .buttons {
@@ -22,6 +23,19 @@ body {
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
     font-size: 3vw;
+    border-width: 0;
+    background-color: #327fa8;
+    color: #ffffff;
+    padding: 3%;
+    text-align: center;
+    border-radius: 10px;
+    cursor:pointer; /*changes pointer on "add bus" and "add new admin" as they were just arrows before this line was added. Not sure why it was different, could be fixed in a better way somewhere else.*/
+} 
+
+.table-button {
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    font-size: 1.7vw;
     border-width: 0;
     background-color: #327fa8;
     color: #ffffff;
@@ -125,6 +139,12 @@ body {
     border-bottom: 2px solid #dddddd;
 }
 
+.grayed-out{
+    background-color: #ffffff;
+    opacity: 0.3;
+    filter: alpha(opacity = 3);
+}
+
 .bus-table tbody tr:nth-of-type(even) {
     background-color: #e7e6e6;
 }
@@ -146,8 +166,20 @@ body {
     width: 23%;
 }
 
+.button-text {
+    color: #225875;
+    text-decoration: underline;
+}
+
 .remove-col {
     width: 6% !important;
+}
+
+
+.currentWave {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
 }
 
 @media (orientation: portrait) {
@@ -179,3 +211,42 @@ body {
         font-size: 1.5vw;
     }
 }
+
+.timer-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5vw;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #31538d;
+    color: #ffffff;
+    padding: 1%;
+    text-align: center;
+    border-radius: 10px;
+    margin: 0 auto;
+    width: 40%;
+    margin-bottom: 2%;
+
+}
+
+/* Style for the select element */
+select[name="minutes"] {
+    padding: 12px; /* Increase padding */
+    font-size: 16px; /* Increase font size */
+    border: 1px solid #266080;
+    border-radius: 4px;
+    background-color: #327fa8;
+    color: #ffffff;
+    width: 200px; /* Increase width */
+  }
+  
+  /* Style for the options */
+  select[name="minutes"] option {
+    padding: 8px;
+    font-size: 16px;
+  }
+  
+  /* Style for the dropdown arrow */
+  select[name="minutes"]::-ms-expand {
+    display: none;
+  }

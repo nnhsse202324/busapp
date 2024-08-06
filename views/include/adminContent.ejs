@@ -12,33 +12,168 @@
         }
     </script>
 </div>
+
+<% if (data.isLocked === true) { %>
+    <div class="timer-box">
+        <p id="timer" class="timer-text"></p>
+    </div>
+<% } %>
+
+<table id="bus-table" class="bus-table">
+    <thead>
+        <tr colspan="5" style="background-color: #05a1f5; font-size: 160%;">
+            <th colspan="2"><i class="fa fa-star fa-fw"></i> Current Wave</th>
+            <% if (data.isLocked === true) { %>
+                <th><button class="table-button" onclick="lockWave()">Unlock Wave</button></th>
+            <% } %>
+            <% if (data.isLocked === false) { %>
+                <th><button class="table-button" onclick="lockWave()">Lock Wave</button></th>
+            <% } %>
+            <th><button class="table-button" onclick="sendWave()" href="/admin">Send Wave</button></th>
+        </tr>
+        <tr>
+            <th>Bus Number</th>
+            <th>Bus Change</th>
+            <th>Time</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody id="tbody">
+        <% for(let i = 0; i < data.allBuses.length; i++) { %>
+            <% if (data.allBuses[i].status === 'Loading') { %>
+                <tr>
+                    <td><input class="tableInput numberInput" type="number" value=<%= data.allBuses[i].number %> readonly></td>
+                    <td><input class="tableInput changeInput" type="number" oninput="updateBusChange(this)" value=<%= data.allBuses[i].change %> ></td>
+                    <td><input class="tableInput timeInput" type="text" oninput="startTimeout(this)" value=<%= data.allBuses[i].time %> ></td>
+                    <td>
+                        <p onclick="removeFromWave(this)" class="button-text">Remove</p>
+                    </td>
+                </tr>
+            <% } %>
+        <% } %>
+    </tbody>
+</table>
+<table id="bus-table" class="bus-table">
+    <thead>
+        <tr>
+            <th colspan="5" style="background-color: #05a1f5; font-size: 160%;"><i class="fa-solid fa-forward"></i> Next Wave
+            </th>
+        </tr>
+        <tr>
+            <th>Bus Number</th>
+            <th>Bus Change</th>
+            <th>Time</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody id="tbody">
+        <% for(let i = 0; i < data.allBuses.length; i++) { %> 
+            <% if (data.allBuses[i].status === 'Next Wave') { %>
+                <tr>
+                    <td><input class="tableInput numberInput" type="number" value=<%= data.allBuses[i].number %> readonly></td>
+                    <td><input class="tableInput changeInput" type="number" oninput="updateBusChange(this)" value=<%= data.allBuses[i].change %> ></td>
+                    <td><input class="tableInput timeInput" type="text" oninput="startTimeout(this)" value=<%= data.allBuses[i].time %> ></td>
+                    <td>
+                        <p onclick="removeFromWave(this)" class="button-text">Remove</p>
+                    </td>
+                </tr>
+            <% } %>
+        <% } %>
+    </tbody>
+</table>
 <table id="bus-table" class="bus-table">
     <thead>
         <tr>
             <th>Bus Number</th>
             <th>Bus Change</th>
-            <th>Status</th>
             <th>Time</th>
-            <th class="remove-col"></th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody id="tbody">
-    <% for(let i = 0; i < data.buses.length; i++) { %> 
-        <tr>
-            <td><input class="tableInput numberInput" type="number" value=<%= data.buses[i].number %> readonly></td>
-            <td><input class="tableInput changeInput" type="number" oninput="startTimeout(this)" value=<%= data.buses[i].change %> ></td>
-            <td>
-                <select class="tableInput statusInput" onchange="statusChange(this); startTimeout(this)">
-                    <option value="Not Here" <%= data.buses[i].status == "Not Here"? "selected" : "" %>>Not Here</option>
-                    <option value="Next Wave" <%= data.buses[i].status == "Next Wave"? "selected" : "" %>>Next Wave</option>
-                    <option value="Loading" <%= data.buses[i].status == "Loading"? "selected" : "" %>>Loading</option>
-                    <option value="Gone" <%= data.buses[i].status == "Gone"? "selected" : "" %>>Gone</option>
-                </select>
-            </td>
-            <td><input class="tableInput timeInput" type="text" oninput="startTimeout(this)" value=<%= data.buses[i].time %> ></td>
-            
-            <td class="remove-col"><i class="fas fa-times" onclick="confirmRemove(this);"></i></td>
-        </tr>
-    <% } %> 
+        <% for(let i = 0; i < data.allBuses.length; i++) { %> 
+            <tr class="<%= data.allBuses[i].status === 'Gone' ? 'grayed-out' : '' %>">
+                <td><input class="tableInput numberInput" type="number" value=<%= data.allBuses[i].number %> readonly></td>
+                <td><input class="tableInput changeInput" type="number" oninput="updateBusChange(this)" value=<%= data.allBuses[i].change %> ></td>
+                
+                <td><input class="tableInput timeInput" type="text" oninput="startTimeout(this)" value=<%= data.allBuses[i].time %> ></td>
+                
+                <td>
+                    <% if (data.allBuses[i].status === 'Loading') { %>
+                        <p>Loading</p>
+                    <% } else if (data.allBuses[i].status === 'Next Wave') { %>
+                        <p>Next Wave</p>
+                    <% } else if (data.allBuses[i].status === 'Gone') { %>
+                        <p onclick="reset(this)" class="button-text">Reset</p>
+                    <% } else if (data.allBuses[i].status !== 'Loading' && data.isLocked === true) { %>
+                        <p onclick="addToNextWave(this)" class="button-text">Add Next</p>
+                    <% } else { %>
+                        <p onclick="addToWave(this)" class="button-text">Add Current</p>
+                    <% } %>
+                </td>
+                
+            </tr>
+        <% } %> 
     </tbody>
 </table>
+
+<div style="align-items: center; display: flex; justify-content: center;">
+    <button class="button" onclick="resetAllBusses()">Reset All Buses</button>
+    <form id="timerForm" action="/setTimer" method="post">
+        <select name="minutes" style="margin-left: 10px;">
+            <% var options = []; %>
+            <% for(var i = 1; i <= 6; i++) { %>
+                <option value='<%= i %>'><%= i %></option>
+            <% } %>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    // Set the date we're counting down to
+    
+
+    // Update the count down every 1 second
+    var x = setInterval(async function() {
+        var countDownDate; // Define the countDownDate variable
+
+        await fetch('/leavingAt')
+        .then(response => response.json())
+        .then(data => {
+            // convert the data string to a date object
+            const leavingAt = new Date(data);
+            
+            countDownDate = leavingAt; // Assign the value to countDownDate
+            // console.log(leavingAt)
+
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the result in an element with id="demo"
+        document.querySelectorAll("[id=timer]").forEach((element) => {
+            element.innerHTML = "The current wave will leave in " + minutes + "min " + seconds + "sec ";
+        });
+
+        // If the count down is over, write some text 
+        if (distance < 0) {
+            clearInterval(x);
+            document.querySelectorAll("[id=timer]").forEach((element) => {
+                element.innerHTML = "The current is about to leave!";
+            });
+        }
+    }, 1000);
+</script>

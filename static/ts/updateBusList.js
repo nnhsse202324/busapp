@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 let busList;
-fetch("/busList").then((res) => res.json()).then((data) => busList = data);
+fetch("/busList").then((res) => res.json()).then((data) => busList = data).then(() => console.log(busList));
 let newBusEmptyRow;
 fetch("/updateBusListEmptyRow").then((res) => res.text()).then((data) => newBusEmptyRow = data);
 let newBusRow;
@@ -24,10 +24,6 @@ function newBus_busList() {
 function addBus_busList(confirmButton) {
     let row = confirmButton.parentElement.parentElement;
     let number = row.children[0].children[0].value;
-    if (busList.includes(number)) {
-        alert("Duplicate buses are not allowed");
-        return;
-    }
     let index = busList.findIndex((currentNumber) => { return parseInt(number) < parseInt(currentNumber); });
     if (index == -1)
         index = busList.length;

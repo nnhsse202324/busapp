@@ -15,25 +15,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.writeWhitelist = exports.writeBusList = exports.readBusStatus = exports.readBusList = exports.readWeather = exports.readWhitelist = exports.writeWeather = exports.writeBuses = exports.readData = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const server_1 = require("../server");
 const busesDatafile = path_1.default.resolve(__dirname, "../data/buses.json");
 const weatherDatafile = path_1.default.resolve(__dirname, "../data/weather.json");
 const defaultWeatherDatafile = path_1.default.resolve(__dirname, "../data/defaultWeather.txt");
 const whitelistDatafile = path_1.default.resolve(__dirname, "../data/whitelist.json");
 const busListDatafile = path_1.default.resolve(__dirname, "../data/busList.json");
 const Announcement = require("./model/announcement");
+const Bus = require("./model/bus");
+const Weather = require("./model/weather");
 // Load data file. If no file exists creates one
 function readData() {
     return __awaiter(this, void 0, void 0, function* () {
-        // Makes data files if they don't exist
-        if (!fs_1.default.existsSync(busesDatafile)) {
-            (0, server_1.resetDatafile)();
-        }
-        if (!fs_1.default.existsSync(weatherDatafile)) {
-            fs_1.default.writeFileSync(weatherDatafile, fs_1.default.readFileSync(defaultWeatherDatafile));
-        }
-        const buses = JSON.parse(fs_1.default.readFileSync(busesDatafile, "utf-8"));
-        const weather = JSON.parse(fs_1.default.readFileSync(weatherDatafile, "utf-8"));
+        const weather = yield Weather.findOne({});
+        let buses = yield Bus.find({});
+        buses = buses.map((bus) => ({
+            number: bus.busNumber || '',
+            change: bus.busChange || '',
+            time: bus.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) || '',
+            status: bus.status || ''
+        }));
         return { buses: buses, weather: weather, announcement: (yield Announcement.findOne({})).announcement };
     });
 }
@@ -43,13 +43,14 @@ function writeBuses(data) {
 }
 exports.writeBuses = writeBuses;
 function writeWeather(weather) {
-    const data = {
-        status: weather.current.condition.text,
-        icon: weather.current.condition.icon,
-        temperature: weather.current.temp_f,
-        feelsLike: weather.current.feelslike_f
-    };
-    fs_1.default.writeFileSync(weatherDatafile, JSON.stringify(data));
+    return __awaiter(this, void 0, void 0, function* () {
+        const doc = yield Weather.findOneAndUpdate({}, {
+            status: weather.current.condition.text,
+            icon: weather.current.condition.icon,
+            temperature: weather.current.temp_f,
+            feelsLike: weather.current.feelslike_f
+        }, { upsert: true, returnDocument: "after" });
+    });
 }
 exports.writeWeather = writeWeather;
 // Reads a list of users who are allowed access to the admin page

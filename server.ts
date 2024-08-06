@@ -10,7 +10,9 @@ import {startWeather} from "./server/weatherController";
 import session from "express-session";
 const dotenv = require("dotenv");
 const connectDB = require("./server/database/connection");
-
+const Bus = require("./server/model/bus");
+const Wave = require("./server/model/wave");
+const Weather = require("./server/model/weather");
 
 const app: Application = express();
 const httpServer = createServer(app);
@@ -29,50 +31,44 @@ type BusCommand = {
 const busesDatafile = path.resolve(__dirname, "./data/buses.json");
 const defaultBusesDatafile = path.resolve(__dirname, "./data/defaultBuses.txt");
 let buses: BusData[];
-resetDatafile();
 
 //root socket
 io.of("/").on("connection", (socket) => {
     //console.log(`new connection on root (id:${socket.id})`);
     socket.on("debug", (data) => {
-        console.log(`debug(root): ${data}`);
+        // console.log(`debug(root): ${data}`);
     });
 });
 
 //admin socket
-io.of("/admin").on("connection", (socket) => {
+io.of("/admin").on("connection", async (socket) => {
     socket.on("updateMain", async (command: BusCommand) => {
-        switch (command.type) {
-            case "add":
-                const busAfter = buses.find((otherBus) => {
-                    return parseInt(command.data.number) < parseInt(otherBus.number);
-                });
-                let index: number;
-                if (busAfter) {
-                    index = buses.indexOf(busAfter);
-                }
-                else {
-                    index = buses.length;
-                }
-                buses.splice(index, 0, command.data);
-                break;
-            case "update":
-                buses[buses.indexOf(buses.find((bus) => {return bus.number == command.data.number})!)] = command.data;
-                break;
-            case "delete":
-                buses.splice(buses.indexOf(buses.find((bus) => {return bus.number == command.data.number})!), 1);
-                break;
-            default:
-                throw `Invalid bus command: ${command.type}`;
-        }
-        writeBuses(buses);
-        // buses.forEach((bus) => {console.log(bus.number)});
-        io.of("/").emit("update", await readData());
-        socket.broadcast.emit("updateBuses", command);
+
+
+        let data = {
+            allBuses: (await readData()).buses,
+            nextWave: await Bus.find({status: "Next Wave"}),
+            loading: await Bus.find({status: "Loading"}),
+            isLocked: false, 
+            leavingAt: new Date()
+        };
+        data.isLocked = (await Wave.findOne({})).locked;
+        data.leavingAt = (await Wave.findOne({})).leavingAt;
         
+        // console.log("updateMain called")
+
+        let indexData = {
+            buses: (await readData()).buses,
+            isLocked: data.isLocked,
+            leavingAt: data.leavingAt,
+            weather: await Weather.findOne({})
+        }
+        
+        io.of("/admin").emit("update", data);
+        io.of("/").emit("update", indexData);        
     });
     socket.on("debug", (data) => {
-        console.log(`debug(admin): ${data}`);
+        // console.log(`debug(admin): ${data}`);
     });
 });
 
@@ -93,36 +89,6 @@ app.use('/html', express.static(path.resolve(__dirname, "static/html")));
 
 startWeather(io);
 
-// Code to reset bus list automatically at midnight
-function resetBuses() {
-    resetDatafile();
-    setInterval(resetDatafile, 86400000);
-}
-export async function resetDatafile() {
-    let newBuses: BusData[] = [];
-    readBusList().busList.forEach((number) => newBuses.push({number: number, change: "", time: "", status: "Not Here"}));
-    fs.writeFileSync(busesDatafile, JSON.stringify(newBuses));
-    buses = newBuses;
-    io.of("/").emit("update", await readData());
-    io.of("/admin").emit("restart");
-}
-const midnight = new Date();
-midnight.setDate(midnight.getDate() + 1);
-midnight.setHours(5, 0, 0, 0);
-setTimeout(resetBuses, midnight.valueOf() - new Date().valueOf());
 
-// Starts server
+
 httpServer.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)});
-
-//whitelist socket
-
-// io.of("/whitelist").on("connection", (socket) => {
-//     socket.on("addAdmin", (newAdmin: string) => {
-//         //add admin to whitelist with jsonHandler.ts functions
-//         writeWhitelist(newAdmin);
-//     });
-//     socket.on(  "debug", (data) => {
-//         console.log(`debug(admin): ${data}`);
-//     });
-// });
-

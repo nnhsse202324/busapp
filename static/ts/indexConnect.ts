@@ -7,7 +7,6 @@ var pins: number[] = [];
 var notifStatus = {};
 updatePins();
 updateTables();
-updateNotifStatus();
 console.log(notifStatus);
 
 // end of initializing stuff
@@ -17,46 +16,7 @@ indexSocket.on("update", (data) => {
     const html = ejs.render(document.getElementById("getRender")!.getAttribute("render")!, {data: data, announcement: data.announcement});
     document.getElementById("content")!.innerHTML = html;
     updateTables();
-    if (Notification.permission === 'granted') {
-        let oldNotifStatus = Object.assign({}, notifStatus); // copies over notifStatus without bringing the object reference with it
-        updateNotifStatus();
-        navigator.serviceWorker.getRegistration().then(function(reg2) {
-            for (let i = 0; i < pins.length; i++) {
-                if (oldNotifStatus[pins[i]] != notifStatus[pins[i]]) { 
-                    let row = getRow(pins[i]);
-                    if (row) {
-                        let cell = row!.children[0].innerHTML;
-                        if (cell.length > 3) {
-                            let change = parseInt(cell.substring(cell.length - 3)); // VERY jank way to get the bus change but it should work in 100% of cases
-                            switch (notifStatus[pins[i]]) {
-                                case 1: // next wave
-                                    reg2!.showNotification("Bus " + pins[i] + " (changed to " + change + ") is in the next wave!");
-                                    break;
-                                case 2: // loading
-                                    reg2!.showNotification("Bus " + pins[i] + " (changed to " + change + ") is loading!");
-                                    break;
-                                case 3: // gone
-                                    reg2!.showNotification("Bus " + pins[i] + " (changed to " + change + ") has left!");
-                                    break;
-                            }
-                        } else {
-                            switch (notifStatus[pins[i]]) {
-                                case 1: // next wave
-                                    reg2!.showNotification("Bus " + pins[i] + " is in the next wave!");
-                                    break;
-                                case 2: // loading
-                                    reg2!.showNotification("Bus " + pins[i] + " is loading!");
-                                    break;
-                                case 3: // gone
-                                    reg2!.showNotification("Bus " + pins[i] + " has left!");
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    )}
+
 });
 
 function updateTables() { // updates what rows show on the pinned list and what buttons show Unpin or Pin on the full list.
@@ -126,27 +86,6 @@ function pinBus(button: HTMLInputElement) { // pins the bus when the user clicks
     updateTables();
 }
 
-function updateNotifStatus() { // initializes/updates the notification table, and updates the notification notice
-    let tableFull = <HTMLTableElement> document.getElementById("all-bus-table");
-    let fullRows = tableFull.rows;
-    for (let i = 2; i < fullRows.length; i++) { // first two rows are the table header and the column headers
-        let number = parseInt(fullRows[i]!.firstElementChild!.innerHTML)
-        let status = fullRows[i]!.firstElementChild!.nextElementSibling!.innerHTML
-        switch (status) {
-            case "Next Wave":
-                notifStatus[number] = 1;
-                break;
-            case "Loading":
-                notifStatus[number] = 2;
-                break;
-            case "Gone":
-                notifStatus[number] = 3;
-                break;
-            default:
-                notifStatus[number] = 0;
-        }
-    }
-}
 
 function getRow(n: number) { // returns the row from the all-bus-table corresponding with the number input, doesn't return anything otherwise
     let tableFull = <HTMLTableElement> document.getElementById("all-bus-table");
@@ -157,25 +96,4 @@ function getRow(n: number) { // returns the row from the all-bus-table correspon
             return fullRows[i];
         }
     }
-}
-
-function requestNotificationPermission() {
-    if (Notification.permission === 'default') {
-        Notification.requestPermission(
-        function(status){
-            console.log(status);
-        });
-    }
-}
-
-if('serviceWorker' in navigator){
-    //navigator represents browser and info about it. Checking if service worker works on browser that's running website.
-    //checks if serviceWorkers work within the search engine
-    navigator.serviceWorker.register('/sw.js')
-    //Gets file and registers "sw.js", and returns a promise.
-        .then(() => console.log('service worker registered!'))
-        // calls function when promise is resolved
-        .catch(() => console.log('service worker not registered; error :( '))
-        //calls function when promise is rejected
-    //No matter what, this will lead to some value. This is called a promise, as unlike a function, it'll always result in some output.
 }
