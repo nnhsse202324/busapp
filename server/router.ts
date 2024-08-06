@@ -122,7 +122,7 @@ router.get("/admin", async (req: Request, res: Response) => {
     data.isLocked = (await Wave.findOne({})).locked;
     data.leavingAt = (await Wave.findOne({})).leavingAt;
     authorize(req);
-    if (true) {
+    if (req.session.isAdmin) {
         res.render("admin", {
             data: data,
             render: fs.readFileSync(path.resolve(__dirname, "../views/include/adminContent.ejs")),

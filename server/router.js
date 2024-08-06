@@ -149,7 +149,7 @@ exports.router.get("/admin", (req, res) => __awaiter(void 0, void 0, void 0, fun
     data.isLocked = (yield Wave.findOne({})).locked;
     data.leavingAt = (yield Wave.findOne({})).leavingAt;
     authorize(req);
-    if (true) {
+    if (req.session.isAdmin) {
         res.render("admin", {
             data: data,
             render: fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../views/include/adminContent.ejs")),
