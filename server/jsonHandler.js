@@ -31,7 +31,7 @@ function readData() {
         buses = buses.map((bus) => ({
             number: bus.busNumber || '',
             change: bus.busChange || '',
-            time: bus.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) || '',
+            time: bus.time || '',
             status: bus.status || ''
         }));
         return { buses: buses, weather: weather, announcement: (yield Announcement.findOne({})).announcement };

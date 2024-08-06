@@ -56,7 +56,7 @@
                 <tr>
                     <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %> &rarr; <%= data.buses[i].change %></span><% } %></td>
                     <td class="status-col"><%= data.buses[i].status ? data.buses[i].status : "Not Here" %></td>
-                    <td class="time-col"><%= data.buses[i].time %></td>
+                    <td class="time-col"><%= data.buses[i].time ? data.buses[i].time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : "" %></td>
                     <td class="pin-col"><button class="pin-button" style="background-color: #bf2214" onclick="pinBus(this)"><i class="fa-solid fa-thumbtack"></i> Unpin</button></td>             
                 </tr>
             <% } %> 
@@ -90,7 +90,7 @@
                 <tr>
                     <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %> &rarr; <%= data.buses[i].change %></span><% } %></td>
                     <td class="status-col"><%= data.buses[i].status ? data.buses[i].status : "Not Here" %></td>
-                    <td class="time-col"><%= data.buses[i].time %></td>
+                    <td class="time-col"><%= data.buses[i].time ? data.buses[i].time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : "" %></td>
                     <td class="pin-col"><button class="pin-button" onclick="pinBus(this)"><i class="fa-solid fa-thumbtack"></i> Pin</button></td>
                 </tr>
             <% } %> 

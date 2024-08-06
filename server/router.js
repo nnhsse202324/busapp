@@ -69,7 +69,7 @@ function getBuses() {
                 bus.time = new Date();
             if (bus.status === "normal")
                 bus.status = "";
-            bus.time = bus.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+            // bus.time = bus.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
             if (bus.status === "")
                 bus.time = "";
         });

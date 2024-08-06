@@ -31,7 +31,7 @@ async function getBuses() {
         if (bus.change === 0) bus.change = "";
         if(bus.time == undefined) bus.time = new Date();
         if (bus.status === "normal") bus.status = "";
-        bus.time = bus.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+        // bus.time = bus.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
         if(bus.status === "") bus.time = "";
     });
 
