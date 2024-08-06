@@ -12,7 +12,6 @@ const Weather = require("./model/weather");
 
 export type BusData = {number: string, change: string | undefined, time: string | undefined, status: string | undefined};
 export type adminData = {address: string};
-type Weather = {status: string, icon: string, temperature: string, feelsLike: string}
 
 
 // Load data file. If no file exists creates one
@@ -36,14 +35,14 @@ export function writeBuses(data: BusData[]){
     fs.writeFileSync(busesDatafile, JSON.stringify(data));
 }
 
-export function writeWeather(weather: any) {
-    const data: Weather = {
-        status: <string> weather.current.condition.text,
-        icon: <string> weather.current.condition.icon,
-        temperature: <string> weather.current.temp_f,
-        feelsLike: <string> weather.current.feelslike_f
-    }
-    fs.writeFileSync(weatherDatafile, JSON.stringify(data));
+export async function writeWeather(weather: any) {
+        const doc = await Weather.findOneAndUpdate({}, {
+            status: weather.current.condition.text,
+            icon: weather.current.condition.icon,
+            temperature: weather.current.temp_f,
+            feelsLike: weather.current.feelslike_f
+        }, {upsert: true, returnDocument: "after"});
+    
 }
 
 // Reads a list of users who are allowed access to the admin page

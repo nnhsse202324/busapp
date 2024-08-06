@@ -43,13 +43,14 @@ function writeBuses(data) {
 }
 exports.writeBuses = writeBuses;
 function writeWeather(weather) {
-    const data = {
-        status: weather.current.condition.text,
-        icon: weather.current.condition.icon,
-        temperature: weather.current.temp_f,
-        feelsLike: weather.current.feelslike_f
-    };
-    fs_1.default.writeFileSync(weatherDatafile, JSON.stringify(data));
+    return __awaiter(this, void 0, void 0, function* () {
+        const doc = yield Weather.findOneAndUpdate({}, {
+            status: weather.current.condition.text,
+            icon: weather.current.condition.icon,
+            temperature: weather.current.temp_f,
+            feelsLike: weather.current.feelslike_f
+        }, { upsert: true, returnDocument: "after" });
+    });
 }
 exports.writeWeather = writeWeather;
 // Reads a list of users who are allowed access to the admin page
