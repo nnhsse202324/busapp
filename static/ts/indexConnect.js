@@ -10,6 +10,13 @@ console.log(notifStatus);
 // end of initializing stuff
 indexSocket.on("update", (data) => {
     console.log("update received");
+    console.log("type of time" + typeof (data.buses[0].time));
+    // convert from time strings to dates to allow conversion to local time
+    data.buses.forEach((bus) => {
+        if (bus.time != "")
+            bus.time = new Date(bus.time);
+    });
+    console.log("type of time after" + typeof (data.buses[0].time));
     const html = ejs.render(document.getElementById("getRender").getAttribute("render"), { data: data, announcement: data.announcement });
     document.getElementById("content").innerHTML = html;
     updateTables();
