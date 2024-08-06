@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import {OAuth2Client, TokenPayload} from "google-auth-library";
-import { readData, readWhitelist, readBusList, writeBusList, readWeather, readBusStatus } from './jsonHandler';
+import { getBuses, readData, readWhitelist, readBusList, writeBusList, readWeather, readBusStatus } from './jsonHandler';
 import path from "path";
 import fs, {readFileSync} from "fs";
 export const router = express.Router();
@@ -18,30 +18,6 @@ router.use(bodyParser.urlencoded({ extended: true }));
 Announcement.findOneAndUpdate({}, {announcement: ""}, {upsert: true});
 Announcement.findOneAndUpdate({}, {tvAnnouncement: ""}, {upsert: true});
 let timer = 3;
-
-async function getBuses() {
-    // get all the buses and create a list of objects like the following {number:,change:,time:,status:}
-    const buses: any[] = await Bus.find({});
-    const busList: any[] = [];
-    buses.forEach((bus: any) => {
-        busList.push({number: bus.busNumber, change: bus.busChange, time: bus.time, status: bus.status});
-    });
-    // if change is 0, make it an empty string
-    busList.forEach((bus: any) => {
-        if (bus.change === 0) bus.change = "";
-        if(bus.time == undefined) bus.time = new Date();
-        if (bus.status === "normal") bus.status = "";
-        // bus.time = bus.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
-        if(bus.status === "") bus.time = "";
-    });
-
-    // sort the list by bus number
-    busList.sort((a: any, b: any) => {
-        return a.number - b.number;
-    });
-
-    return busList;
-}
 
 // Homepage. This is where students will view bus information from. 
 router.get("/", async (req: Request, res: Response) => {

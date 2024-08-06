@@ -53,38 +53,11 @@ exports.router.use(bodyParser.urlencoded({ extended: true }));
 Announcement.findOneAndUpdate({}, { announcement: "" }, { upsert: true });
 Announcement.findOneAndUpdate({}, { tvAnnouncement: "" }, { upsert: true });
 let timer = 3;
-function getBuses() {
-    return __awaiter(this, void 0, void 0, function* () {
-        // get all the buses and create a list of objects like the following {number:,change:,time:,status:}
-        const buses = yield Bus.find({});
-        const busList = [];
-        buses.forEach((bus) => {
-            busList.push({ number: bus.busNumber, change: bus.busChange, time: bus.time, status: bus.status });
-        });
-        // if change is 0, make it an empty string
-        busList.forEach((bus) => {
-            if (bus.change === 0)
-                bus.change = "";
-            if (bus.time == undefined)
-                bus.time = new Date();
-            if (bus.status === "normal")
-                bus.status = "";
-            // bus.time = bus.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
-            if (bus.status === "")
-                bus.time = "";
-        });
-        // sort the list by bus number
-        busList.sort((a, b) => {
-            return a.number - b.number;
-        });
-        return busList;
-    });
-}
 // Homepage. This is where students will view bus information from. 
 exports.router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Reads from data file and displays data
     let data = {
-        buses: yield getBuses(), weather: yield Weather.findOne({}),
+        buses: yield (0, jsonHandler_1.getBuses)(), weather: yield Weather.findOne({}),
         isLocked: false,
         leavingAt: new Date()
     };
@@ -140,7 +113,7 @@ exports.router.get("/admin", (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
     // Authorizes user, then either displays admin page or unauthorized page
     let data = {
-        allBuses: yield getBuses(),
+        allBuses: yield (0, jsonHandler_1.getBuses)(),
         nextWave: yield Bus.find({ status: "Next Wave" }),
         loading: yield Bus.find({ status: "Loading" }),
         isLocked: false,
