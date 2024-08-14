@@ -283,9 +283,6 @@ router.get("/whitelistFile", (req: Request, res: Response) => {
 });
 
 router.post("/updateBusList", async (req: Request, res: Response) => {
-    // fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
-    // if (req.body.reset) resetDatafile();
-
     // use the posted bus list to update the database, removing any buses that are not in the list, and adding any buses that are in the list but not in the database
     const busList: string[] = req.body.busList;
     Bus.find({})
@@ -310,7 +307,7 @@ router.post("/updateBusList", async (req: Request, res: Response) => {
                     }
                 }
             });
-        })
+        });
 });
 
 router.get('/help',(req: Request, res: Response)=>{
