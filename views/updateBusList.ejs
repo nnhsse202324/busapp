@@ -15,8 +15,7 @@
                 <a class="button back-button" href="/admin">Back to Admin Page</a>
             </div>
             <div class="options-div">
-                <button class="button save-reset-button" onclick="save(true)">Save and Update</button>
-                <button class="button save-no-reset-button" onclick="save(false)">Save Without Updating</button>
+                <button class="button save-reset-button" onclick="save()">Save and Update</button>
                 <button class="button discard-changes-button" onclick="discardChanges()">Discard Changes</button>
             </div>            
         </div>
@@ -40,6 +39,7 @@
         </table>
         <script src="js/ejs.js"></script>
         <script src="/socket.io/socket.io.js"></script>
+        <script src="js/updateBusListConnect.js"></script>
         <script src="js/updateBusList.js"></script>
     </body>
 </html>
