@@ -31,8 +31,6 @@ const io = new socket_io_1.Server(httpServer);
 dotenv.config({ path: ".env" });
 connectDB();
 const PORT = process.env.PORT || 5182;
-const busesDatafile = path_1.default.resolve(__dirname, "./data/buses.json");
-const defaultBusesDatafile = path_1.default.resolve(__dirname, "./data/defaultBuses.txt");
 let buses;
 //root socket
 io.of("/").on("connection", (socket) => {

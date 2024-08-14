@@ -69,13 +69,6 @@ exports.router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function
         announcement: (yield Announcement.findOne({})).announcement
     });
 }));
-// not pages, but requests for the data
-exports.router.get('/buses', (req, res) => {
-    res.send((0, jsonHandler_1.readBusStatus)());
-});
-exports.router.get('/weather', (req, res) => {
-    res.send((0, jsonHandler_1.readWeather)());
-});
 // tv route
 exports.router.get("/tv", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Reads from data file and displays data
@@ -267,9 +260,9 @@ exports.router.get("/updateBusListPopulatedRow", (req, res) => {
 exports.router.get("/adminEmptyRow", (req, res) => {
     res.sendFile(path_1.default.resolve(__dirname, "../views/sockets/adminEmptyRow.ejs"));
 });
-exports.router.get("/busList", (req, res) => {
-    res.type("json").send((0, fs_1.readFileSync)(path_1.default.resolve(__dirname, "../data/busList.json")));
-});
+exports.router.get("/busList", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.type("json").send(yield Bus.find().distinct("busNumber"));
+}));
 exports.router.get("/whitelistFile", (req, res) => {
     res.type("json").send((0, fs_1.readFileSync)(path_1.default.resolve(__dirname, "../data/whitelist.json")));
 });
@@ -300,6 +293,7 @@ exports.router.post("/updateBusList", (req, res) => __awaiter(void 0, void 0, vo
             }
         }));
     });
+    res.status(201).end();
 }));
 exports.router.get('/help', (req, res) => {
     res.render('help');

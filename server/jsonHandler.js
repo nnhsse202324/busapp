@@ -12,14 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.writeWhitelist = exports.writeBusList = exports.readBusStatus = exports.readBusList = exports.readWeather = exports.readWhitelist = exports.writeWeather = exports.writeBuses = exports.readData = exports.getBuses = void 0;
+exports.writeWhitelist = exports.readWhitelist = exports.writeWeather = exports.readData = exports.getBuses = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const busesDatafile = path_1.default.resolve(__dirname, "../data/buses.json");
-const weatherDatafile = path_1.default.resolve(__dirname, "../data/weather.json");
-const defaultWeatherDatafile = path_1.default.resolve(__dirname, "../data/defaultWeather.txt");
 const whitelistDatafile = path_1.default.resolve(__dirname, "../data/whitelist.json");
-const busListDatafile = path_1.default.resolve(__dirname, "../data/busList.json");
 const Announcement = require("./model/announcement");
 const Bus = require("./model/bus");
 const Weather = require("./model/weather");
@@ -60,10 +56,6 @@ function readData() {
     });
 }
 exports.readData = readData;
-function writeBuses(data) {
-    fs_1.default.writeFileSync(busesDatafile, JSON.stringify(data));
-}
-exports.writeBuses = writeBuses;
 function writeWeather(weather) {
     return __awaiter(this, void 0, void 0, function* () {
         const doc = yield Weather.findOneAndUpdate({}, {
@@ -80,27 +72,6 @@ function readWhitelist() {
     return { admins: JSON.parse(fs_1.default.readFileSync(whitelistDatafile, "utf-8")) };
 }
 exports.readWhitelist = readWhitelist;
-function readWeather() {
-    return { weather: JSON.parse(fs_1.default.readFileSync(weatherDatafile, "utf-8")) };
-}
-exports.readWeather = readWeather;
-function readBusList() {
-    return { busList: JSON.parse(fs_1.default.readFileSync(busListDatafile, "utf-8")) };
-}
-exports.readBusList = readBusList;
-function readBusStatus() {
-    return { busList: JSON.parse(fs_1.default.readFileSync(busesDatafile, "utf-8")) };
-}
-exports.readBusStatus = readBusStatus;
-function writeBusList(data) {
-    fs_1.default.writeFileSync(busListDatafile, JSON.stringify(data));
-}
-exports.writeBusList = writeBusList;
-/*
-export function writeWhitelist(data: string[]) {
-    fs.writeFileSync(whitelistDatafile, JSON.stringify(data));
-}
-*/
 function writeWhitelist(data) {
     let oldWhitelist = readWhitelist().admins;
     oldWhitelist.push(data);

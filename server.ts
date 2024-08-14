@@ -5,7 +5,7 @@ import fs from "fs";
 import bodyParser from "body-parser";
 import {createServer} from "http";
 import {Server} from "socket.io";
-import {readData, writeBuses, BusData, readBusList, writeWhitelist} from "./server/jsonHandler";
+import {readData, BusData, writeWhitelist} from "./server/jsonHandler";
 import {startWeather} from "./server/weatherController";
 import session from "express-session";
 const dotenv = require("dotenv");
@@ -28,8 +28,6 @@ type BusCommand = {
     data: BusData
 }
 
-const busesDatafile = path.resolve(__dirname, "./data/buses.json");
-const defaultBusesDatafile = path.resolve(__dirname, "./data/defaultBuses.txt");
 let buses: BusData[];
 
 //root socket
@@ -45,7 +43,7 @@ io.of("/admin").on("connection", async (socket) => {
     socket.on("updateMain", async (command: BusCommand) => {
 
 
-        let data = {
+        let data ={
             allBuses: (await readData()).buses,
             nextWave: await Bus.find({status: "Next Wave"}),
             loading: await Bus.find({status: "Loading"}),

@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import {OAuth2Client, TokenPayload} from "google-auth-library";
-import { getBuses, readData, readWhitelist, readBusList, writeBusList, readWeather, readBusStatus } from './jsonHandler';
+import { getBuses, readData, readWhitelist } from './jsonHandler';
 import path from "path";
 import fs, {readFileSync} from "fs";
 export const router = express.Router();
@@ -36,15 +36,6 @@ router.get("/", async (req: Request, res: Response) => {
         announcement: (await Announcement.findOne({})).announcement
     });
 });
-
-// not pages, but requests for the data
-router.get('/buses',(req, res)=>{
-    res.send(readBusStatus());
-})
-
-router.get('/weather',(req, res)=>{
-    res.send(readWeather());
-})
 
 // tv route
 router.get("/tv", async (req: Request, res: Response) => {
@@ -274,8 +265,8 @@ router.get("/adminEmptyRow", (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, "../views/sockets/adminEmptyRow.ejs"));
 });
 
-router.get("/busList", (req: Request, res: Response) => {
-    res.type("json").send(readFileSync(path.resolve(__dirname, "../data/busList.json")));
+router.get("/busList", async (req: Request, res: Response) => {
+    res.type("json").send(await Bus.find().distinct("busNumber"));
 });
 
 router.get("/whitelistFile", (req: Request, res: Response) => {
@@ -308,6 +299,7 @@ router.post("/updateBusList", async (req: Request, res: Response) => {
                 }
             });
         });
+        res.status(201).end();
 });
 
 router.get('/help',(req: Request, res: Response)=>{

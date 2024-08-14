@@ -1,11 +1,7 @@
 import path from "path";
 import fs from "fs";
 
-const busesDatafile = path.resolve(__dirname, "../data/buses.json");
-const weatherDatafile = path.resolve(__dirname, "../data/weather.json");
-const defaultWeatherDatafile = path.resolve(__dirname, "../data/defaultWeather.txt");
 const whitelistDatafile = path.resolve(__dirname, "../data/whitelist.json");
-const busListDatafile = path.resolve(__dirname, "../data/busList.json");
 const Announcement = require("./model/announcement");
 const Bus = require("./model/bus");
 const Weather = require("./model/weather");
@@ -48,10 +44,6 @@ export async function readData() {
     return {buses: buses, weather: weather, announcement: (await Announcement.findOne({})).announcement};
 }
 
-export function writeBuses(data: BusData[]){
-    fs.writeFileSync(busesDatafile, JSON.stringify(data));
-}
-
 export async function writeWeather(weather: any) {
         const doc = await Weather.findOneAndUpdate({}, {
             status: weather.current.condition.text,
@@ -67,26 +59,6 @@ export function readWhitelist(): {admins: string[]} {
     return {admins: JSON.parse(fs.readFileSync(whitelistDatafile, "utf-8"))};
 }
 
-export function readWeather(): {weather: string[]} {
-    return {weather: JSON.parse(fs.readFileSync(weatherDatafile, "utf-8"))};
-}
-
-export function readBusList(): {busList: string[]} {
-    return {busList: JSON.parse(fs.readFileSync(busListDatafile, "utf-8"))};
-}
-
-export function readBusStatus(): {busList: string[]} {
-    return {busList: JSON.parse(fs.readFileSync(busesDatafile, "utf-8"))};
-}
-
-export function writeBusList(data: string[]) {
-    fs.writeFileSync(busListDatafile, JSON.stringify(data));
-}
-/*
-export function writeWhitelist(data: string[]) {
-    fs.writeFileSync(whitelistDatafile, JSON.stringify(data));
-}
-*/
 export function writeWhitelist(data: string) {
     let oldWhitelist: string[] = readWhitelist().admins;
     oldWhitelist.push(data)
