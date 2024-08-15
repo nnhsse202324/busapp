@@ -269,30 +269,31 @@ exports.router.get("/whitelistFile", (req, res) => {
 exports.router.post("/updateBusList", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // use the posted bus list to update the database, removing any buses that are not in the list, and adding any buses that are in the list but not in the database
     const busList = req.body.busList;
-    Bus.find({})
-        .then((buses) => {
-        buses.forEach((bus) => {
-            if (!busList.includes(bus.busNumber)) { // if the bus is not in the list
-                Bus.findOneAndDelete({ busNumber: bus.busNumber }).exec(); // remove the bus from the database
-            }
-        });
-        busList.forEach((busNumber) => __awaiter(void 0, void 0, void 0, function* () {
-            if (!buses.map((bus) => bus.busNumber).includes(busNumber)) { // if the bus is not in the database
-                try {
-                    const newBus = new Bus({
-                        busNumber: busNumber,
-                        busChange: 0,
-                        status: "normal",
-                        time: new Date(),
-                    });
-                    yield newBus.save();
-                }
-                catch (error) {
-                    console.log("bus creation failed");
-                }
-            }
-        }));
+    // FIXME: need to await this so that it doesn't return before the database is updated
+    // FIXME: figure out the issue with string vs. number for the update bus numbers page
+    // FIXME: test deleting and inserting (why do we insert two rows?)
+    let buses = yield Bus.find({});
+    buses.forEach((bus) => {
+        if (!busList.includes(bus.busNumber)) { // if the bus is not in the list
+            Bus.findOneAndDelete({ busNumber: bus.busNumber }).exec(); // remove the bus from the database
+        }
     });
+    busList.forEach((busNumber) => __awaiter(void 0, void 0, void 0, function* () {
+        if (!buses.map((bus) => bus.busNumber).includes(busNumber)) { // if the bus is not in the database
+            try {
+                const newBus = new Bus({
+                    busNumber: busNumber,
+                    busChange: 0,
+                    status: "normal",
+                    time: new Date(),
+                });
+                yield newBus.save();
+            }
+            catch (error) {
+                console.log("bus creation failed");
+            }
+        }
+    }));
     res.status(201).end();
 }));
 exports.router.get('/help', (req, res) => {

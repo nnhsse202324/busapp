@@ -276,30 +276,32 @@ router.get("/whitelistFile", (req: Request, res: Response) => {
 router.post("/updateBusList", async (req: Request, res: Response) => {
     // use the posted bus list to update the database, removing any buses that are not in the list, and adding any buses that are in the list but not in the database
     const busList: string[] = req.body.busList;
-    Bus.find({})
-        .then((buses: any[]) => {
-            buses.forEach((bus: any) => { // for each bus in the database
-                if (!busList.includes(bus.busNumber)) { // if the bus is not in the list
-                    Bus.findOneAndDelete({ busNumber: bus.busNumber }).exec(); // remove the bus from the database
-                }
-            });
-            busList.forEach(async (busNumber: string) => { // for each bus in the list
-                if (!buses.map( (bus: any) => bus.busNumber).includes(busNumber)) { // if the bus is not in the database
-                    try {
-                        const newBus = new Bus({ // add the bus to the database
-                            busNumber: busNumber,
-                            busChange: 0,
-                            status: "normal",
-                            time: new Date(),
-                        });
-                        await newBus.save();
-                    } catch (error) {
-                        console.log("bus creation failed");
-                    }
-                }
-            });
-        });
-        res.status(201).end();
+
+    // FIXME: figure out the issue with string vs. number for the update bus numbers page
+    // FIXME: test deleting and inserting (why do we insert two rows?)
+    // FIXME: test waves
+    let buses = await Bus.find({});
+    buses.forEach((bus: any) => { // for each bus in the database
+        if (!busList.includes(bus.busNumber)) { // if the bus is not in the list
+            Bus.findOneAndDelete({ busNumber: bus.busNumber }).exec(); // remove the bus from the database
+        }
+    });
+    busList.forEach(async (busNumber: string) => { // for each bus in the list
+        if (!buses.map( (bus: any) => bus.busNumber).includes(busNumber)) { // if the bus is not in the database
+            try {
+                const newBus = new Bus({ // add the bus to the database
+                    busNumber: busNumber,
+                    busChange: 0,
+                    status: "normal",
+                    time: new Date(),
+                });
+                await newBus.save();
+            } catch (error) {
+                console.log("bus creation failed");
+            }
+        }
+    });
+    res.status(201).end();
 });
 
 router.get('/help',(req: Request, res: Response)=>{
