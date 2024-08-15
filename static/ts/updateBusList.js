@@ -23,8 +23,8 @@ function newBus_busList() {
 }
 function addBus_busList(confirmButton) {
     let row = confirmButton.parentElement.parentElement;
-    let number = row.children[0].children[0].value;
-    let index = busList.findIndex((currentNumber) => { return parseInt(number) < parseInt(currentNumber); });
+    let number = parseInt(row.children[0].children[0].value);
+    let index = busList.findIndex((currentNumber) => { return number < currentNumber; });
     if (index == -1)
         index = busList.length;
     busList.splice(index, 0, number);
@@ -37,30 +37,25 @@ function addBus_busList(confirmButton) {
 function removeBus_busList(secondChild) {
     let row = secondChild.parentElement.parentElement;
     let number = row.children[0].innerHTML;
-    busList.splice(busList.indexOf(number), 1);
+    busList.splice(busList.indexOf(parseInt(number)), 1);
     row.remove();
 }
-function save(reset) {
+function save() {
     return __awaiter(this, void 0, void 0, function* () {
-        if (reset) {
-            if (!confirm("Are you sure you would like to update the bus list and reset all live pages?"))
-                return;
-        }
-        else {
-            if (!confirm("Are you sure you would like to update the bus list? (This will not change any active pages until midnight)"))
-                return;
-        }
-        fetch("/updateBusList", {
+        if (!confirm("Are you sure you would like to update the bus list and reset all live pages?"))
+            return;
+        yield fetch("/updateBusList", {
             method: 'POST',
             headers: {
                 accept: 'application.json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                busList: busList,
-                reset: reset
+                busList: busList
             })
         });
+        updateBusList();
+        window.location.assign("/admin");
     });
 }
 function discardChanges() {

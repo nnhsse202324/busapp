@@ -69,13 +69,6 @@ exports.router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function
         announcement: (yield Announcement.findOne({})).announcement
     });
 }));
-// not pages, but requests for the data
-exports.router.get('/buses', (req, res) => {
-    res.send((0, jsonHandler_1.readBusStatus)());
-});
-exports.router.get('/weather', (req, res) => {
-    res.send((0, jsonHandler_1.readWeather)());
-});
 // tv route
 exports.router.get("/tv", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Reads from data file and displays data
@@ -267,41 +260,38 @@ exports.router.get("/updateBusListPopulatedRow", (req, res) => {
 exports.router.get("/adminEmptyRow", (req, res) => {
     res.sendFile(path_1.default.resolve(__dirname, "../views/sockets/adminEmptyRow.ejs"));
 });
-exports.router.get("/busList", (req, res) => {
-    res.type("json").send((0, fs_1.readFileSync)(path_1.default.resolve(__dirname, "../data/busList.json")));
-});
+exports.router.get("/busList", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.type("json").send(yield Bus.find().distinct("busNumber"));
+}));
 exports.router.get("/whitelistFile", (req, res) => {
     res.type("json").send((0, fs_1.readFileSync)(path_1.default.resolve(__dirname, "../data/whitelist.json")));
 });
 exports.router.post("/updateBusList", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
-    // if (req.body.reset) resetDatafile();
     // use the posted bus list to update the database, removing any buses that are not in the list, and adding any buses that are in the list but not in the database
     const busList = req.body.busList;
-    Bus.find({})
-        .then((buses) => {
-        buses.forEach((bus) => {
-            if (!busList.includes(bus.busNumber)) { // if the bus is not in the list
-                Bus.findOneAndDelete({ busNumber: bus.busNumber }).exec(); // remove the bus from the database
-            }
-        });
-        busList.forEach((busNumber) => __awaiter(void 0, void 0, void 0, function* () {
-            if (!buses.map((bus) => bus.busNumber).includes(busNumber)) { // if the bus is not in the database
-                try {
-                    const newBus = new Bus({
-                        busNumber: busNumber,
-                        busChange: 0,
-                        status: "normal",
-                        time: new Date(),
-                    });
-                    yield newBus.save();
-                }
-                catch (error) {
-                    console.log("bus creation failed");
-                }
-            }
-        }));
+    let buses = yield Bus.find({});
+    buses.forEach((bus) => {
+        if (!busList.includes(bus.busNumber)) { // if the bus is not in the list
+            Bus.findOneAndDelete({ busNumber: bus.busNumber }).exec(); // remove the bus from the database
+        }
     });
+    busList.forEach((busNumber) => __awaiter(void 0, void 0, void 0, function* () {
+        if (!buses.map((bus) => bus.busNumber).includes(busNumber)) { // if the bus is not in the database
+            try {
+                const newBus = new Bus({
+                    busNumber: busNumber,
+                    busChange: 0,
+                    status: "normal",
+                    time: new Date(),
+                });
+                yield newBus.save();
+            }
+            catch (error) {
+                console.log("bus creation failed");
+            }
+        }
+    }));
+    res.status(201).end();
 }));
 exports.router.get('/help', (req, res) => {
     res.render('help');

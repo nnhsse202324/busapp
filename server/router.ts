@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import {OAuth2Client, TokenPayload} from "google-auth-library";
-import { getBuses, readData, readWhitelist, readBusList, writeBusList, readWeather, readBusStatus } from './jsonHandler';
+import { getBuses, readData, readWhitelist } from './jsonHandler';
 import path from "path";
 import fs, {readFileSync} from "fs";
 export const router = express.Router();
@@ -36,15 +36,6 @@ router.get("/", async (req: Request, res: Response) => {
         announcement: (await Announcement.findOne({})).announcement
     });
 });
-
-// not pages, but requests for the data
-router.get('/buses',(req, res)=>{
-    res.send(readBusStatus());
-})
-
-router.get('/weather',(req, res)=>{
-    res.send(readWeather());
-})
 
 // tv route
 router.get("/tv", async (req: Request, res: Response) => {
@@ -274,8 +265,8 @@ router.get("/adminEmptyRow", (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, "../views/sockets/adminEmptyRow.ejs"));
 });
 
-router.get("/busList", (req: Request, res: Response) => {
-    res.type("json").send(readFileSync(path.resolve(__dirname, "../data/busList.json")));
+router.get("/busList", async (req: Request, res: Response) => {
+    res.type("json").send(await Bus.find().distinct("busNumber"));
 });
 
 router.get("/whitelistFile", (req: Request, res: Response) => {
@@ -283,34 +274,31 @@ router.get("/whitelistFile", (req: Request, res: Response) => {
 });
 
 router.post("/updateBusList", async (req: Request, res: Response) => {
-    // fs.writeFileSync(path.resolve(__dirname, "../data/busList.json"), JSON.stringify(req.body.busList));
-    // if (req.body.reset) resetDatafile();
-
     // use the posted bus list to update the database, removing any buses that are not in the list, and adding any buses that are in the list but not in the database
     const busList: string[] = req.body.busList;
-    Bus.find({})
-        .then((buses: any[]) => {
-            buses.forEach((bus: any) => { // for each bus in the database
-                if (!busList.includes(bus.busNumber)) { // if the bus is not in the list
-                    Bus.findOneAndDelete({ busNumber: bus.busNumber }).exec(); // remove the bus from the database
-                }
-            });
-            busList.forEach(async (busNumber: string) => { // for each bus in the list
-                if (!buses.map( (bus: any) => bus.busNumber).includes(busNumber)) { // if the bus is not in the database
-                    try {
-                        const newBus = new Bus({ // add the bus to the database
-                            busNumber: busNumber,
-                            busChange: 0,
-                            status: "normal",
-                            time: new Date(),
-                        });
-                        await newBus.save();
-                    } catch (error) {
-                        console.log("bus creation failed");
-                    }
-                }
-            });
-        })
+    
+    let buses = await Bus.find({});
+    buses.forEach((bus: any) => { // for each bus in the database
+        if (!busList.includes(bus.busNumber)) { // if the bus is not in the list
+            Bus.findOneAndDelete({ busNumber: bus.busNumber }).exec(); // remove the bus from the database
+        }
+    });
+    busList.forEach(async (busNumber: string) => { // for each bus in the list
+        if (!buses.map( (bus: any) => bus.busNumber).includes(busNumber)) { // if the bus is not in the database
+            try {
+                const newBus = new Bus({ // add the bus to the database
+                    busNumber: busNumber,
+                    busChange: 0,
+                    status: "normal",
+                    time: new Date(),
+                });
+                await newBus.save();
+            } catch (error) {
+                console.log("bus creation failed");
+            }
+        }
+    });
+    res.status(201).end();
 });
 
 router.get('/help',(req: Request, res: Response)=>{
