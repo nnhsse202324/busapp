@@ -78,5 +78,29 @@ app.use("/js", express_1.default.static(path_1.default.resolve(__dirname, "stati
 app.use("/img", express_1.default.static(path_1.default.resolve(__dirname, "static/img")));
 app.use('/html', express_1.default.static(path_1.default.resolve(__dirname, "static/html")));
 (0, weatherController_1.startWeather)(io);
+var now = new Date();
+var milliSecondsUntilMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0, 0).getTime() - now.getTime();
+if (milliSecondsUntilMidnight < 0) {
+    milliSecondsUntilMidnight += 24 * 60 * 60 * 1000; // it's after 6am, try 6am tomorrow.
+}
+console.log("delay: " + milliSecondsUntilMidnight);
+var busResetInterval = setInterval(resetBusChanges, milliSecondsUntilMidnight); // every 24 hours
+var firstRun = true;
 httpServer.listen(PORT, () => { console.log(`Server is running on port ${PORT}`); });
+function resetBusChanges() {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (firstRun) {
+            firstRun = false;
+            clearInterval(busResetInterval); // clear the initial interval
+            busResetInterval = setInterval(resetBusChanges, 24 * 60 * 60 * 1000); // every 24 hours
+        }
+        let buses = yield Bus.find({});
+        buses.forEach((bus) => {
+            bus.busChange = 0; // reset the bus change
+            bus.status = "normal"; // reset the bus status
+            bus.save(); // save the bus
+        });
+        console.log("reset bus changes: " + new Date().toLocaleString());
+    });
+}
 //# sourceMappingURL=server.js.map
