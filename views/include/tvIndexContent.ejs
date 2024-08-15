@@ -45,7 +45,7 @@
                 <tr>
                     <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %> &rarr; <%= data.buses[i].change %><% } %></td>
                     <td class="status-col"><%= data.buses[i].status %></td>
-                    <td class="time-col"><%= data.buses[i].time ? data.buses[i].time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : "" %></td>                
+                    <td class="time-col"><%= data.buses[i].time ? data.buses[i].time.toLocaleTimeString([], { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true }) : "" %></td>                
                 </tr>
             <% } %> 
             </tbody>
@@ -65,7 +65,7 @@
                 <tr>
                     <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %> &rarr; <%= data.buses[i].change %><% } %></td>
                     <td class="status-col"><%= data.buses[i].status %></td>
-                    <td class="time-col"><%= data.buses[i].time ? data.buses[i].time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : "" %></td>                
+                    <td class="time-col"><%= data.buses[i].time ? data.buses[i].time.toLocaleTimeString([], { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true }) : "" %></td>                
                 </tr>
             <% } %> 
             </tbody>
@@ -85,7 +85,7 @@
                 <tr>
                     <td class="num-col"><%= data.buses[i].number %> <% if (data.buses[i].change) { %> &rarr; <%= data.buses[i].change %><% } %></td>
                     <td class="status-col"><%= data.buses[i].status %></td>
-                    <td class="time-col"><%= data.buses[i].time ? data.buses[i].time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : "" %></td>        
+                    <td class="time-col"><%= data.buses[i].time ? data.buses[i].time.toLocaleTimeString([], { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true }) : "" %></td>        
                 </tr>
             <% } %> 
             </tbody>
