@@ -276,10 +276,7 @@ router.get("/whitelistFile", (req: Request, res: Response) => {
 router.post("/updateBusList", async (req: Request, res: Response) => {
     // use the posted bus list to update the database, removing any buses that are not in the list, and adding any buses that are in the list but not in the database
     const busList: string[] = req.body.busList;
-
-    // FIXME: figure out the issue with string vs. number for the update bus numbers page
-    // FIXME: test deleting and inserting (why do we insert two rows?)
-    // FIXME: test waves
+    
     let buses = await Bus.find({});
     buses.forEach((bus: any) => { // for each bus in the database
         if (!busList.includes(bus.busNumber)) { // if the bus is not in the list

@@ -269,9 +269,6 @@ exports.router.get("/whitelistFile", (req, res) => {
 exports.router.post("/updateBusList", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // use the posted bus list to update the database, removing any buses that are not in the list, and adding any buses that are in the list but not in the database
     const busList = req.body.busList;
-    // FIXME: need to await this so that it doesn't return before the database is updated
-    // FIXME: figure out the issue with string vs. number for the update bus numbers page
-    // FIXME: test deleting and inserting (why do we insert two rows?)
     let buses = yield Bus.find({});
     buses.forEach((bus) => {
         if (!busList.includes(bus.busNumber)) { // if the bus is not in the list

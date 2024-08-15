@@ -38,8 +38,6 @@ function removeBus_busList(secondChild: HTMLElement) {
 async function  save() {
     if (!confirm("Are you sure you would like to update the bus list and reset all live pages?")) return;
     
-    console.log(busList);
-
     await fetch("/updateBusList", {
         method: 'POST',
         headers: {

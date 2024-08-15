@@ -24,9 +24,7 @@ function newBus_busList() {
 function addBus_busList(confirmButton) {
     let row = confirmButton.parentElement.parentElement;
     let number = parseInt(row.children[0].children[0].value);
-    console.log("number" + number);
     let index = busList.findIndex((currentNumber) => { return number < currentNumber; });
-    console.log("index" + index);
     if (index == -1)
         index = busList.length;
     busList.splice(index, 0, number);
@@ -46,7 +44,6 @@ function save() {
     return __awaiter(this, void 0, void 0, function* () {
         if (!confirm("Are you sure you would like to update the bus list and reset all live pages?"))
             return;
-        console.log(busList);
         yield fetch("/updateBusList", {
             method: 'POST',
             headers: {
