@@ -87,6 +87,30 @@ app.use('/html', express.static(path.resolve(__dirname, "static/html")));
 
 startWeather(io);
 
-
+var now = new Date();
+var milliSecondsUntilMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0, 0).getTime() - now.getTime();
+if (milliSecondsUntilMidnight < 0) {
+    milliSecondsUntilMidnight += 24 * 60 * 60 * 1000; // it's after 6am, try 6am tomorrow.
+}
+console.log("delay: " + milliSecondsUntilMidnight);
+var busResetInterval = setInterval(resetBusChanges, milliSecondsUntilMidnight); // every 24 hours
+var firstRun = true;
 
 httpServer.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)});
+
+async function resetBusChanges() {
+    if(firstRun) {
+        firstRun = false;
+        clearInterval(busResetInterval); // clear the initial interval
+        busResetInterval = setInterval(resetBusChanges, 24 * 60 * 60 * 1000); // every 24 hours
+    }
+
+    let buses = await Bus.find({});
+    buses.forEach((bus: any) => { // for each bus in the database
+        bus.busChange = 0; // reset the bus change
+        bus.status = "normal"; // reset the bus status
+        bus.save(); // save the bus
+    });
+
+    console.log("reset bus changes: " + new Date().toLocaleString());
+}
