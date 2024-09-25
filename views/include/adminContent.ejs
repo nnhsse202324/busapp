@@ -122,7 +122,7 @@
     <form id="timerForm" action="/setTimer" method="post">
         <select name="minutes" style="margin-left: 10px;">
             <% var options = []; %>
-            <% for(var i = 1; i <= 6; i++) { %>
+            <% for(var i = 0.5; i <= 3; i+=0.5) { %>
                 <option value='<%= i %>'><%= i %></option>
             <% } %>
         </select>

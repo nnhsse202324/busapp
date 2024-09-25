@@ -17,7 +17,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 Announcement.findOneAndUpdate({}, {announcement: ""}, {upsert: true});
 Announcement.findOneAndUpdate({}, {tvAnnouncement: ""}, {upsert: true});
-let timer = 3;
+let timer = 30;
 
 // Homepage. This is where students will view bus information from. 
 router.get("/", async (req: Request, res: Response) => {
@@ -135,13 +135,13 @@ router.post("/lockWave", async (req: Request, res: Response) => {
 
     await Wave.findOneAndUpdate({}, { locked: !(await Wave.findOne({})).locked }, { upsert: true });
     const leavingAt = new Date();
-    leavingAt.setMinutes(leavingAt.getMinutes() + timer);
+    leavingAt.setSeconds(leavingAt.getSeconds() + timer);
     await Wave.findOneAndUpdate({}, { leavingAt: leavingAt }, { upsert: true });
     res.send("success");
 });
 
 router.post("/setTimer", async (req: Request, res: Response) => {
-    timer = Number(req.body.minutes)
+    timer = Number(req.body.minutes) * 60;
     res.send("success");
 });
 
